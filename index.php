@@ -12,13 +12,14 @@
 		<div id="wrapper">
 			<div id="header">
 				<div id="logo">
-					<h1><a href="#">Hudební ráj</a></h1>
+					<h1><a href="#">HudebnÃ­ rÃ¡j</a></h1>
 				</div>
 				<div id="menu">
 					<ul>
-						<li class="first current_page_item"><a href="#">Domù</a></li>
-						<li><a href="#">Umìlci</a></li>
-						<li><a href="#">Události</a></li>
+						<li class="first current_page_item"><a href="#">DomÃ¹</a></li>
+						<li><a href="#">UmÃ¬lci</a></li>
+						<li><a href="#">UdÃ¡losti</a></li>
+						<li><a href="#">Login</a></li>
 						<li class="last"><a href="#">Kontakt</a></li>
 					</ul>
 					<br class="clearfix" />
