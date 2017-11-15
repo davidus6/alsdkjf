@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>IIS proj</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+	<script>
+	$(document).ready(function(){
+		$('[data-toggle="popover"]').popover(); 
+		});
+	</script>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span> 
+				</button>
+				<a class="navbar-brand" href="#">WebSiteName</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#">Page 1</a></li>
+					<li><a href="#">Page 2</a></li> 
+					<li><a href="#">Page 3</a></li> 
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+					<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-content="jmeno heslo a tak dale"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+		<div class="container">
+			<form class="form-horizontal">
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="username">Username:</label>
+					<div class="col-sm-4">
+						<input type="username" class="form-control" id="username" placeholder="Enter username">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="email">Email:</label>
+					<div class="col-sm-4">
+						<input type="email" class="form-control" id="email" placeholder="Enter email">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="phone">Telefon:</label>
+					<div class="col-sm-4">
+						<input type="number" class="form-control" id="phone" placeholder="Enter phone number">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="pwd">Heslo:</label>
+					<div class="col-sm-4"> 
+						<input type="password" class="form-control" id="pwd" placeholder="Enter password">
+					</div>
+				</div>  
+				<div class="form-group row"> 
+					<div class="col-sm-offset-5 col-sm-10">
+						<button type="submit" class="btn btn-default">Zaregistrovat</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
