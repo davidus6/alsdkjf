@@ -16,6 +16,8 @@
 			$('[data-toggle="popover"]').popover(); 
 			});
 		</script>
+		<?php include 'database.php'; ?>
+		
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -30,12 +32,13 @@
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
 						<li><a href="interpreti.php">Interpreti</a></li>
-						<li><a href="#">Page 2</a></li> 
+						<li><a href="login.php">Login</a></li> 
 						<li><a href="#">Page 3</a></li> 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-						<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-content="jmeno heslo a tak dale"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'
+							><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 					</ul>
 				</div>
 			</div>

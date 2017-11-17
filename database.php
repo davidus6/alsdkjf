@@ -23,6 +23,48 @@
 					echo "jmeno: " . $row["jmeno"]. " prijmeni: " . $row["prijmeni"]. "<br>";
 				}
 			}*/
+
+			$loginForm = '<div class="container">
+							<form action="index.php" class="form-horizontal" method="post">
+								<div class="form-group row">
+									<label class="col-sm-2" for="username">Login:</label>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-2">
+										<input type="text" class="form-control" id="login" name="login" placeholder="Enter login" required>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-2" for="pwd">Heslo:</label>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-2"> 
+										<input type="password" class="form-control" id="pwdlogin" name="pwdlogin" placeholder="Enter password" required>
+									</div>
+								</div>  
+								<div class="form-group row"> 
+									<div class="col-sm-10">
+										<button type="submit" class="btn btn-default" name="loginBtn">Prihlasit</button>
+									</div>
+								</div>
+							</form>
+						</div>';
+
+			if(isset($_POST['loginBtn'])){
+				$sql = "SELECT * FROM zakaznik WHERE login = '".$_POST["login"]."'";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+				    $sql = "SELECT * FROM zakaznik WHERE heslo = '".$_POST["pwdlogin"]."'";
+					$result = $conn->query($sql);
+				    if ($result->num_rows > 0) {
+				    	echo "Prihlaseni uspesne!<br/>";
+				    } else {
+				    	echo "spatne heslo: " .$_POST["pwdlogin"]. "<br/>";
+				    }
+				} else {
+					echo "uzivatel neexistuje<br/>";
+				}
+			}
 		?> 
 	</body>
 </html>
