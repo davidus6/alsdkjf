@@ -17,6 +17,9 @@
 			});
 		</script>
 		<?php include 'database.php'; ?>
+		<style>
+		<?php include 'style.css'; ?>
+		</style>
 		
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -26,14 +29,14 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span> 
 					</button>
-					<a class="navbar-brand" href="index.php">WebSiteName</a>
+					<a class="navbar-brand" href="index.php">Lambáda</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="interpreti.php">Interpreti</a></li>
-						<li><a href="login.php">Login</a></li> 
-						<li><a href="#">Page 3</a></li> 
+						<li class="active"><a href="#">Domů</a></li>
+						<li><a href="#">Události</a></li>
+						<li><a href="interpreti.php">Kapely</a></li> 
+						<li><a href="#">Umělci</a></li> 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -43,6 +46,27 @@
 				</div>
 			</div>
 		</nav>
-		<p>UVODNI STRANKA</p>
+		<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-7">
+				<h2 class="text-center">Zprávy ze světa hudby</h2>
+				<br>
+				<h3>Zemřel písničkář Wabi Daněk</h3>
+				<p>Po dlouhé nemoci dnes ve věku 70 let zemřel Wabi Daněk, folkový písničkář, autor a původní interpret neoficiální trampské hymny Rosa na kolejích. V posledních letech nahrával a koncertoval s kapelou Ďáblovo stádo, jejich společná tvorba byla velmi ceněná.          <a href="https://kultura.zpravy.idnes.cz/wabi-danek-zemrel-smrt-067-/hudba.aspx?c=A171116_165733_hudba_ane">Celý článek čtěte ZDE.</a></p>
+				<br>
+				<h3>RECENZE: Kousek Valkýry, trocha hlasů. Svátek v Národním</h3>
+				<img src="images/koncert.PNG" id="news_pic" class="img-responsive center-block">
+				<p>Národní divadlo provedlo část Wagnerovy Valkýry. Lákalo na „nejlepšího wagnerovského tenora současnosti“. Přehánělo, ale aspoň se pod jeho hlavičkou daly také jednou slyšet skutečné hlasy, což je vlastně neskutečné.          <a href="https://kultura.zpravy.idnes.cz/valkyra-forum-karlin-05f-/hudba.aspx?c=A171117_115143_hudba_era">Celý článek čtěte ZDE.</a></p>
+			</div>
+			<div class="col-6 col-md-5">
+				<h3>Nadcházející události</h3>
+				<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
+				<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
+				<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
+				<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
+				<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
+			</div>
+		</div>
+	</div>
 	</body>
 </html>
