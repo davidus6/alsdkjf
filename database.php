@@ -51,18 +51,12 @@
 						</div>';
 
 			if(isset($_POST['loginBtn'])){
-				$sql = "SELECT * FROM zakaznik WHERE login = '".$_POST["login"]."'";
+				$sql = "SELECT * FROM zakaznik WHERE login = '".$_POST["login"]."' AND heslo = '".$_POST["pwdlogin"]."'";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
-				    $sql = "SELECT * FROM zakaznik WHERE heslo = '".$_POST["pwdlogin"]."'";
-					$result = $conn->query($sql);
-				    if ($result->num_rows > 0) {
-				    	echo "Prihlaseni uspesne!<br/>";
-				    } else {
-				    	echo "spatne heslo: " .$_POST["pwdlogin"]. "<br/>";
-				    }
+				    echo "prihlaseni uspesne<br/>";
 				} else {
-					echo "uzivatel neexistuje<br/>";
+					echo "spatne prihlasovaci udaje<br/>";
 				}
 			}
 		?> 
