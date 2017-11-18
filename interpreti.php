@@ -40,7 +40,7 @@
 				</div>
 			</div>
 		</nav>
-		<p>INTERPRETI</p>
+		<h1>>INTERPRETI</h1>
 		
 		<?php  include 'database.php';  ?>
 		<?php 

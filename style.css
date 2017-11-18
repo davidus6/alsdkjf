@@ -1,3 +1,7 @@
 #news_pic{
 	max-height: 150px;
 }
+
+p.article {
+    text-align: justify;
+}
