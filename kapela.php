@@ -17,6 +17,10 @@
 			});
 		</script>
 		<?php include 'database.php'; ?>
+		<style>
+		<?php include 'style.css'; ?>
+		</style>
+		
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -29,9 +33,9 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li><a href="index.php">Domů</a></li>
+						<li class="active"><a href="index.php">Domů</a></li>
 						<li><a href="udalosti.php">Události</a></li>
-						<li class="active"><a href="interpreti.php">Interpreti</a></li> 
+						<li><a href="interpreti.php">Interpreti</a></li> 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -40,29 +44,11 @@
 				</div>
 			</div>
 		</nav>
-		<p>INTERPRETI</p>
-		
-		<?php  include 'database.php';  ?>
+
 		<?php 
-		$sql = "SELECT jmeno FROM interpret";
-		$result = $conn->query($sql);
-		if ($result->num_rows > 0) {
-		// output data of each row
-			echo "<table class='table table-hover'>";
-			echo "<thead><tr><th>Jmeno</th></tr></thead>";
-			echo "<tbody>";
-			while($row = $result->fetch_assoc()) {
-				echo "<tr>";
-				echo "<td>" . $row["jmeno"] . "</td>";
-				echo "<td>neco dalsiho</td>";
-				echo "</tr>";
-			}
-			echo "</tbody>";
-			echo "</table>";
-		}
+			include 'database.php';
+			$sql = "SELECT jmeno, zanr FROM interpret WHERE jmeno = '".$_GET["jmeno"]."'";
+			$result = $conn->query($sql);
+			$row = $result->fetch_assoc();
+			echo "Stranka kapely " .$row["jmeno"]. ", ktera ma zanr " .$row["zanr"]. "<br/>";
 		?>
-
-		<a href="kapela.php?jmeno=Metallica" > ODKAZ </a>
-
-	</body>
-</html>
