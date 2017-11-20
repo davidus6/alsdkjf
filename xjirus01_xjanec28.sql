@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS udalost CASCADE;
-DROP TABLE IF EXISTS zakaznik CASCADE;
+DROP TABLE IF EXISTS uzivatel CASCADE;
 DROP TABLE IF EXISTS interpret CASCADE;
 DROP TABLE IF EXISTS umelec CASCADE;
 DROP TABLE IF EXISTS vstupenka CASCADE;
@@ -24,14 +24,14 @@ CREATE TABLE udalost (
   rocnik INTEGER
   );
   
-CREATE TABLE zakaznik (
-  login VARCHAR(30),
-  heslo VARCHAR(30), 
+CREATE TABLE uzivatel (
+  login VARCHAR(30) NOT NULL,
+  heslo VARCHAR(30) NOT NULL, 
   jmeno VARCHAR(50) NOT NULL,
   mesto VARCHAR(30),
-  ulice VARCHAR(30),
-  email VARCHAR(50),
-  tel_cislo VARCHAR(20)
+  email VARCHAR(50) NOT NULL,
+  tel_cislo VARCHAR(20),
+  prava VARCHAR(10)
 );
 
 CREATE TABLE interpret (
@@ -46,13 +46,13 @@ CREATE TABLE umelec (
   jmeno VARCHAR(50), 
   dat_narozeni DATE, 
   dat_umrti DATE,
-  jm_interpreta VARCHAR(50) NOT NULL 
+  jm_interpreta VARCHAR(50)
 );
 
 CREATE TABLE vstupenka (
   cislo_vstup INTEGER AUTO_INCREMENT, 
   cena INTEGER,
-  rc_zakaznika CHAR(11) NOT NULL, 
+  login CHAR(11) NOT NULL, 
   typ VARCHAR(10) NOT NULL,
   udalost VARCHAR(50),
   dat_zac DATE,
@@ -101,7 +101,7 @@ CREATE TABLE oblibenec (
   interpret VARCHAR(50)
 );
 
-ALTER TABLE zakaznik ADD CONSTRAINT PK_zakaznik PRIMARY KEY(login);
+ALTER TABLE uzivatel ADD CONSTRAINT PK_uzivatel PRIMARY KEY(login);
 ALTER TABLE udalost ADD CONSTRAINT PK_udalost PRIMARY KEY(nazev, dat_zac);
 ALTER TABLE album ADD CONSTRAINT PK_album PRIMARY KEY(nazev, rok_vydani);
 ALTER TABLE interpret ADD CONSTRAINT PK_interpret PRIMARY KEY(jmeno);
@@ -113,7 +113,7 @@ ALTER TABLE interpret_udalost ADD CONSTRAINT PK_interpret_udalost PRIMARY KEY(in
 ALTER TABLE oblibenec ADD CONSTRAINT PK_oblibenec PRIMARY KEY(rc_zak, interpret);
 
 ALTER TABLE oblibenec ADD CONSTRAINT FK_obl_zak FOREIGN KEY(rc_zak)
-REFERENCES zakaznik(login);
+REFERENCES uzivatel(login);
 ALTER TABLE oblibenec ADD CONSTRAINT FK_obl_interpret FOREIGN KEY(interpret)
 REFERENCES interpret(jmeno);
 
@@ -123,8 +123,8 @@ REFERENCES interpret(jmeno);
 ALTER TABLE umelec ADD CONSTRAINT FK_umelec_clen FOREIGN KEY(jm_interpreta)
 REFERENCES interpret(jmeno);
 
-ALTER TABLE vstupenka ADD CONSTRAINT FK_vstupenka_rc FOREIGN KEY(rc_zakaznika)
-REFERENCES zakaznik(login);
+ALTER TABLE vstupenka ADD CONSTRAINT FK_vstupenka_login FOREIGN KEY(login)
+REFERENCES uzivatel(login);
 ALTER TABLE vstupenka ADD CONSTRAINT FK_vstupenka_ud FOREIGN KEY(udalost, dat_zac)
 REFERENCES udalost(nazev, dat_zac);
 
@@ -144,3 +144,37 @@ ALTER TABLE interpret_stage ADD CONSTRAINT FK_is_interpret FOREIGN KEY(interpret
 REFERENCES interpret(jmeno);
 
 
+
+
+INSERT INTO interpret
+VALUES('Proti Proudu', 'punk', '2010-06-05', NULL, NULL);
+
+INSERT INTO interpret
+VALUES('Metallica', 'metal', '1981-02-02', NULL, 'Megaforce');
+
+INSERT INTO interpret
+VALUES('Dead Band', 'rock', '1985-09-12', '2000-06-25', 'Megaforce');
+
+INSERT INTO umelec
+VALUES('Kamil Horký', '1996-04-04', NULL, 'Proti Proudu');
+
+INSERT INTO umelec
+VALUES('James Hetfield', '1963-08-03', NULL, 'Metallica');
+
+INSERT INTO umelec
+VALUES('Lars Ulrich', '1963-12-26', NULL, 'Metallica');
+
+INSERT INTO umelec
+VALUES('Kryštof Vegan', '1995-07-01', NULL, 'Proti Proudu');
+
+INSERT INTO umelec
+VALUES('Cobain Kurt', '1967-02-20', '1994-05-05', NULL);
+
+INSERT INTO album 
+VALUES('JEDEEM', 2011, 'pop', 'Proti Proudu');
+
+INSERT INTO album 
+VALUES('Master of Puppets', 1986, 'metal', 'Metallica');
+
+INSERT INTO uzivatel
+VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777777777', 'admin');
