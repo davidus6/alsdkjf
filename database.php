@@ -5,9 +5,9 @@
 	<body>
 		<?php	
 			$servername = "localhost";
-			$username = "xjirus01";
-			$password = "o3dejive";
-			$dbname = "xjirus01";
+			$username = "xjanec28";
+			$password = "kumcor4a";
+			$dbname = "xjanec28";
 			 
 			$conn = new mysqli($servername, $username, $password, $dbname);
 			if ($conn->connect_error) {

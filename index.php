@@ -38,8 +38,8 @@
 						<li><a href="interpreti.php">Interpreti</a></li> 
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-						<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
+						<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 				</div>
 			</div>
