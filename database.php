@@ -13,6 +13,21 @@
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
+			session_start();
+			if(isset($_GET['logout'])){
+				unset($_SESSION['uzivatel']);
+			}
+			if(isset($_POST['loginBtn'])){
+				$sql = "SELECT * FROM uzivatel WHERE login = '".$_POST["login"]."' AND heslo = '".$_POST["pwdlogin"]."'";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+				    $_SESSION['uzivatel'] = $_POST["login"];
+				    $prihlasen = true;
+				    echo "prihlaseni uspesne pane " .$_POST["login"]. "<br/>";
+				} else {
+					echo "spatne prihlasovaci udaje<br/>";
+				}
+			}
 
 			/*$sql = "SELECT jmeno, prijmeni FROM testTable";
 			$result = $conn->query($sql);
@@ -49,16 +64,6 @@
 								</div>
 							</form>
 						</div>';
-
-			if(isset($_POST['loginBtn'])){
-				$sql = "SELECT * FROM zakaznik WHERE login = '".$_POST["login"]."' AND heslo = '".$_POST["pwdlogin"]."'";
-				$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
-				    echo "prihlaseni uspesne<br/>";
-				} else {
-					echo "spatne prihlasovaci udaje<br/>";
-				}
-			}
 		?> 
 	</body>
 </html>

@@ -11,12 +11,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
+		<?php include 'database.php'; ?>
 		<script>
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(); 
 			});
 		</script>
-		<?php include 'database.php'; ?>
 		<style>
 		<?php include 'style.css'; ?>
 		</style>
@@ -37,9 +37,13 @@
 						<li class="active"><a href="udalosti.php">Události</a></li>
 						<li><a href="interpreti.php">Interpreti</a></li> 
 					</ul>
-					<ul class="nav navbar-nav navbar-right">
+					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
 						<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
+						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
+						<li><a href='?logout'> Odhlásit se</a>"?></li>
 					</ul>
 				</div>
 			</div>

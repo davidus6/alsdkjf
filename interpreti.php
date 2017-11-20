@@ -11,12 +11,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
+		<?php include 'database.php'; ?>
 		<script>
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(); 
 			});
 		</script>
-		<?php include 'database.php'; ?>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -33,16 +33,19 @@
 						<li><a href="udalosti.php">Události</a></li>
 						<li class="active"><a href="interpreti.php">Interpreti</a></li> 
 					</ul>
-					<ul class="nav navbar-nav navbar-right">
+					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
 						<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
+						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
+						<li><a href='?logout'> Odhlásit se</a>"?></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<h1>INTERPRETI</h1>
 		
-		<?php  include 'database.php';  ?>
 		<?php 
 		$sql = "SELECT jmeno FROM interpret";
 		$result = $conn->query($sql);

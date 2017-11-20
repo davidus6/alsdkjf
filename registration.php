@@ -11,12 +11,12 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
+	<?php include 'database.php'; ?>
 	<script>
 	$(document).ready(function(){
 		$('[data-toggle="popover"]').popover(); 
 		});
 	</script>
-	<?php include 'database.php'; ?>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -33,32 +33,34 @@
 					<li><a href="udalosti.php">Události</a></li>
 					<li><a href="interpreti.php">Interpreti</a></li> 
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 					<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
 					<li><a href="#" data-toggle="popover" title="Login" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
+					<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
+					<li><a href='?logout'> Odhlásit se</a>"?></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	
-	<?php  include 'database.php';  ?>
-	
 	<?php
-	//registrace zakaznika	---NEJDE DIAKRITIKA
+	//registrace uzivatela	---NEJDE DIAKRITIKA
 		if(isset($_POST['register'])){
 			//echo phpinfo();
 			//$hesloH = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
-			$sql = "SELECT * FROM zakaznik WHERE login = '".$_POST["username"]."'";
+			$sql = "SELECT * FROM uzivatel WHERE login = '".$_POST["username"]."'";
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 			    echo "User Already in Exists<br/>";
 			} else {
-				$sql = "INSERT INTO zakaznik (login, heslo, jmeno, email, tel_cislo)
+				$sql = "INSERT INTO uzivatel (login, heslo, jmeno, email, tel_cislo)
 				VALUES ('".$_POST["username"]."','".$_POST["pwd"]."','".$_POST["name"]."','".$_POST["email"]."','".$_POST["phone"]."')";
 
 				if ($conn->query($sql) === TRUE) {
 					/*echo "New record created successfully";
-					$sql = "SELECT login, jmeno FROM zakaznik";
+					$sql = "SELECT login, jmeno FROM uzivatel";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
