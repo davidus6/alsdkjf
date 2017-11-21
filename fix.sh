@@ -19,3 +19,8 @@ mv temp.php registration.php
 iconv -f utf-8 -t ISO-8859-2 kapela.php>temp.php
 rm kapela.php
 mv temp.php kapela.php
+
+iconv -f utf-8 -t ISO-8859-2 database.php>temp.php
+rm database.php
+mv temp.php database.php
+
