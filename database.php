@@ -10,6 +10,14 @@
 			$dbname = "xjanec28";
 			 
 			$conn = new mysqli($servername, $username, $password, $dbname);
+			
+			if(!$conn->set_charset("utf8")){
+				//printf("Error loading character set utf8: %s\n", $conn->error);
+				exit();
+			} else {
+				//printf("Current character set: %s\n", $conn->character_set_name());
+			}
+
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
@@ -17,15 +25,16 @@
 			if(isset($_GET['logout'])){
 				unset($_SESSION['uzivatel']);
 			}
+			$loginFail = "false";
 			if(isset($_POST['loginBtn'])){
 				$sql = "SELECT * FROM uzivatel WHERE login = '".$_POST["login"]."' AND heslo = '".$_POST["pwdlogin"]."'";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
 				    $_SESSION['uzivatel'] = $_POST["login"];
-				    $prihlasen = true;
-				    echo "prihlaseni uspesne pane " .$_POST["login"]. "<br/>";
+				    //echo "prihlaseni uspesne pane " .$_POST["login"]. "<br/>";
 				} else {
-					echo "spatne prihlasovaci udaje<br/>";
+					$loginFail = "true";
+					//echo "spatne prihlasovaci udaje<br/>";
 				}
 			}
 
@@ -38,15 +47,16 @@
 					echo "jmeno: " . $row["jmeno"]. " prijmeni: " . $row["prijmeni"]. "<br>";
 				}
 			}*/
-
-			$loginForm = '<div class="container">
-							<form action="index.php" class="form-horizontal" method="post">
+			$registerFail = FALSE;
+			if ($loginFail == "true"){
+				$loginForm = '<div class="container">
+							<form action='.$_SERVER["PHP_SELF"].' class="form-horizontal" method="post">
 								<div class="form-group row">
 									<label class="col-sm-2" for="username">Login:</label>
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-2">
-										<input type="text" class="form-control" id="login" name="login" placeholder="Enter login" required>
+										<input type="text" class="form-control" id="login" name="login" required>
 									</div>
 								</div>
 								<div class="form-group row">
@@ -54,16 +64,48 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-2"> 
-										<input type="password" class="form-control" id="pwdlogin" name="pwdlogin" placeholder="Enter password" required>
+										<input type="password" class="form-control" id="pwdlogin" name="pwdlogin" required>
 									</div>
-								</div>  
+								</div> 
+								<div class="form-grouop row">
+									<div class="col-sm-10">
+										<label class="text-danger" id="loginLabel">Špatné přihlašovací údaje!</label>
+									</div>
+								</div> 
 								<div class="form-group row"> 
 									<div class="col-sm-10">
-										<button type="submit" class="btn btn-default" name="loginBtn">Prihlasit</button>
+										<button type="submit" class="btn btn-default" name="loginBtn">Přihlásit</button>
 									</div>
 								</div>
 							</form>
 						</div>';
+			} else {
+				$loginForm = '<div class="container">
+							<form action='.$_SERVER["PHP_SELF"].' class="form-horizontal" method="post">
+								<div class="form-group row">
+									<label class="col-sm-2" for="username">Login:</label>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-2">
+										<input type="text" class="form-control" id="login" name="login" required>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-sm-2" for="pwd">Heslo:</label>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-2"> 
+										<input type="password" class="form-control" id="pwdlogin" name="pwdlogin" required>
+									</div>
+								</div>  
+								<div class="form-group row"> 
+									<div class="col-sm-10">
+										<button type="submit" class="btn btn-default" name="loginBtn">Přihlásit</button>
+									</div>
+								</div>
+							</form>
+						</div>';
+			}
 		?> 
 	</body>
 </html>
