@@ -61,9 +61,9 @@
 
 
 					<div class="row">
-						<div class="col-12 col-md-4" id="news_pic">
+						<div class="col-12 col-md-4">
 							<br>
-							<img src="images/reputation.png" id="news_pic" class="img-responsive">
+							<img src="images/reputation.png" class="news_pic" class="img-responsive">
 						</div>
 						<div class="col-12 col-md-8">
 							<h3>Reputation, nové album od Taylor Swift</h3>
@@ -73,9 +73,9 @@
 					<br>
 
 					<div class="row">
-						<div class="col-12 col-md-4" id="news_pic">
+						<div class="col-12 col-md-4">
 							<br>
-							<img src="images/koncert.PNG" id="news_pic" class="img-responsive">
+							<img src="images/koncert.PNG" class="news_pic" class="img-responsive">
 						</div>
 						<div class="col-12 col-md-8">
 							<h3>RECENZE: Kousek Valkýry, trocha hlasů. Svátek v Národním</h3>
@@ -85,9 +85,9 @@
 					<br>
 
 					<div class="row">
-						<div class="col-12 col-md-4" id="news_pic">
+						<div class="col-12 col-md-4">
 							<br>
-							<img src="images/wabi.PNG" id="news_pic" class="img-responsive">
+							<img src="images/wabi.PNG" class="img-responsive">
 						</div>
 						<div class="col-12 col-md-8">
 							<h3>Zemřel písničkář Wabi Daněk</h3>

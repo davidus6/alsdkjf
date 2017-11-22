@@ -1,5 +1,9 @@
-#news_pic{
+.news_pic{
 	max-height: 150px;
+}
+
+.profile_pic{
+	max-height: 250px;
 }
 
 p.article {
