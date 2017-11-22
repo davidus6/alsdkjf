@@ -98,13 +98,54 @@
 				</div>
 
 
-				<div class="col-6 col-md-5">
-					<h3>Nadcházející události</h3>
-					<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
-					<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
-					<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
-					<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
-					<p>JMÉNO KDY KDE DO_KDY KDO_TAM_BUDE ODKAZ_NA_NÁKUP</p>
+				<div class="col-12 col-md-5">
+					<h2 class="text-center">Nadcházející události</h2>
+					<?php
+						if (isset($_POST['buy'])){
+							if(isset($_SESSION['uzivatel'])){
+								$sql = "SELECT * FROM udalost WHERE nazev='".$_POST['buy']."'";
+								if ($result = $conn->query($sql)){
+									$row = $result->fetch_assoc();
+									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES(500, '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_POST['buy']."', '".$row['dat_zac']."')";
+									if ($conn->query($sql) != false){
+										echo "Vstupenka zakoupena.";
+									}
+									else{
+										echo "Chyba1 databáze při nákupu vstupenky.";
+									}
+								}
+								else{
+									echo "Chyba2 databáze při nákupu vstupenky.";
+								}
+							}
+							else{
+								echo "Nákup je možný pouze pro přihlášené uživatele.";
+							}
+						}
+						$sql = "SELECT * FROM udalost ORDER BY dat_zac";
+						$result = $conn->query($sql);
+						if ($result->num_rows > 0) {
+							echo "<table class='table table-hover'>";
+							echo "<thead><tr><th></th><th>Datum</th><th>Město</th><th></th></tr></thead>";
+							echo "<tbody>";
+							$limit = 5;
+							while($row = $result->fetch_assoc()) {
+								if($limit == 0)
+									break;
+								if ($row["dat_zac"] < date("Y-m-d"))
+									continue;
+								echo "<tr>";
+								echo "<td><span style='font-weight:bold'>" . $row["nazev"] . "</span></td>";
+								echo "<td>" . $row["dat_zac"] . "</td>";
+								echo "<td>" . $row["misto_konani"] . "</td>";
+								echo "<td><form action='' method='post'><button type='submit' name='buy' value='" . $row["nazev"] . "' class='btn btn-default'>Koupit lístek</button></form></td>";
+								echo "</tr>";
+								$limit--;
+							}
+							echo "</tbody>";
+							echo "</table>";
+						}
+					?>
 				</div>
 
 			</div>

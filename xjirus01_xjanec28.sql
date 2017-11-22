@@ -50,7 +50,7 @@ CREATE TABLE umelec (
 );
 
 CREATE TABLE vstupenka (
-  cislo_vstup INTEGER AUTO_INCREMENT, 
+  cislo_vstup INTEGER NOT NULL AUTO_INCREMENT, 
   cena INTEGER,
   login CHAR(11) NOT NULL, 
   typ VARCHAR(10) NOT NULL,
@@ -187,3 +187,6 @@ VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777777777', 'a
 
 INSERT INTO uzivatel
 VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'user');
+
+INSERT INTO vstupenka
+ (cena, login, typ, udalost, dat_zac) VALUES(500, 'Admin', 'festival', 'nakej festak', '1999-01-01');
