@@ -186,4 +186,4 @@ INSERT INTO uzivatel
 VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777777777', 'admin');
 
 INSERT INTO uzivatel
-VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'a');
+VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'user');

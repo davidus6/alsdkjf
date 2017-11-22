@@ -47,8 +47,33 @@
 		</nav>
 
 		<?php 
-			$sql = "SELECT login, jmeno FROM uzivatel";
+			if (isset($_POST['remove'])){
+				$sql = "DELETE FROM uzivatel WHERE login ='" . $_POST['remove'] . "'";
+				if ($conn->query($sql) != false)
+					echo "Uživatel úspěšně smazán";
+				else{
+					echo "Chyba databáze při mazání uživatele";
+				}
+			}
+			$sql = "SELECT * FROM uzivatel ORDER BY login";
 			$result = $conn->query($sql);
-			$row = $result->fetch_assoc();
-			echo "tady budou uzivatele";
+			if ($result->num_rows > 0) {
+				echo "<table class='table table-hover'>";
+				echo "<thead><tr><th>Login</th><th>Jméno</th><th>Práva</th></tr></thead>";
+				echo "<tbody>";
+				while($row = $result->fetch_assoc()) {
+				echo "<tr>";
+				echo "<td><a href='profil.php?login=" . $row["login"] . "'>" . $row["login"] . "</a></td>";
+				echo "<td>" . $row["jmeno"] . "</td>";
+				echo "<td>" . $row["prava"] . "</td>";
+				echo "<td>" . "" . "</td>";
+				echo "<td>" . "Upravit" . "</td>";
+				echo "<td><form action='' method='post'><button type='submit' name='remove' value='" . $row["login"] . "' class='btn btn-default'>Odstranit</button></form></td>";
+				echo "<td>" . "" . "</td>";
+				echo "<td>" . "" . "</td>";
+				echo "</tr>";
+				}
+				echo "</tbody>";
+				echo "</table>";
+			}
 		?>
