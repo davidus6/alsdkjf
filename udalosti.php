@@ -35,7 +35,8 @@
 					<ul class="nav navbar-nav">
 						<li><a href="index.php">Domů</a></li>
 						<li class="active"><a href="udalosti.php">Události</a></li>
-						<li><a href="interpreti.php">Interpreti</a></li> 
+						<li><a href="interpreti.php">Interpreti</a></li>
+						<li><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
@@ -58,22 +59,13 @@
 			echo "<thead><tr><th>Jméno</th><th>Ročník</th><th>Žánr</th><th>Datum začátku</th><th>Datum konce</th><th>Místo konání</th></tr></thead>";
 			echo "<tbody>";
 			while($row = $result->fetch_assoc()) {
-				echo iconv("CP1252", "UTF-8", $row["misto_konani"]);
-				echo $row["misto_konani"];
-				echo utf8_decode($row["misto_konani"]);
-				echo utf8_encode($row["misto_konani"]);
-				echo utf8_encode(utf8_encode($row["misto_konani"]));
-				echo mb_convert_encoding($row["misto_konani"], "UTF-8");
-				echo mb_convert_encoding($row["misto_konani"], "ISO-8859-1");
-				echo mb_convert_encoding(utf8_decode($row["misto_konani"]), "ISO-8859-1");
-				echo mb_convert_encoding(utf8_encode($row["misto_konani"]), "ISO-8859-1");
 				echo "<tr>";
 				echo "<td>" . utf8_decode($row["nazev"]) . "</td>";
 				echo "<td>" . $row["rocnik"] . "</td>";
 				echo "<td>" . $row["zanr"] . "</td>";
 				echo "<td>" . $row["dat_zac"] . "</td>";
 				echo "<td>" . $row["dat_kon"] . "</td>";
-				echo "<td>" . utf8_decode($row["misto_konani"]) . "</td>";
+				echo "<td>" . $row["misto_konani"] . "</td>";
 				echo "</tr>";
 			}
 			echo "</tbody>";
