@@ -32,6 +32,7 @@
 						<li><a href="index.php">Domů</a></li>
 						<li><a href="udalosti.php">Události</a></li>
 						<li class="active"><a href="interpreti.php">Interpreti</a></li> 
+						<li><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
@@ -56,7 +57,7 @@
 			echo "<tbody>";
 			while($row = $result->fetch_assoc()) {
 				echo "<tr>";
-				echo "<td>" . $row["jmeno"] . "</td>";
+				echo "<td><a href = 'kapela.php?jmeno=" .$row["jmeno"]. "'>" .$row["jmeno"]. "</a></td>";
 				echo "<td>neco dalsiho</td>";
 				echo "</tr>";
 			}
@@ -64,8 +65,5 @@
 			echo "</table>";
 		}
 		?>
-
-		<a href="kapela.php?jmeno=Metallica" > ODKAZ </a>
-
 	</body>
 </html>

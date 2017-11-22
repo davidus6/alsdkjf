@@ -48,7 +48,8 @@
 				<ul class="nav navbar-nav">
 					<li><a href="index.php">Domů</a></li>
 					<li><a href="udalosti.php">Události</a></li>
-					<li><a href="interpreti.php">Interpreti</a></li> 
+					<li><a href="interpreti.php">Interpreti</a></li>
+					<li><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li> 
 				</ul>
 				<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 					<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>

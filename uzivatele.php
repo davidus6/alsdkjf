@@ -17,10 +17,6 @@
 			$('[data-toggle="popover"]').popover(); 
 			});
 		</script>
-		<style>
-		<?php include 'style.css'; ?>
-		</style>
-		
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -35,8 +31,8 @@
 					<ul class="nav navbar-nav">
 						<li><a href="index.php">Domů</a></li>
 						<li><a href="udalosti.php">Události</a></li>
-						<li class="active"><a href="interpreti.php">Interpreti</a></li>
-						<li><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li> 
+						<li><a href="interpreti.php">Interpreti</a></li> 
+						<li class="active"><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
@@ -44,15 +40,15 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
-						<li><a href='?logout'> Odhlásit se</a>"?></li>
+						<li><a href='index.php?logout'> Odhlásit se</a>"?></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 
 		<?php 
-			$sql = "SELECT jmeno, zanr FROM interpret WHERE jmeno = '".$_GET["jmeno"]."'";
+			$sql = "SELECT login, jmeno FROM uzivatel";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
-			echo "Stranka kapely " .$row["jmeno"]. ", ktera ma zanr " .$row["zanr"]. "<br/>";
+			echo "tady budou uzivatele";
 		?>

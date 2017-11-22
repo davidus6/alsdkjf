@@ -4,6 +4,7 @@
 	</head>
 	<body>
 		<?php	
+			header("Content-Type: text/html; charset=utf-8");
 			$servername = "localhost";
 			$username = "xjanec28";
 			$password = "kumcor4a";
@@ -24,6 +25,7 @@
 			session_start();
 			if(isset($_GET['logout'])){
 				unset($_SESSION['uzivatel']);
+				unset($_SESSION['admin']);
 			}
 			$loginFail = "false";
 			if(isset($_POST['loginBtn'])){
@@ -31,6 +33,9 @@
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
 				    $_SESSION['uzivatel'] = $_POST["login"];
+				    if($_POST["login"] == "Admin"){
+				    	$_SESSION['admin'] = true;
+				    }
 				    //echo "prihlaseni uspesne pane " .$_POST["login"]. "<br/>";
 				} else {
 					$loginFail = "true";
