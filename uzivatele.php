@@ -68,7 +68,7 @@
 				echo "<td>" . $row["prava"] . "</td>";
 				echo "<td>" . "" . "</td>";
 				echo "<td>" . "Upravit" . "</td>";
-				echo "<td><form action='' method='post'><button type='submit' name='remove' value='" . $row["login"] . "' class='btn btn-default'>Odstranit</button></form></td>";
+				echo "<td><form action='' method='post'><button type='submit' name='remove' value='" . $row["login"] . "' class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Odstranit</button></form></td>";
 				echo "<td>" . "" . "</td>";
 				echo "<td>" . "" . "</td>";
 				echo "</tr>";

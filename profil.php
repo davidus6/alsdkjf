@@ -60,6 +60,14 @@
 			$conn->query($sql);
 		}
 
+		if (isset($_POST['remove'])){
+			$sql = "DELETE FROM vstupenka WHERE login='" .$_POST['remove'] ."'";
+			$conn->query($sql);
+			$sql = "DELETE FROM uzivatel WHERE login ='" . $_POST['remove'] . "'";
+			$conn->query($sql);
+			header("Location: index.php?logout");
+		}
+
 
 			$sql = "SELECT * FROM uzivatel WHERE login = '".$_GET["login"]."'";
 			$result = $conn->query($sql);
@@ -94,19 +102,21 @@
 							}
 						?>
 						<br><br><br>
+						
 						<?php if (!isset($_POST['edit'])) { ?>
-						<form action='' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'>Upravit profil</button>
-						<form action='' method='post'><button type='submit' name='remove' value='NASTAVIT' class='btn btn-default'>Deaktivovat účet</button>
+						
+						<form action='' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil"></span> Upravit profil</button>
+						<form action='' method='post'><button type='submit' name='remove' value=<?php echo $row["login"];?> class='btn btn-default'><span class='glyphicon glyphicon-off text-danger'></span> Deaktivovat účet</button>
+						
 						<? } else { ?>
-						<button type='submit' name='confirm' value=<?php echo $row["login"];?> class='btn btn-default'>Potvrdit změny</button>
-						<a href="profil.php?login=<?php echo $row["login"];?>" class='btn btn-default'>Zrušit</a>
+						
+						<button type='submit' name='confirm' value=<?php echo $row["login"];?> class='btn btn-default'><span class='glyphicon glyphicon-ok text-success'></span> Potvrdit změny</button>
+						<a href="profil.php?login=<?php echo $row["login"];?>" class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Zrušit</a>
 						</form>
+						
 						<? } ?>
 					</div>
 				</div>
 			</div>
-
-		
-
 	</body>
 </html>
