@@ -31,7 +31,7 @@ CREATE TABLE uzivatel (
   mesto VARCHAR(30),
   email VARCHAR(50) NOT NULL,
   tel_cislo VARCHAR(20),
-  prava VARCHAR(10)
+  prava VARCHAR(10) DEFAULT 'user'
 );
 
 CREATE TABLE interpret (
@@ -176,5 +176,14 @@ VALUES('JEDEEM', 2011, 'pop', 'Proti Proudu');
 INSERT INTO album 
 VALUES('Master of Puppets', 1986, 'metal', 'Metallica');
 
+INSERT INTO udalost
+VALUES('nakej festak', '1999-01-01', '1999-01-02', 'Vrbice', 'punk', 'festival', NULL, 1);
+
+INSERT INTO udalost
+VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23);
+
 INSERT INTO uzivatel
 VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777777777', 'admin');
+
+INSERT INTO uzivatel
+VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'a');
