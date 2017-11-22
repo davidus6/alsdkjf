@@ -15,7 +15,11 @@
 		<script>
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(); 
-			});
+			if (<?php echo $loginFail ?>){
+				$('#loginPopover').popover('show');
+				$('#loginLabel').removeAttr('hidden');
+			}
+		});
 		</script>
 		<style>
 		<?php include 'style.css'; ?>
@@ -40,7 +44,7 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
-						<li><a href="#" data-toggle="popover" title="Příhlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+						<li><a href="#" id="loginPopover" data-toggle="popover" title="Příhlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
@@ -60,7 +64,7 @@
 			echo "<tbody>";
 			while($row = $result->fetch_assoc()) {
 				echo "<tr>";
-				echo "<td>" . utf8_decode($row["nazev"]) . "</td>";
+				echo "<td>" . $row["nazev"] . "</td>";
 				echo "<td>" . $row["rocnik"] . "</td>";
 				echo "<td>" . $row["zanr"] . "</td>";
 				echo "<td>" . $row["dat_zac"] . "</td>";

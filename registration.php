@@ -17,7 +17,11 @@
 	$(document).ready(function(){
 		$('[data-toggle="popover"]').popover(); 
 		$("#pwdcon").keyup(checkPasswordMatch);
-		});
+		if (<?php echo $loginFail ?>){
+			$('#loginPopover').popover('show');
+			$('#loginLabel').removeAttr('hidden');
+		}
+	});
 
 	function checkPasswordMatch() {
 	    var password = $("#pwd").val();
@@ -53,7 +57,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 					<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
-					<li><a href="#" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+					<li><a href="#" id="loginPopover" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
 					<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
