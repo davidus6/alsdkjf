@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>IIS proj</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="style.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
@@ -15,11 +16,7 @@
 		<script>
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(); 
-			if (<?php echo $loginFail ?>){
-				$('#loginPopover').popover('show');
-				$('#loginLabel').removeAttr('hidden');
-			}
-		});
+			});
 		</script>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -40,7 +37,7 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
-						<li><a href="#" id="loginPopover" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+						<li><a href="#" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li class="active"><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
@@ -51,8 +48,43 @@
 		</nav>
 
 		<?php 
-			$sql = "SELECT login, jmeno FROM uzivatel WHERE login = '".$_GET["login"]."'";
+			$sql = "SELECT * FROM uzivatel WHERE login = '".$_GET["login"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
-			echo "Stranka uzivatele " .$row["jmeno"]. ", ktery ma login " .$row["login"]. "<br/>";
 		?>
+			<div class='container'>
+				<div class='row'>
+					<div class='col-12 col-md-4'>
+						<br>
+						<img src='images/generic.png' class='profile_pic' class='img-responsive'>
+						<br>
+					</div>
+					<div class='col-12 col-md-6'>
+						<?php
+							echo "<h1>" .$row["jmeno"]. "</h1>";
+						?>
+						<br>
+						<style>
+							h3, h4 {display:inline;}
+						</style>
+						<?php
+							echo "<h3>Email: </h3><h4>" .$row["email"]. "</h4>";
+							echo "<br><br>";
+							echo "<h3>Telefon: </h3><h4>" .$row["tel_cislo"]. "</h4>";
+							echo "<br><br>";
+							echo "<h3>Město: </h3><h4>" .$row["mesto"]. "</h4>";
+						?>
+						<br><br><br>
+						<form action='' method='post'><button type='submit' name='remove' value="'" . $row["login"] . "'" class='btn btn-default'>Upravit profil</button>
+						<form action='' method='post'><button type='submit' name='remove' value="'" . $row["login"] . "'" class='btn btn-default'>Deaktivovat profil</button>
+					</div>
+					<div class='col-4'>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		
+
+	</body>
+</html>
