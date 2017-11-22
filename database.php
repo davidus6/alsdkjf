@@ -32,8 +32,9 @@
 				$sql = "SELECT * FROM uzivatel WHERE login = '".$_POST["login"]."' AND heslo = '".$_POST["pwdlogin"]."'";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
+					$row = $result->fetch_assoc();
 				    $_SESSION['uzivatel'] = $_POST["login"];
-				    if($_POST["login"] == "Admin"){
+				    if($row["prava"] == "admin"){
 				    	$_SESSION['admin'] = true;
 				    }
 				    //echo "prihlaseni uspesne pane " .$_POST["login"]. "<br/>";

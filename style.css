@@ -9,3 +9,7 @@
 p.article {
     text-align: justify;
 }
+
+h3, h4 {
+	display:inline;
+}

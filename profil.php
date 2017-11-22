@@ -40,7 +40,7 @@
 						<li><a href="#" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
-						<li class="active"><?php if(isset($_SESSION['uzivatel'])) echo "<a href='#'>" .$_SESSION['uzivatel']. "</a></li>
+						<li class="active"><?php if(isset($_SESSION['uzivatel'])) echo "<a href='profil.php?login=" .$_SESSION['uzivatel']. "'>" .$_SESSION['uzivatel']. "</a></li>
 						<li><a href='index.php?logout'> Odhlásit se</a>"?></li>
 					</ul>
 				</div>
@@ -48,6 +48,19 @@
 		</nav>
 
 		<?php 
+
+		if (isset($_POST['confirm'])){
+			$sql = "UPDATE uzivatel SET jmeno='" .$_POST["name"]. "' WHERE login= '".$_POST["confirm"]."'";
+			$conn->query($sql);
+			$sql = "UPDATE uzivatel SET email='" .$_POST["email"]. "' WHERE login= '".$_POST["confirm"]."'";
+			$conn->query($sql);
+			$sql = "UPDATE uzivatel SET tel_cislo='" .$_POST["phone"]. "' WHERE login= '".$_POST["confirm"]."'";
+			$conn->query($sql);
+			$sql = "UPDATE uzivatel SET mesto='" .$_POST["city"]. "' WHERE login= '".$_POST["confirm"]."'";
+			$conn->query($sql);
+		}
+
+
 			$sql = "SELECT * FROM uzivatel WHERE login = '".$_GET["login"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
@@ -60,26 +73,35 @@
 						<br>
 					</div>
 					<div class='col-12 col-md-6'>
-						<?php
+						<?php if(!isset($_POST['edit'])){
 							echo "<h1>" .$row["jmeno"]. "</h1>";
+						}
 						?>
 						<br>
-						<style>
-							h3, h4 {display:inline;}
-						</style>
-						<?php
-							echo "<h3>Email: </h3><h4>" .$row["email"]. "</h4>";
-							echo "<br><br>";
-							echo "<h3>Telefon: </h3><h4>" .$row["tel_cislo"]. "</h4>";
-							echo "<br><br>";
-							echo "<h3>Město: </h3><h4>" .$row["mesto"]. "</h4>";
+
+						<?php if (!isset($_POST['edit'])){
+								echo "<h3>Email: </h3><h4>" .$row["email"]. "</h4>";
+								echo "<br><br>";
+								echo "<h3>Telefon: </h3><h4>" .$row["tel_cislo"]. "</h4>";
+								echo "<br><br>";
+								echo "<h3>Město: </h3><h4>" .$row["mesto"]. "</h4>";
+							} else {
+								echo "<form action='' class='form-horizontal' method='post'>";
+								echo "<h3>Jmeno: </h3><input type='text' class='form-control' name='name' value='" .$row["jmeno"]. "' required>";
+								echo "<h3>Email: </h3><input type='email' class='form-control' name='email' value='" .$row["email"]. "' required>";
+								echo "<h3>Telefon: </h3><input type='text' class='form-control' name='phone' value='" .$row["tel_cislo"]. "' pattern='^\d{3} \d{3} \d{3}$' placeholder='formát: XXX XXX XXX'>";
+								echo "<h3>Město: </h3><input type='text' class='form-control' name='city' value='" .$row["mesto"]. "'>";
+							}
 						?>
 						<br><br><br>
-						<form action='' method='post'><button type='submit' name='remove' value="'" . $row["login"] . "'" class='btn btn-default'>Upravit profil</button>
-						<form action='' method='post'><button type='submit' name='remove' value="'" . $row["login"] . "'" class='btn btn-default'>Deaktivovat profil</button>
-					</div>
-					<div class='col-4'>
+						<?php if (!isset($_POST['edit'])) { ?>
+						<form action='' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'>Upravit profil</button>
+						<form action='' method='post'><button type='submit' name='remove' value='NASTAVIT' class='btn btn-default'>Deaktivovat účet</button>
+						<? } else { ?>
+						<button type='submit' name='confirm' value=<?php echo $row["login"];?> class='btn btn-default'>Potvrdit změny</button>
+						<a href="profil.php?login=<?php echo $row["login"];?>" class='btn btn-default'>Zrušit</a>
 						</form>
+						<? } ?>
 					</div>
 				</div>
 			</div>
