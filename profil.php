@@ -136,9 +136,10 @@
 					<td><?echo $row["dat_zac"]?></td>
 				</tr>
 				<?}?>
+				<?}?>
 			</tbody>
 		</table>
-		<?}?>
+		
 
 
 		<h2>Oblíbené</h2>
@@ -155,8 +156,8 @@
 					<td><a href = "kapela.php?jmeno=<?echo $row['interpret']?>" > <?echo $row["interpret"]?> </a></td>
 				</tr>
 				<?}?>
+				<?}?>
 			</tbody>
 		</table>
-		<?}?>
 	</body>
 </html>
