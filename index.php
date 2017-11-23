@@ -106,7 +106,7 @@
 								$sql = "SELECT * FROM udalost WHERE nazev='".$_POST['buy']."'";
 								if ($result = $conn->query($sql)){
 									$row = $result->fetch_assoc();
-									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES(500, '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_POST['buy']."', '".$row['dat_zac']."')";
+									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_POST['buy']."', '".$row['dat_zac']."')";
 									if ($conn->query($sql) != false){
 										echo "Vstupenka zakoupena.";
 									}
@@ -126,7 +126,7 @@
 						$result = $conn->query($sql);
 						if ($result->num_rows > 0) {
 							echo "<table class='table table-hover'>";
-							echo "<thead><tr><th></th><th>Datum</th><th>Město</th><th></th></tr></thead>";
+							echo "<thead><tr><th></th><th>Datum</th><th>Město</th><th>Cena[Kč]</th><th></th></tr></thead>";
 							echo "<tbody>";
 							$limit = 5;
 							while($row = $result->fetch_assoc()) {
@@ -138,6 +138,7 @@
 								echo "<td><span style='font-weight:bold'>" . $row["nazev"] . "</span></td>";
 								echo "<td>" . $row["dat_zac"] . "</td>";
 								echo "<td>" . $row["misto_konani"] . "</td>";
+								echo "<td>" . $row["cena"] . "</td>";
 								echo "<td><form action='' method='post'><button type='submit' name='buy' value='" . $row["nazev"] . "' class='btn btn-default'>Koupit lístek</button></form></td>";
 								echo "</tr>";
 								$limit--;
