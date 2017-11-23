@@ -49,8 +49,10 @@
 				</div>
 			</div>
 		</nav>
-		<h1>INTERPRETI</h1>
 		
+		<h1><span>INTERPRETI</span>
+		<a href="novyInterpret.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</a></h1>
+		</div>
 		<?php 
 		$sql = "SELECT jmeno FROM interpret";
 		$result = $conn->query($sql);

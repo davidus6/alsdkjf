@@ -13,11 +13,8 @@
 			$conn = new mysqli($servername, $username, $password, $dbname);
 			
 			if(!$conn->set_charset("utf8")){
-				//printf("Error loading character set utf8: %s\n", $conn->error);
 				exit();
-			} else {
-				//printf("Current character set: %s\n", $conn->character_set_name());
-			}
+			} else {}
 
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
@@ -37,22 +34,11 @@
 				    if($row["prava"] == "admin"){
 				    	$_SESSION['admin'] = true;
 				    }
-				    //echo "prihlaseni uspesne pane " .$_POST["login"]. "<br/>";
 				} else {
 					$loginFail = "true";
-					//echo "spatne prihlasovaci udaje<br/>";
 				}
 			}
 
-			/*$sql = "SELECT jmeno, prijmeni FROM testTable";
-			$result = $conn->query($sql);
-
-			if ($result->num_rows > 0) {
-				// output data of each row
-				while($row = $result->fetch_assoc()) {
-					echo "jmeno: " . $row["jmeno"]. " prijmeni: " . $row["prijmeni"]. "<br>";
-				}
-			}*/
 			$registerFail = FALSE;
 			if ($loginFail == "true"){
 				$loginForm = '<div class="container">

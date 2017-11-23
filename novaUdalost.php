@@ -23,20 +23,6 @@
 		}
 	});
 
-	function checkPasswordMatch() {
-	    var password = $("#pwd").val();
-	    var confirmPassword = $("#pwdcon").val();
-
-	    if (password != confirmPassword){
-	        $("#pwdlabel").html("<span class='glyphicon glyphicon-remove text-danger'> NESHODA</span>");
-	    	$("#register").prop("disabled", true);
-	    }
-	    else {
-	        $("#pwdlabel").html("<span class='glyphicon glyphicon-ok text-success'> SHODA</span>");
-	    	$("#register").prop("disabled", false);
-	    }
-	}
-
 	</script>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
@@ -71,78 +57,95 @@
 	//registrace uzivatela	---NEJDE DIAKRITIKA ---PORAD NEJDE ---UZ JO
 		if(isset($_POST['register'])){
 			//$hesloH = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
-			$sql = "SELECT * FROM uzivatel WHERE login = '".$_POST["username"]."'";
+			$sql = "SELECT * FROM udalost WHERE nazev = '".$_POST["name"]."' AND rocnik = '" .$_POST["season"]. "'" ;
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
-			    echo "Uživatel již existuje! Zvolte jiný login.<br/>";
+			    echo "Událost už existuje<br/>";
 			    $registerFail = TRUE;
 			} else {
-				$sql = "INSERT INTO uzivatel (login, heslo, jmeno, email, tel_cislo)
-				VALUES ('".$_POST["username"]."','".$_POST["pwd"]."','".$_POST["name"]."','".$_POST["email"]."','".$_POST["phone"]."')";
+				$sql = "INSERT INTO udalost (nazev, dat_zac, dat_kon, misto_konani, zanr, typ, kapacita, rocnik, cena)
+				VALUES ('".$_POST["name"]."','".$_POST["dat_from"]."','".$_POST["dat_to"]."','".$_POST["place"]."','".$_POST["genre"]."','".$_POST["type"]."','".$_POST["capacity"]."','".$_POST["season"]."','".$_POST["price"]."')";
 
-				if ($conn->query($sql) === TRUE) {
+				if ($conn->query($sql) === TRUE) {				
 				} else {
 					echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 			}
 		}
+		/*
+		nazev
+		dat_zac
+		dat_kon
+		misto_konani
+		zanr
+		typ
+		kapacita
+		rocnik
+		cena
+		*/
 	?>
 
 		<div class="container">
-			<form action="registration.php" class="form-horizontal" method="post">
+			<form action="novaUdalost.php" class="form-horizontal" method="post">
 				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="username">* Login:</label>
+					<label class="control-label col-sm-2 col-sm-offset-2" for="name">Název:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="username" name="username" placeholder="" required>
+						<input type="text" class="form-control" id="name" value="<?php echo ($registerFail)?$_POST['name']:'';?>"  name="name">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="name">* Jméno:</label>
+					<label class="control-label col-sm-2 col-sm-offset-2" for="genre">Žánr:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="name" value="<?php echo ($registerFail)?$_POST['name']:'';?>"  name="name" placeholder="" required>
+						<input type="text" class="form-control" id="genre" value="<?php echo ($registerFail)?$_POST['genre']:'';?>" name="genre">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="phone">Město:</label>
+					<label class="control-label col-sm-2 col-sm-offset-2" for="dat_from">Datum začátku:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="city" value="<?php echo ($registerFail)?$_POST['city']:'';?>" name="city" placeholder="">
+						<input type="text" class="form-control" id="dat_from" value="<?php echo ($registerFail)?$_POST['dat_from']:'';?>" name="dat_from" placeholder="formát: RRRR-MM-DD" pattern="^\d{4}-\d{2}-\d{2}$">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="email">* E-mail:</label>
+					<label class="control-label col-sm-2 col-sm-offset-2" for="dat_to">Datum konce:</label>
 					<div class="col-sm-4">
-						<input type="email" class="form-control" id="email" value="<?php echo ($registerFail)?$_POST['email']:'';?>" name="email" placeholder="" required>
+						<input type="text" class="form-control" id="datˇ_to" value="<?php echo ($registerFail)?$_POST['dat_to']:'';?>" name="dat_to" placeholder="formát: RRRR-MM-DD" pattern="^\d{4}-\d{2}-\d{2}$">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="phone">Telefon:</label>
-					<div class="col-sm-4">
-						<input type="text" class="form-control" id="phone" value="<?php echo ($registerFail)?$_POST['phone']:'';?>" name="phone" placeholder="formát: XXX XXX XXX" pattern="^\d{3} \d{3} \d{3}$">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="pwd">* Heslo:</label>
+					<label class="control-label col-sm-2 col-sm-offset-2" for="place">Místo konání:</label>
 					<div class="col-sm-4"> 
-						<input type="password" class="form-control" id="pwd" value="<?php echo ($registerFail)?$_POST['pwd']:'';?>" name="pwd" placeholder="" required>
+						<input type="text" class="form-control" id="place" value="<?php echo ($registerFail)?$_POST['place']:'';?>" name="place">
 					</div>
-				</div>  
+				</div> 
 				<div class="form-group row">
-					<label class="control-label col-sm-2 col-sm-offset-2" for="pwdcon">* Heslo znovu:</label>
+					<label class="control-label col-sm-2 col-sm-offset-2" for="season">Ročník:</label>
 					<div class="col-sm-4"> 
-						<input type="password" class="form-control" id="pwdcon" value="<?php echo ($registerFail)?$_POST['pwdcon']:'';?>" name="pwdcon" placeholder="" required>
+						<input type="text" class="form-control" id="season" value="<?php echo ($registerFail)?$_POST['season']:'';?>" name="season">
 					</div>
-					<div class="col-sm-2">
-						<label class="control-label" id="pwdlabel"></label>
+				</div> 
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="price">Cena:</label>
+					<div class="col-sm-4"> 
+						<input type="text" class="form-control" id="price" value="<?php echo ($registerFail)?$_POST['price']:'';?>" name="price">
 					</div>
 				</div>
-				<div class="form-group row"> 
-					<div class="col-sm-offset-2 col-sm-10">
-						<label class="control-label col-sm-2 col-sm-offset-2">* - Povinné pole</label>
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="capacity">Kapacita:</label>
+					<div class="col-sm-4"> 
+						<input type="text" class="form-control" id="capacity" value="<?php echo ($registerFail)?$_POST['capacity']:'';?>" name="capacity">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="control-label col-sm-2 col-sm-offset-2" for="type">Typ:</label>
+					<div class="col-sm-4"> 
+						<label class="radio-inline"><input type="radio" name="type" value="koncert">Koncert</label>
+						<label class="radio-inline"><input type="radio" name="type" value="festival">Festival</label>
 					</div>
 				</div>
 				<div class="form-group row"> 
 					<div class="col-sm-offset-5 col-sm-10">
-						<button type="submit" class="btn btn-default" id="register" name="register">Zaregistrovat</button>
+						<button type="submit" class="btn btn-default" id="register" name="register"><span class='glyphicon glyphicon-ok text-success'></span> Přidat</button>
+						<a href="interpreti.php" class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Zrušit</a>
 					</div>
 				</div>
 			</form>
