@@ -137,7 +137,7 @@
 			<tbody>
 				<?while($row = $result->fetch_assoc()) {?>
 				<tr>
-					<td><a href = "udalost.php?jmeno=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
+					<td><a href = "udalost.php?u=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
 					<td><?echo $row["cena"]?></td>
 					<td><?echo $row["dat_zac"]?></td>
 				</tr>

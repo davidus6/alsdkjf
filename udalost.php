@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>IIS proj</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="style.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
@@ -15,16 +16,8 @@
 		<script>
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(); 
-			if (<?php echo $loginFail ?>){
-				$('#loginPopover').popover('show');
-				$('#loginLabel').removeAttr('hidden');
-			}
-		});
+			});
 		</script>
-		<style>
-		<?php include 'style.css'; ?>
-		</style>
-		
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -38,56 +31,25 @@
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
 						<li><a href="index.php">Domů</a></li>
-						<li class="active"><a href="udalosti.php">Události</a></li>
-						<li><a href="interpreti.php">Interpreti</a></li>
+						<li><a href="udalosti.php">Události</a></li>
+						<li><a href="interpreti.php">Interpreti</a></li> 
 						<li><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><a href="registration.php"><span class="glyphicon glyphicon-user"></span> Registrovat</a></li>
-						<li><a href="#" id="loginPopover" data-toggle="popover" title="Příhlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
+						<li><a href="#" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='profil.php?login=" .$_SESSION['uzivatel']. "'>" .$_SESSION['uzivatel']. "</a></li>
-						<li><a href='?logout'> Odhlásit se</a>"?></li>
+						<li><a href='index.php?logout'> Odhlásit se</a>"?></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 
-		<h1><span>UDÁLOSTI</span>
-		<? if (isset($_SESSION['admin'])) { ?>
-		<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
-		<? } ?>
-		</h1>
-
-		<?php 
-		$sql = "SELECT * FROM udalost ORDER BY dat_zac";
-		$result = $conn->query($sql);
-		if ($result->num_rows > 0) { ?>
-			<table class='table table-hover'>
-				<thead>
-					<tr>
-						<th>Jméno</th>
-						<th>Ročník</th>
-						<th>Žánr</th>
-						<th>Datum začátku</th>
-						<th>Datum konce</th>
-						<th>Místo konání</th>
-					</tr>
-				</thead>
-				<tbody>
-				<? while($row = $result->fetch_assoc()) { ?>
-					<tr>
-					<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
-					<td> <?echo $row["rocnik"]?> </td>
-					<td> <?echo $row["zanr"]?> </td>
-					<td> <?echo $row["dat_zac"]?> </td>
-					<td> <?echo $row["dat_kon"]?> </td>
-					<td> <?echo $row["misto_konani"]?> </td>
-					</tr>
-				<? } ?>
-				</tbody>
-			</table>
-		<? } ?>
-	</body>
-</html>
+		<?php
+			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";
+			$result = $conn->query($sql);
+			$row = $result->fetch_assoc();
+			echo "Pevne zaklady stranky udalosti " .$row["nazev"]. ", na kterych David vybuduje imperium.";
+		?>

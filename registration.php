@@ -93,7 +93,7 @@
 				<div class="form-group row">
 					<label class="control-label col-sm-2 col-sm-offset-2" for="username">* Login:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="username" name="username" placeholder="" required>
+						<input type="text" class="form-control" id="username" name="username" placeholder="" required autofocus>
 					</div>
 				</div>
 				<div class="form-group row">

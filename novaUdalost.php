@@ -90,7 +90,7 @@
 				<div class="form-group row">
 					<label class="control-label col-sm-2 col-sm-offset-2" for="name">Název:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="name" value="<?php echo ($registerFail)?$_POST['name']:'';?>"  name="name">
+						<input type="text" class="form-control" id="name" value="<?php echo ($registerFail)?$_POST['name']:'';?>"  name="name" autofocus>
 					</div>
 				</div>
 				<div class="form-group row">

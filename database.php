@@ -48,7 +48,7 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-2">
-										<input type="text" class="form-control" id="login" name="login" required>
+										<input type="text" class="form-control" id="login" name="login" required autofocus>
 									</div>
 								</div>
 								<div class="form-group row">
@@ -79,7 +79,7 @@
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-2">
-										<input type="text" class="form-control" id="login" name="login" required>
+										<input type="text" class="form-control" id="login" name="login" required autofocus>
 									</div>
 								</div>
 								<div class="form-group row">
