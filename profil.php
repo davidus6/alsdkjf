@@ -72,6 +72,7 @@
 			$sql = "SELECT * FROM uzivatel WHERE login = '".$_GET["login"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
+			$majitel = $row['login'];
 		?>
 			<div class='container'>
 				<div class='row'>
@@ -105,7 +106,7 @@
 						
 						<?php if (!isset($_POST['edit'])) { ?>
 						
-						<form action='' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil"></span> Upravit profil</button>
+						<form action='' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil text-warning"></span> Upravit profil</button>
 						<form action='' method='post'><button type='submit' name='remove' value=<?php echo $row["login"];?> class='btn btn-default'><span class='glyphicon glyphicon-off text-danger'></span> Deaktivovat účet</button>
 						
 						<? } else { ?>
@@ -118,5 +119,44 @@
 					</div>
 				</div>
 			</div>
+
+		<h2>Zakoupené vstupenky</h2>
+		<table class='table table-hover'>
+			<thead><tr><th>Událost</th><th>Cena</th><th>Datum</th></tr></thead>
+			<?php
+				$sql = "SELECT * FROM vstupenka WHERE login='".$majitel."'";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+			?>
+			<tbody>
+				<?while($row = $result->fetch_assoc()) {?>
+				<tr>
+					<td><a href = "udalost.php?jmeno=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
+					<td><?echo $row["cena"]?></td>
+					<td><?echo $row["dat_zac"]?></td>
+				</tr>
+				<?}?>
+			</tbody>
+		</table>
+		<?}?>
+
+
+		<h2>Oblíbené</h2>
+		<table class='table table-hover'>
+			<thead><tr><th>Název</th></tr></thead>
+			<?php
+				$sql = "SELECT * FROM oblibenec WHERE login='".$majitel."'";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+			?>
+			<tbody>
+				<?while($row = $result->fetch_assoc()) {?>
+				<tr>
+					<td><a href = "kapela.php?jmeno=<?echo $row['interpret']?>" > <?echo $row["interpret"]?> </a></td>
+				</tr>
+				<?}?>
+			</tbody>
+		</table>
+		<?}?>
 	</body>
 </html>
