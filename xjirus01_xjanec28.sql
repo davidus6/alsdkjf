@@ -184,7 +184,7 @@ INSERT INTO udalost
 VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23, 2100);
 
 INSERT INTO uzivatel
-VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777777777', 'admin');
+VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777 777 777', 'admin');
 
 INSERT INTO uzivatel
 VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'user');
