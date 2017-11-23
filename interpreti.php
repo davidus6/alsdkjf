@@ -51,8 +51,10 @@
 		</nav>
 		
 		<h1><span>INTERPRETI</span>
-		<a href="novyInterpret.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</a></h1>
-		</div>
+		<? if (isset($_SESSION['admin'])) { ?>
+		<a href="novyInterpret.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</a>
+		<? } ?>
+		</h1>
 		<?php 
 		$sql = "SELECT jmeno FROM interpret";
 		$result = $conn->query($sql);

@@ -145,7 +145,7 @@
 				<div class="form-group row"> 
 					<div class="col-sm-offset-5 col-sm-10">
 						<button type="submit" class="btn btn-default" id="register" name="register"><span class='glyphicon glyphicon-ok text-success'></span> Přidat</button>
-						<a href="interpreti.php" class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Zrušit</a>
+						<a href="udalosti.php" class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Zrušit</a>
 					</div>
 				</div>
 			</form>

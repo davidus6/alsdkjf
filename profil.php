@@ -40,7 +40,7 @@
 						<li><a href="#" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
-						<li class="active"><?php if(isset($_SESSION['uzivatel'])) echo "<a href='profil.php?login=" .$_SESSION['uzivatel']. "'>" .$_SESSION['uzivatel']. "</a></li>
+						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='profil.php?login=" .$_SESSION['uzivatel']. "'>" .$_SESSION['uzivatel']. "</a></li>
 						<li><a href='index.php?logout'> Odhlásit se</a>"?></li>
 					</ul>
 				</div>
@@ -58,6 +58,9 @@
 			$conn->query($sql);
 			$sql = "UPDATE uzivatel SET mesto='" .$_POST["city"]. "' WHERE login= '".$_POST["confirm"]."'";
 			$conn->query($sql);
+			$sql = "UPDATE uzivatel SET prava='" .$_POST["type"]. "' WHERE login= '".$_POST["confirm"]."'";
+			$conn->query($sql);
+
 		}
 
 		if (isset($_POST['remove'])){
@@ -88,20 +91,23 @@
 						?>
 						<br>
 
-						<?php if (!isset($_POST['edit'])){
-								echo "<h3>Email: </h3><h4>" .$row["email"]. "</h4>";
-								echo "<br><br>";
-								echo "<h3>Telefon: </h3><h4>" .$row["tel_cislo"]. "</h4>";
-								echo "<br><br>";
-								echo "<h3>Město: </h3><h4>" .$row["mesto"]. "</h4>";
-							} else {
-								echo "<form action='' class='form-horizontal' method='post'>";
-								echo "<h3>Jmeno: </h3><input type='text' class='form-control' name='name' value='" .$row["jmeno"]. "' required>";
-								echo "<h3>Email: </h3><input type='email' class='form-control' name='email' value='" .$row["email"]. "' required>";
-								echo "<h3>Telefon: </h3><input type='text' class='form-control' name='phone' value='" .$row["tel_cislo"]. "' pattern='^\d{3} \d{3} \d{3}$' placeholder='formát: XXX XXX XXX'>";
-								echo "<h3>Město: </h3><input type='text' class='form-control' name='city' value='" .$row["mesto"]. "'>";
-							}
-						?>
+						<?php if (!isset($_POST['edit'])){ ?>
+								<h3>Email: </h3>	<h4><?echo $row["email"] ?></h4>
+								<br><br>
+								<h3>Telefon: </h3>	<h4><?echo $row["tel_cislo"]?></h4>
+								<br><br>
+								<h3>Město: </h3>	<h4><?echo $row["mesto"]?></h4>
+							<? } else { ?>
+								<form action='' class='form-horizontal' method='post'>
+								<h3>Jmeno: </h3><input type='text' class='form-control' name='name' value='<?echo $row["jmeno"]?>' required>
+								<h3>Email: </h3><input type='email' class='form-control' name='email' value='<?echo $row["email"]?>' required>
+								<h3>Telefon: </h3><input type='text' class='form-control' name='phone' value='<?echo $row["tel_cislo"]?>' pattern='^\d{3} \d{3} \d{3}$' placeholder='formát: XXX XXX XXX'>
+								<h3>Město: </h3><input type='text' class='form-control' name='city' value='<?echo $row["mesto"]?>'>
+								<? if (isset($_SESSION['admin'])) { ?>
+								<h3>Práva:</h3> <br>
+									<label class="radio-inline"><input type="radio" name="type" value="user" <? if($row["prava"] == "user")echo "checked"?>>user</label>
+									<label class="radio-inline"><input type="radio" name="type" value="admin" <? if($row["prava"] == "admin") echo "checked"?>>admin</label>
+							 <? } } ?>
 						<br><br><br>
 						
 						<?php if (!isset($_POST['edit'])) { ?>

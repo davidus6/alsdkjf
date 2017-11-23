@@ -47,6 +47,7 @@
 		</nav>
 
 		<?php 
+		if (isset($_SESSION['admin'])){
 			if (isset($_POST['remove'])){
 				$sql = "DELETE FROM vstupenka WHERE login ='" . $_POST['remove'] . "'";
 				$conn->query($sql);
@@ -77,7 +78,8 @@
 						<td> <?echo $row["jmeno"] ?></td>
 						<td> <?echo $row["prava"] ?></td>
 						<td></td>
-						<td>Upravit</td>
+						<td>
+							<form action='profil.php?login=<?echo $row["login"]?>' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil text-warning"></span> Upravit</button></td>
 						<td>
 							<form action='' method='post'><button type='submit' name='remove' value=<?echo $row["login"]?> class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Odstranit</button></form>
 						</td>
@@ -88,4 +90,4 @@
 				<? } ?>				
 					</tbody>
 				</table>
-			<? } ?>
+			<? } } else { echo "K zobrazeni stránky nemáte dostatečná oprávnění"; }?>

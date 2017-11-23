@@ -55,8 +55,10 @@
 		</nav>
 
 		<h1><span>UDÁLOSTI</span>
-		<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a></h1>
-		</div>
+		<? if (isset($_SESSION['admin'])) { ?>
+		<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
+		<? } ?>
+		</h1>
 
 		<?php 
 		$sql = "SELECT * FROM udalost ORDER BY dat_zac";
