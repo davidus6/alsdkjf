@@ -175,7 +175,19 @@ INSERT INTO album
 VALUES('JEDEEM', 2011, 'pop', 'Proti Proudu');
 
 INSERT INTO album 
-VALUES('Master of Puppets', 1986, 'metal', 'Metallica');
+VALUES('Master of Puppets', 1986, 'thrash metal', 'Metallica');
+
+INSERT INTO album 
+VALUES('Ride the Lightning', 1984, 'thrash metal', 'Metallica');
+
+INSERT INTO album 
+VALUES('Metallica', 1991, 'heavy metal', 'Metallica');
+
+INSERT INTO album 
+VALUES('Load', 1996, 'hard rock', 'Metallica');
+
+INSERT INTO album 
+VALUES('Reload', 1997, 'hard rock', 'Metallica');
 
 INSERT INTO udalost
 VALUES('nakej festak', '1999-01-01', '1999-01-02', 'Vrbice', 'punk', 'festival', NULL, 1, 20);
@@ -184,10 +196,13 @@ INSERT INTO udalost
 VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23, 2100);
 
 INSERT INTO uzivatel
-VALUES('Admin', 'tajne,Kappa', 'God', 'Heavens', 'god@mail.com', '777 777 777', 'admin');
+VALUES('Admin', 'admin', 'God', 'Heavens', 'god@mail.com', '777 777 777', 'admin');
 
 INSERT INTO uzivatel
 VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'user');
+
+INSERT INTO uzivatel
+VALUES('b', 'b', 'b', 'b', 'b@mail.com', '', 'user');
 
 INSERT INTO uzivatel
 VALUES('q', 'q', 'q', 'q', 'q@mail.com', '', 'admin');
@@ -197,3 +212,6 @@ INSERT INTO vstupenka
 
 INSERT INTO oblibenec
 VALUES ('Admin', 'Metallica');
+
+INSERT INTO interpret_udalost
+VALUES('Metallica', 'Brutal Assault Festival', '2018-08-08', 'headliner', '2018-08-08', '2018-08-10');

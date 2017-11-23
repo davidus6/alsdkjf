@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>IIS proj</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="style.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
@@ -55,8 +56,90 @@
 		</nav>
 
 		<?php 
-			$sql = "SELECT jmeno, zanr FROM interpret WHERE jmeno = '".$_GET["jmeno"]."'";
+			$sql = "SELECT * FROM interpret WHERE jmeno = '".$_GET["jmeno"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
-			echo "Stranka kapely " .$row["jmeno"]. ", ktera ma zanr " .$row["zanr"]. "<br/>";
+			$majitel = $row['jmeno'];
 		?>
+
+		<div class='container'>
+			<div class='row'>
+				<div class='col-12 col-md-4'>
+					<br>
+					<img src='images/band.png' class='profile_pic' class='img-responsive'>
+					<br>
+				</div>
+				<div class='col-12 col-md-6'>
+					<?if(!isset($_POST['edit'])){
+						echo "<h1>" .$row["jmeno"]. "</h1>";
+					}
+					?>
+					<br>
+
+					<?if (!isset($_POST['edit'])){?>
+							<h3>Žánr: </h3><h4><?echo $row["zanr"]?></h4>
+							<br><br>
+							<h3>Datum vzniku: </h3><h4><?echo $row["dat_vzniku"]?></h4>
+							<br><br>
+							<h3>Datum rozpuštění: </h3><h4><?echo $row["dat_rozpusteni"]?></h4>
+							<br><br>
+							<h3>Label: </h3><h4><?echo $row["label"]?></h4>
+						<?} else {
+
+						}
+					?>
+					<br><br><br>
+					
+					<?php if (!isset($_POST['edit'])) { ?>
+					
+					
+					<? } else { ?>
+					
+					<? } ?>
+				</div>
+			</div>
+		</div>
+
+		<h2>Alba</h2>
+		<table class='table table-hover table-condensed'>
+			<thead><tr><th>Název</th><th>Rok vydání</th><th>Žánr</th></tr></thead>
+			<?php
+				$sql = "SELECT * FROM album WHERE autor='".$majitel."' ORDER BY rok_vydani DESC";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+			?>
+			<tbody>
+				<?while($row = $result->fetch_assoc()) {?>
+				<tr>
+					<td><?echo $row["nazev"]?></td>
+					<td><?echo $row["rok_vydani"]?></td>
+					<td><?echo $row["zanr"]?></td>
+				</tr>
+				<?}?>
+				<?}?>
+			</tbody>
+		</table>
+		<br><br>
+
+		<h2>Vystoupení</h2>
+		<table class='table table-hover table-condensed'>
+			<thead><tr><th>Událost</th><th>Od</th><th>Do</th></tr></thead>
+			<?php
+				$sql = "SELECT * FROM interpret_udalost WHERE interpret='".$majitel."' ORDER BY 'od'";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+			?>
+			<tbody>
+				<?while($row = $result->fetch_assoc()) {?>
+				<tr>
+					<td><?echo $row["udalost"]?></td>
+					<td><?echo $row["od"]?></td>
+					<td><?echo $row["do"]?></td>
+				</tr>
+				<?}?>
+				<?}?>
+			</tbody>
+		</table>
+
+	</body>
+</html>
