@@ -19,6 +19,11 @@
 				$('#loginPopover').popover('show');
 				$('#loginLabel').removeAttr('hidden');
 			}
+
+			$('#myModal').on('show.bs.modal', function(e) {
+				var id = $(e.relatedTarget).data('id');
+				document.cookie = "udalost="+id;
+							});
 		});
 		</script>
 		<style>
@@ -67,7 +72,7 @@
 						</div>
 						<div class="col-12 col-md-8">
 							<h3>Reputation, nové album od Taylor Swift</h3>
-							<p class="article">Reputation (česky reputace) je již šesté studové album této americké popové zpěvačky. Bylo vydáno 10.listopadu, ale některé z celkem 15 písniček si fanoušci mohli vyslechnout už dříve. Na nahrávce "End Game" se podílel Ed Sheeran a rapper Future. Album si mezi kritiky vede poměrně dobře a mezi fanoušky ještě lépe.</p>
+							<p class="article">Reputation (česky reputace) je již šesté studiové album této americké popové zpěvačky. Bylo vydáno 10.listopadu, ale některé z celkem 15 písniček si fanoušci mohli vyslechnout už dříve. Na nahrávce "End Game" se podílel Ed Sheeran a rapper Future. Album si mezi kritiky vede poměrně dobře a mezi fanoušky ještě lépe.</p>
 						</div>
 					</div>
 					<br>
@@ -124,31 +129,58 @@
 						}
 						$sql = "SELECT * FROM udalost ORDER BY dat_zac";
 						$result = $conn->query($sql);
-						if ($result->num_rows > 0) {
-							echo "<table class='table table-hover'>";
-							echo "<thead><tr><th></th><th>Datum</th><th>Město</th><th>Cena[Kč]</th><th></th></tr></thead>";
-							echo "<tbody>";
-							$limit = 5;
-							while($row = $result->fetch_assoc()) {
-								if($limit == 0)
-									break;
-								if ($row["dat_zac"] < date("Y-m-d"))
-									continue;
-								echo "<tr>";
-								echo "<td><span style='font-weight:bold'>" . $row["nazev"] . "</span></td>";
-								echo "<td>" . $row["dat_zac"] . "</td>";
-								echo "<td>" . $row["misto_konani"] . "</td>";
-								echo "<td>" . $row["cena"] . "</td>";
-								echo "<td><form action='' method='post'><button type='submit' name='buy' value='" . $row["nazev"] . "' class='btn btn-default'>Koupit lístek</button></form></td>";
-								echo "</tr>";
-								$limit--;
-							}
-							echo "</tbody>";
-							echo "</table>";
-						}
-					?>
+						if ($result->num_rows > 0) { ?>
+							<table class='table table-hover'>
+								<thead>
+									<tr>
+										<th></th>
+										<th>Datum</th>
+										<th>Město</th>
+										<th>Cena[Kč]</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+
+								<? $limit = 5;
+								 while($row = $result->fetch_assoc()) {
+									if($limit == 0)
+										break;
+									if ($row["dat_zac"] < date("Y-m-d"))
+										continue; ?>
+									<tr>
+									<td><span style='font-weight:bold'> <?echo $row["nazev"]?> </span></td>
+									<td><?echo $row["dat_zac"]?></td>
+									<td><?echo $row["misto_konani"]?></td>
+									<td><?echo $row["cena"]?></td>
+									<td><button type="button" class="btn btn-default" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#myModal">Koupit lístek</button></td>
+								
+									</tr>
+									<? $limit--; } ?>
+								</tbody>
+							</table>
+						<? } ?>
 				</div>
 
+				<div id="myModal" class="modal fade" role="dialog">
+					<div class="modal-dialog modal-sm">
+
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Potvrzení nákupu</h4>
+						</div>
+						<div class="modal-body">
+							<p>Opravdu si přejete vstupenku zakoupit?</p>
+						</div>
+						<div class="modal-footer">
+							<form action='' method='post'><button type='submit' name='buy' value='<?echo $_COOKIE["udalost"]?>' class='btn btn-default pull-left'>Koupit</button></form>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+						</div>
+					</div>
+
+					</div>
+				</div>		
 			</div>
 		</div>
 	</body>
