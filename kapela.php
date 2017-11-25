@@ -50,7 +50,7 @@
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
 						<li>
 							<? if(isset($_SESSION['uzivatel'])){?> 
-							<a href='profil.php?login=<?$_SESSION["uzivatel"]?>' ><?echo $_SESSION['uzivatel']?></a>
+							<a href='profil.php?login=<?echo $_SESSION["uzivatel"]?>' ><?echo $_SESSION['uzivatel']?></a>
 						</li>
 						<li>
 							<a href='?jmeno=<?echo $_GET["jmeno"]?>&logout'> Odhlásit se</a>
