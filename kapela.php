@@ -106,57 +106,93 @@
 			</div>
 		</div>
 
-		<h2>Alba</h2>
-		<table class='table table-hover table-condensed'>
-			<thead>
-				<tr>
-					<th>Název</th>
-					<th>Rok vydání</th>
-					<th>Žánr</th>
-				</tr>
-			</thead>
-			<?php
-				$sql = "SELECT * FROM album WHERE autor='".$majitel."' ORDER BY rok_vydani DESC";
-				$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
-			?>
-			<tbody>
-				<?while($row = $result->fetch_assoc()) {?>
-				<tr>
-					<td><?echo $row["nazev"]?></td>
-					<td><?echo $row["rok_vydani"]?></td>
-					<td><?echo $row["zanr"]?></td>
-				</tr>
-				<?} }?>
-			</tbody>
-		</table>
-		<br><br>
+		<br>
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#vystoupeni">Vystoupení</a></li>
+				<li><a data-toggle="tab" href="#clenove">Členové</a></li>
+				<li><a data-toggle="tab" href="#alba">Alba</a></li>
+			</ul>
 
-		<h2>Vystoupení</h2>
-		<table class='table table-hover table-condensed'>
-			<thead>
-				<tr>
-					<th>Událost</th>
-					<th>Od</th>
-					<th>Do</th>
-				</tr>
-			</thead>
-			<?php
-				$sql = "SELECT * FROM interpret_udalost WHERE interpret='".$majitel."' ORDER BY 'od'";
-				$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
-			?>
-			<tbody>
-				<?while($row = $result->fetch_assoc()) {?>
-				<tr>
-					<td><a href='udalost.php?u=<?echo $row["udalost"]?>'><?echo $row["udalost"]?></a></td>
-					<td><?echo $row["od"]?></td>
-					<td><?echo $row["do"]?></td>
-				</tr>
-				<?}?>
-				<?}?>
-			</tbody>
-		</table>
-
+		 	<div class="tab-content">
+				<div id="vystoupeni" class="tab-pane fade in active">
+					<table class='table table-hover table-condensed'>
+						<thead>
+							<tr>
+								<th>Událost</th>
+								<th>Od</th>
+								<th>Do</th>
+							</tr>
+						</thead>
+						<?php
+							$sql = "SELECT * FROM interpret_udalost WHERE interpret='".$majitel."' ORDER BY 'od'";
+							$result = $conn->query($sql);
+							if ($result->num_rows > 0) {
+						?>
+						<tbody>
+							<?while($row = $result->fetch_assoc()) {?>
+							<tr>
+								<td><a href='udalost.php?u=<?echo $row["udalost"]?>'><?echo $row["udalost"]?></a></td>
+								<td><?echo $row["od"]?></td>
+								<td><?echo $row["do"]?></td>
+							</tr>
+							<?}?>
+						<?}?>
+						</tbody>
+					</table>
+				</div>
+				<div id="clenove" class="tab-pane fade">
+					<table class='table table-hover table-condensed'>
+						<thead>
+							<tr>
+								<th>Jméno</th>
+								<th>Datum narození</th>
+								<th>Datum úmrtí</th>
+							</tr>
+						</thead>
+						<?php
+							$sql = "SELECT * FROM umelec WHERE jm_interpreta='".$majitel."' ORDER BY 'jmeno'";
+							$result = $conn->query($sql);
+							if ($result->num_rows > 0) {
+						?>
+						<tbody>
+							<?while($row = $result->fetch_assoc()) {?>
+							<tr>
+								<td><?echo $row["jmeno"]?></td>
+								<td><?echo $row["dat_narozeni"]?></td>
+								<td><?echo $row["dat_umrti"]?></td>
+							</tr>
+							<?}?>
+						<?}?>
+						</tbody>
+					</table>
+				</div>
+				<div id="alba" class="tab-pane fade">
+					<table class='table table-hover table-condensed'>
+						<thead>
+							<tr>
+								<th>Název</th>
+								<th>Rok vydání</th>
+								<th>Žánr</th>
+							</tr>
+						</thead>
+						<?php
+							$sql = "SELECT * FROM album WHERE autor='".$majitel."' ORDER BY rok_vydani DESC";
+							$result = $conn->query($sql);
+							if ($result->num_rows > 0) {
+						?>
+						<tbody>
+							<?while($row = $result->fetch_assoc()) {?>
+							<tr>
+								<td><?echo $row["nazev"]?></td>
+								<td><?echo $row["rok_vydani"]?></td>
+								<td><?echo $row["zanr"]?></td>
+							</tr>
+							<?} }?>
+						</tbody>
+					</table>
+				</div>
+		  </div>
+		</div>
 	</body>
 </html>
