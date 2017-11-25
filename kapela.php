@@ -48,8 +48,14 @@
 						<li><a href="#" id="loginPopover" data-toggle="popover" title="Přihlášení" data-placement="bottom" data-html="true" data-content='<?=$loginForm?>'><span class="glyphicon glyphicon-log-in"></span> Přihlásit</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (!isset($_SESSION['uzivatel'])) echo hidden?>">
-						<li><?php if(isset($_SESSION['uzivatel'])) echo "<a href='profil.php?login=" .$_SESSION['uzivatel']. "'>" .$_SESSION['uzivatel']. "</a></li>
-						<li><a href='?logout'> Odhlásit se</a>"?></li>
+						<li>
+							<? if(isset($_SESSION['uzivatel'])){?> 
+							<a href='profil.php?login=<?$_SESSION["uzivatel"]?>' ><?echo $_SESSION['uzivatel']?></a>
+						</li>
+						<li>
+							<a href='?jmeno=<?echo $_GET["jmeno"]?>&logout'> Odhlásit se</a>
+						</li>
+						<? } ?>
 					</ul>
 				</div>
 			</div>
@@ -102,7 +108,13 @@
 
 		<h2>Alba</h2>
 		<table class='table table-hover table-condensed'>
-			<thead><tr><th>Název</th><th>Rok vydání</th><th>Žánr</th></tr></thead>
+			<thead>
+				<tr>
+					<th>Název</th>
+					<th>Rok vydání</th>
+					<th>Žánr</th>
+				</tr>
+			</thead>
 			<?php
 				$sql = "SELECT * FROM album WHERE autor='".$majitel."' ORDER BY rok_vydani DESC";
 				$result = $conn->query($sql);
@@ -115,15 +127,20 @@
 					<td><?echo $row["rok_vydani"]?></td>
 					<td><?echo $row["zanr"]?></td>
 				</tr>
-				<?}?>
-				<?}?>
+				<?} }?>
 			</tbody>
 		</table>
 		<br><br>
 
 		<h2>Vystoupení</h2>
 		<table class='table table-hover table-condensed'>
-			<thead><tr><th>Událost</th><th>Od</th><th>Do</th></tr></thead>
+			<thead>
+				<tr>
+					<th>Událost</th>
+					<th>Od</th>
+					<th>Do</th>
+				</tr>
+			</thead>
 			<?php
 				$sql = "SELECT * FROM interpret_udalost WHERE interpret='".$majitel."' ORDER BY 'od'";
 				$result = $conn->query($sql);
@@ -132,7 +149,7 @@
 			<tbody>
 				<?while($row = $result->fetch_assoc()) {?>
 				<tr>
-					<td><?echo $row["udalost"]?></td>
+					<td><a href='udalost.php?u=<?echo $row["udalost"]?>'><?echo $row["udalost"]?></a></td>
 					<td><?echo $row["od"]?></td>
 					<td><?echo $row["do"]?></td>
 				</tr>
