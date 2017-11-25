@@ -51,11 +51,9 @@
 			</div>
 		</nav>
 		
-		<h1><span>INTERPRETI</span>
 		<? if (isset($_SESSION['admin'])) { ?>
 		<a href="novyInterpret.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</a>
 		<? } ?>
-		</h1>
 		<?php 
 		if (isset($_SESSION['uzivatel'])){
 			$sql = "SELECT * FROM oblibenec WHERE login='" .$_SESSION['uzivatel']. "'";
@@ -64,34 +62,73 @@
 			while($fRow = $favResult->fetch_assoc()){
 			  array_push($favorites, $fRow['interpret']);
 			}
-		}
+		}?>
 
-		$sql = "SELECT jmeno FROM interpret";
-		$result = $conn->query($sql);
-		if ($result->num_rows > 0) { ?>
-			<table class='table table-hover'>
-				<thead>
-					<tr>
-						<? if (isset($_SESSION['uzivatel'])){?>
-						<th class="fit"></th>
-						<? } ?>
-						<th>Jméno</th>
-					</tr>
-				</thead>
-				<tbody>
-					<? while($row = $result->fetch_assoc()) { ?>
-					<tr>
-						<? if (isset($_SESSION['uzivatel'])){ ?>
-						<? if (in_array($row['jmeno'], $favorites)) {?>
-						<td class="fit"><form action="interpreti.php" method="post"><button type="submit" class="btn btn-link" name="unsetFavorite" value="<?echo $row["jmeno"]?>" ><span class='glyphicon glyphicon-star star'></span></button></form></td>
-						<? } else { ?>
-						<td class="fit"><form action="interpreti.php" method="post"><button type="submit" class="btn btn-link" name="setFavorite" value="<?echo $row['jmeno']?>" ><span class='glyphicon glyphicon-star-empty star-empty'></span></button></form></td>
-						<? } }?>
-						<td><a class="btn btn-link" href='kapela.php?jmeno=<?echo $row["jmeno"]?>'> <?echo $row["jmeno"]?> </a></td>
-					</tr>
-					<? } ?>
-				</tbody>
-			</table>
-		<? } ?>
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#kapely">Seznam kapel</a></li>
+				<li><a data-toggle="tab" href="#hudebnici">Seznam hudebníků</a></li>
+			</ul>
+
+			<div class="tab-content">
+				<div id="kapely" class="tab-pane fade in active">
+				<?
+				$sql = "SELECT jmeno FROM interpret ORDER BY jmeno";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) { ?>
+					<table class='table table-hover'>
+						<thead>
+							<tr>
+								<? if (isset($_SESSION['uzivatel'])){?>
+								<th></th>
+								<? } ?>
+								<th>Jméno</th>
+							</tr>
+						</thead>
+						<tbody>
+							<? while($row = $result->fetch_assoc()) { ?>
+							<tr>
+								<? if (isset($_SESSION['uzivatel'])){ ?>
+								<? if (in_array($row['jmeno'], $favorites)) {?>
+								<td class="fit"><form action="interpreti.php" method="post"><button type="submit" class="btn btn-link" name="unsetFavorite" value="<?echo $row["jmeno"]?>" ><span class='glyphicon glyphicon-star star'></span></button></form></td>
+								<? } else { ?>
+								<td class="fit"><form action="interpreti.php" method="post"><button type="submit" class="btn btn-link" name="setFavorite" value="<?echo $row['jmeno']?>" ><span class='glyphicon glyphicon-star-empty star-empty'></span></button></form></td>
+								<? } }?>
+								<td><a class="btn btn-link" href='kapela.php?jmeno=<?echo $row["jmeno"]?>'> <?echo $row["jmeno"]?> </a></td>
+							</tr>
+							<? } ?>
+						</tbody>
+					</table>
+				<? } ?>
+				</div>
+				<div id="hudebnici" class="tab-pane fade">
+					<?
+					$sql = "SELECT * FROM umelec ORDER BY jmeno";
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) { ?>
+						<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Jméno</th>
+									<th>Datum narození</th>
+									<th>Datum úmrtí</th>
+									<th>Kapela</th>
+								</tr>
+							</thead>
+							<tbody>
+								<? while($row = $result->fetch_assoc()) { ?>
+								<tr>
+									<td class="fit"><?echo $row['jmeno']?></td>
+									<td class="fit"><?echo $row['dat_narozeni']?></td>
+									<td class="fit"><?echo $row['dat_umrti']?></td>
+									<td><a class="btn btn-link" href='kapela.php?jmeno=<?echo $row["jm_interpreta"]?>'> <?echo $row["jm_interpreta"]?> </a></td>
+								</tr>
+								<?}?>
+							<?}?>
+							</tbody>
+						</table>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
