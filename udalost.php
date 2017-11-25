@@ -48,6 +48,11 @@
 		</nav>
 
 		<?php
+			/*if(isset($_POST['addStage'])){
+				$sql = "INSERT INTO stage VALUES ('" .$_POST['']. "','" .$_POST['capacity']. "','" .$_POST['']."','" .$_POST['area']. "')";
+				$conn->query($sql);
+			}*/
+
 			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
@@ -60,8 +65,8 @@
 			$row2 = $result->fetch_assoc();
 
 			$names_array = array();
-		?>
 
+		?>
 
 		<div class='container'>
 			<div class='row'>
@@ -72,7 +77,9 @@
 					<p>Celkem kapel: <?echo $no_interpret?></p>
 					<p>Celkem stage: <?echo $no_stages?></p>
 					<br>
+
 					<div class="container">
+						
 						<ul class="nav nav-tabs">
 							<?
 							for($i = 0; $i < $no_stages; $i++) {
@@ -84,7 +91,10 @@
 								else{?>
 									<li><a data-toggle="tab" href="#<?echo $i?>"><?echo $row_stages['stage']?></a></li>
 								<?}
-							}?>
+							}
+							if (isset($_SESSION['admin'])){ ?>
+								<li><a href="#novaStage" data-toggle="tab" class="btn btn-link"><span class='glyphicon glyphicon-plus text-success'></span></a></li>
+							<? } ?>
 						</ul>
 						<div class="tab-content">
 							<?
@@ -127,8 +137,27 @@
 									</table>
 									<?}?>
 								</div>
-							<?}?>
-
+							<?}
+							if (isset($_SESSION['admin'])){ ?>
+								<div id="novaStage" class="tab-pane fade">
+									<form method="post">
+										<div class="form-group row">
+											<br>
+											<label class="control-label col-sm-2" for="capacity">Kapacita:</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" id="capacity" name="capacity">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="control-label col-sm-2" for="area">Plocha:</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" id="area" name="area">
+											</div>
+										</div>
+										<button class="btn btn-default" type="submit" name="addStage"><span class='glyphicon glyphicon-plus text-success'></span> Přidat</button>
+									</form>
+								</div>
+							<? } ?>
 						</div>
 					</div>
 					<br>
@@ -154,6 +183,7 @@
 					?>
 					<br><br><br>
 					
+
 					<?php if (!isset($_POST['edit'])) { ?>
 					
 					

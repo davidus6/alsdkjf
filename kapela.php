@@ -66,6 +66,16 @@
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			$majitel = $row['jmeno'];
+
+			if (isset($_POST["removeAlbum"])){
+				$sql = "DELETE FROM album WHERE nazev = '" .$_POST["removeAlbum"]. "'";
+				$conn->query($sql);
+			}
+
+			if (isset($_POST["addAlbum"])){
+				$sql = "INSERT INTO album VALUES ('" .$_POST["addNazevAlba"]. "','" .$_POST["addRVAlba"]. "','" .$_POST["addZanrAlba"]. "','" .$majitel. "')";
+				$conn->query($sql);
+			}
 		?>
 
 		<div class='container'>
@@ -174,6 +184,7 @@
 								<th>Název</th>
 								<th>Rok vydání</th>
 								<th>Žánr</th>
+								<?if (isset($_SESSION['admin'])){ echo "<th></th>"; } ?>
 							</tr>
 						</thead>
 						<?php
@@ -187,8 +198,21 @@
 								<td><?echo $row["nazev"]?></td>
 								<td><?echo $row["rok_vydani"]?></td>
 								<td><?echo $row["zanr"]?></td>
+								<?if (isset($_SESSION['admin'])){?>
+								<td><form method="post"><button class="form-control" type="submit" name="removeAlbum" title= "Odstranit" value="<?echo $row["nazev"]?>"><span class='glyphicon glyphicon-remove text-danger'></span></button></form></td>
+								<? } ?>
 							</tr>
-							<?} }?>
+							<? } }
+							if (isset($_SESSION['admin'])){?>
+							<tr>
+								<form action="" method="post">
+									<td><input class="form-control" type="text" name="addNazevAlba"/></td>
+									<td><input class="form-control" type="text" name="addRVAlba"/></td>
+									<td><input class="form-control" type="text" name="addZanrAlba"/></td>
+									<td><button class="form-control" type="submit" name="addAlbum" title="Přidat"><span class='glyphicon glyphicon-plus text-success'></span></button></td>
+								</form>
+							</tr>
+							<? } ?>
 						</tbody>
 					</table>
 				</div>

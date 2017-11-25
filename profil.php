@@ -66,6 +66,8 @@
 		if (isset($_POST['deactivate'])){
 			$sql = "DELETE FROM vstupenka WHERE login='" .$_POST['deactivate'] ."'";
 			$conn->query($sql);
+			$sql = "DELETE FROM oblibenec WHERE login='" .$_POST['deactivate'] ."'";
+			$conn->query($sql);
 			$sql = "DELETE FROM uzivatel WHERE login ='" . $_POST['deactivate'] . "'";
 			$conn->query($sql);
 			if ($_POST['deactivate'] == $_SESSION['uzivatel']){
