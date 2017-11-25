@@ -9,3 +9,5 @@ ošetřit aby do uzivatele.php mohl jen admin
 ze vstupenky na událost u=
 
 do login přidat za cenu Kč
+
+potřebujeme triggery nebo něco aby kontrolovali kapacity a podobný píčoviny
