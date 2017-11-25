@@ -108,7 +108,7 @@ ALTER TABLE album ADD CONSTRAINT PK_album PRIMARY KEY(nazev, rok_vydani);
 ALTER TABLE interpret ADD CONSTRAINT PK_interpret PRIMARY KEY(jmeno);
 ALTER TABLE umelec ADD CONSTRAINT PK_umelec PRIMARY KEY(jmeno, dat_narozeni);
 ALTER TABLE stage ADD CONSTRAINT PK_stage PRIMARY KEY(nazev);
-ALTER TABLE stage_udalost ADD CONSTRAINT PK_stage_udalost PRIMARY KEY(stage);
+ALTER TABLE stage_udalost ADD CONSTRAINT PK_stage_udalost PRIMARY KEY(udalost, dat_zac, stage);
 ALTER TABLE interpret_stage ADD CONSTRAINT PK_interpret_stage PRIMARY KEY(interpret);
 ALTER TABLE interpret_udalost ADD CONSTRAINT PK_interpret_udalost PRIMARY KEY(interpret);
 ALTER TABLE oblibenec ADD CONSTRAINT PK_oblibenec PRIMARY KEY(login, interpret);
@@ -172,7 +172,7 @@ INSERT INTO umelec
 VALUES('Cobain Kurt', '1967-02-20', '1994-05-05', NULL);
 
 INSERT INTO album 
-VALUES('JEDEEM', 2011, 'pop', 'Proti Proudu');
+VALUES('JEDEEM', 2014, 'punk', 'Proti Proudu');
 
 INSERT INTO album 
 VALUES('Master of Puppets', 1986, 'thrash metal', 'Metallica');
@@ -190,10 +190,37 @@ INSERT INTO album
 VALUES('Reload', 1997, 'hard rock', 'Metallica');
 
 INSERT INTO udalost
-VALUES('nakej festak', '1999-01-01', '1999-01-02', 'Vrbice', 'punk', 'festival', NULL, 1, 20);
+VALUES('Fesťák', '2018-03-02', '2018-03-03', 'Vrbice', 'punk', 'festival', NULL, 1, 20);
 
 INSERT INTO udalost
 VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23, 2100);
+
+INSERT INTO stage 
+VALUES('Stage Martina Bednáře', 100, 1, 250);
+
+INSERT INTO stage 
+VALUES('Cool Stage', 7500, 3, 35000);
+
+INSERT INTO stage 
+VALUES('Very Cool Stage', 15000, 8, 70000);
+
+INSERT INTO stage_udalost
+VALUES('Fesťák', '2018-03-02', 'Stage Martina Bednáře');
+
+INSERT INTO stage_udalost 
+VALUES('Brutal Assault Festival', '2018-08-08', 'Cool Stage');
+
+INSERT INTO stage_udalost 
+VALUES('Brutal Assault Festival', '2018-08-08', 'Very Cool Stage');
+
+INSERT INTO interpret_udalost
+VALUES('Metallica', 'Brutal Assault Festival', '2018-08-08', 'headliner', '2018-08-08', '2018-08-10');
+
+INSERT INTO interpret_udalost
+VALUES('Proti Proudu', 'Fesťák', '2018-03-02', 'headliner', '2018-03-02', '2018-03-03');
+
+INSERT INTO interpret_stage
+VALUES('Metallica', 'Very Cool Stage', 'headliner', '2018-08-08', '2018-08-10');
 
 INSERT INTO uzivatel
 VALUES('Admin', 'admin', 'God', 'Heavens', 'god@mail.com', '777 777 777', 'admin');
@@ -208,10 +235,7 @@ INSERT INTO uzivatel
 VALUES('q', 'q', 'q', 'q', 'q@mail.com', '', 'admin');
 
 INSERT INTO vstupenka
-(cena, login, typ, udalost, dat_zac) VALUES(500, 'Admin', 'festival', 'nakej festak', '1999-01-01');
+(cena, login, typ, udalost, dat_zac) VALUES(500, 'Admin', 'festival', 'Fesťák', '2018-03-02');
 
 INSERT INTO oblibenec
 VALUES ('Admin', 'Metallica');
-
-INSERT INTO interpret_udalost
-VALUES('Metallica', 'Brutal Assault Festival', '2018-08-08', 'headliner', '2018-08-08', '2018-08-10');
