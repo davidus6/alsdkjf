@@ -7,3 +7,5 @@ ošetřit aby do uzivatele.php mohl jen admin
 -a taky upravování/vytváření událostí, interpretů
 
 ze vstupenky na událost u=
+
+do login přidat za cenu Kč
