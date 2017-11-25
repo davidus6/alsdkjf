@@ -39,10 +39,20 @@
 				}
 			}
 
+			if(isset($_POST['setFavorite'])){
+				$sql = "INSERT INTO oblibenec VALUES ('" .$_SESSION['uzivatel']. "','" .$_POST['setFavorite']. "')";
+				$conn->query($sql);
+			}
+
+			if(isset($_POST['unsetFavorite'])){
+				$sql = "DELETE FROM oblibenec WHERE login = '" .$_SESSION['uzivatel']. "' AND interpret = '" .$_POST['unsetFavorite']. "'";
+				$conn->query($sql);
+			}
+
 			$registerFail = FALSE;
 			if ($loginFail == "true"){
 				$loginForm = '<div class="container">
-							<form action='.$_SERVER["PHP_SELF"].' class="form-horizontal" method="post">
+							<form action="" class="form-horizontal" method="post">
 								<div class="form-group row">
 									<label class="col-sm-2" for="username">Login:</label>
 								</div>
@@ -73,7 +83,7 @@
 						</div>';
 			} else {
 				$loginForm = '<div class="container">
-							<form action='.$_SERVER["PHP_SELF"].' class="form-horizontal" method="post">
+							<form action="" class="form-horizontal" method="post">
 								<div class="form-group row">
 									<label class="col-sm-2" for="username">Login:</label>
 								</div>

@@ -81,6 +81,7 @@
 				VALUES ('".$_POST["username"]."','".$_POST["pwd"]."','".$_POST["name"]."','".$_POST["email"]."','".$_POST["phone"]."')";
 
 				if ($conn->query($sql) === TRUE) {
+					echo "Registrace proběhla úspěšně.";
 				} else {
 					echo "Error: " . $sql . "<br>" . $conn->error;
 				}

@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>IIS proj</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="style.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
@@ -56,22 +57,41 @@
 		<? } ?>
 		</h1>
 		<?php 
+		if (isset($_SESSION['uzivatel'])){
+			$sql = "SELECT * FROM oblibenec WHERE login='" .$_SESSION['uzivatel']. "'";
+			$favResult = $conn->query($sql);
+			$favorites = array();
+			while($fRow = $favResult->fetch_assoc()){
+			  array_push($favorites, $fRow['interpret']);
+			}
+		}
+
 		$sql = "SELECT jmeno FROM interpret";
 		$result = $conn->query($sql);
-		if ($result->num_rows > 0) {
-		// output data of each row
-			echo "<table class='table table-hover'>";
-			echo "<thead><tr><th>Jmeno</th></tr></thead>";
-			echo "<tbody>";
-			while($row = $result->fetch_assoc()) {
-				echo "<tr>";
-				echo "<td><a href = 'kapela.php?jmeno=" .$row["jmeno"]. "'>" .$row["jmeno"]. "</a></td>";
-				echo "<td>neco dalsiho</td>";
-				echo "</tr>";
-			}
-			echo "</tbody>";
-			echo "</table>";
-		}
-		?>
+		if ($result->num_rows > 0) { ?>
+			<table class='table table-hover'>
+				<thead>
+					<tr>
+						<? if (isset($_SESSION['uzivatel'])){?>
+						<th class="fit"></th>
+						<? } ?>
+						<th>Jméno</th>
+					</tr>
+				</thead>
+				<tbody>
+					<? while($row = $result->fetch_assoc()) { ?>
+					<tr>
+						<? if (isset($_SESSION['uzivatel'])){ ?>
+						<? if (in_array($row['jmeno'], $favorites)) {?>
+						<td class="fit"><form action="interpreti.php" method="post"><button type="submit" class="btn btn-link" name="unsetFavorite" value="<?echo $row["jmeno"]?>" ><span class='glyphicon glyphicon-star star'></span></button></form></td>
+						<? } else { ?>
+						<td class="fit"><form action="interpreti.php" method="post"><button type="submit" class="btn btn-link" name="setFavorite" value="<?echo $row['jmeno']?>" ><span class='glyphicon glyphicon-star-empty star-empty'></span></button></form></td>
+						<? } }?>
+						<td><a class="btn btn-link" href='kapela.php?jmeno=<?echo $row["jmeno"]?>'> <?echo $row["jmeno"]?> </a></td>
+					</tr>
+					<? } ?>
+				</tbody>
+			</table>
+		<? } ?>
 	</body>
 </html>

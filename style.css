@@ -13,3 +13,19 @@ p.article {
 h3, h4 {
 	display:inline;
 }
+
+.star {
+	color:#ffd700;
+	text-color:#ffd700;
+}
+
+.star-empty {
+	color:black;
+	text-color:black;
+}
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}

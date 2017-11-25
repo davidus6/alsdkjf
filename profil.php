@@ -63,12 +63,16 @@
 
 		}
 
-		if (isset($_POST['remove'])){
-			$sql = "DELETE FROM vstupenka WHERE login='" .$_POST['remove'] ."'";
+		if (isset($_POST['deactivate'])){
+			$sql = "DELETE FROM vstupenka WHERE login='" .$_POST['deactivate'] ."'";
 			$conn->query($sql);
-			$sql = "DELETE FROM uzivatel WHERE login ='" . $_POST['remove'] . "'";
+			$sql = "DELETE FROM uzivatel WHERE login ='" . $_POST['deactivate'] . "'";
 			$conn->query($sql);
-			header("Location: index.php?logout");
+			if ($_POST['deactivate'] == $_SESSION['uzivatel']){
+				header("Location: index.php?logout");
+			} else {
+				header("Location: uzivatele.php");
+			}
 		}
 
 
@@ -113,7 +117,7 @@
 						<?php if (!isset($_POST['edit'])) { ?>
 						
 						<form action='' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil text-warning"></span> Upravit profil</button>
-						<form action='' method='post'><button type='submit' name='remove' value=<?php echo $row["login"];?> class='btn btn-default'><span class='glyphicon glyphicon-off text-danger'></span> Deaktivovat účet</button>
+						<form action='' method='post'><button type='submit' name='deactivate' value=<?php echo $row["login"];?> class='btn btn-default'><span class='glyphicon glyphicon-off text-danger'></span> Deaktivovat účet</button>
 						
 						<? } else { ?>
 						

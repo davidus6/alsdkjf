@@ -79,9 +79,9 @@
 						<td> <?echo $row["prava"] ?></td>
 						<td></td>
 						<td>
-							<form action='profil.php?login=<?echo $row["login"]?>' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil text-warning"></span> Upravit</button></td>
+							<form action='profil.php?login=<?echo $row["login"]?>' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil text-warning"></span> Upravit</button></td></form>
 						<td>
-							<form action='' method='post'><button type='submit' name='remove' value=<?echo $row["login"]?> class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Odstranit</button></form>
+							<form action='uzivatele.php' method='post'><button type='submit' name='remove' value=<?echo $row["login"]?> class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Odstranit</button></form>
 						</td>
 						<td></td>
 						<td></td>
