@@ -130,44 +130,58 @@
 				</div>
 			</div>
 
-		<h2>Zakoupené vstupenky</h2>
-		<table class='table table-hover'>
-			<thead><tr><th>Událost</th><th>Cena</th><th>Datum</th></tr></thead>
-			<?php
-				$sql = "SELECT * FROM vstupenka WHERE login='".$majitel."'";
-				$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
-			?>
-			<tbody>
-				<?while($row = $result->fetch_assoc()) {?>
-				<tr>
-					<td><a href = "udalost.php?u=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
-					<td><?echo $row["cena"]?></td>
-					<td><?echo $row["dat_zac"]?></td>
-				</tr>
-				<?}?>
-				<?}?>
-			</tbody>
-		</table>
-		
+			<div class="container">
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#vstupenky">Zakoupené vstupenky</a></li>
+					<li><a data-toggle="tab" href="#oblibene">Oblíbené</a></li>
+				</ul>
 
-
-		<h2>Oblíbené</h2>
-		<table class='table table-hover'>
-			<thead><tr><th>Název</th></tr></thead>
-			<?php
-				$sql = "SELECT * FROM oblibenec WHERE login='".$majitel."'";
-				$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
-			?>
-			<tbody>
-				<?while($row = $result->fetch_assoc()) {?>
-				<tr>
-					<td><a href = "kapela.php?jmeno=<?echo $row['interpret']?>" > <?echo $row["interpret"]?> </a></td>
-				</tr>
-				<?}?>
-				<?}?>
-			</tbody>
-		</table>
+				<div class="tab-content">
+					<div id="vstupenky" class="tab-pane fade in active">
+						<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Událost</th>
+									<th>Cena</th>
+									<th>Datum</th>
+								</tr>
+							</thead>
+							<?php
+								$sql = "SELECT * FROM vstupenka WHERE login='".$majitel."'";
+								$result = $conn->query($sql);
+								if ($result->num_rows > 0) {
+							?>
+							<tbody>
+								<?while($row = $result->fetch_assoc()) {?>
+								<tr>
+									<td><a href = "udalost.php?u=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
+									<td><?echo $row["cena"]?> Kč</td>
+									<td><?echo $row["dat_zac"]?></td>
+								</tr>
+								<?}?>
+								<?}?>
+							</tbody>
+						</table>
+					</div>
+					<div id="oblibene" class="tab-pane fade">
+						<table class='table table-hover'>
+							<thead><tr><th>Název</th></tr></thead>
+							<?php
+								$sql = "SELECT * FROM oblibenec WHERE login='".$majitel."'";
+								$result = $conn->query($sql);
+								if ($result->num_rows > 0) {
+							?>
+							<tbody>
+								<?while($row = $result->fetch_assoc()) {?>
+								<tr>
+									<td><a href = "kapela.php?jmeno=<?echo $row['interpret']?>" > <?echo $row["interpret"]?> </a></td>
+								</tr>
+								<?}?>
+								<?}?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 	</body>
 </html>
