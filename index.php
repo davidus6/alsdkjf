@@ -23,7 +23,7 @@
 			$('#myModal').on('show.bs.modal', function(e) {
 				var id = $(e.relatedTarget).data('id');
 				document.cookie = "udalost="+id;
-							});
+			});
 		});
 		</script>
 		<style>
@@ -108,10 +108,10 @@
 					<?php
 						if (isset($_POST['buy'])){
 							if(isset($_SESSION['uzivatel'])){
-								$sql = "SELECT * FROM udalost WHERE nazev='".$_POST['buy']."'";
+								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."'";
 								if ($result = $conn->query($sql)){
 									$row = $result->fetch_assoc();
-									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_POST['buy']."', '".$row['dat_zac']."')";
+									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
 									if ($conn->query($sql) != false){
 										echo "Vstupenka zakoupena.";
 									}
@@ -174,7 +174,7 @@
 							<p>Opravdu si přejete vstupenku zakoupit?</p>
 						</div>
 						<div class="modal-footer">
-							<form action='' method='post'><button type='submit' name='buy' value='<?echo $_COOKIE["udalost"]?>' class='btn btn-default pull-left'>Koupit</button></form>
+							<form action='' method='post'><button type='submit' name='buy' value='true' class='btn btn-default pull-left'>Koupit</button></form>
 							<button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
 						</div>
 					</div>

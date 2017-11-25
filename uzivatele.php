@@ -14,8 +14,13 @@
 		<?php include 'database.php'; ?>
 		<script>
 		$(document).ready(function(){
-			$('[data-toggle="popover"]').popover(); 
-			});
+			$('[data-toggle="popover"]').popover();
+
+			$('#removeUserModal').on('show.bs.modal', function(e) {
+				var id = $(e.relatedTarget).data('id');
+				document.cookie = "uzivatel="+id;
+			}); 
+		});
 		</script>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -49,14 +54,17 @@
 		<?php 
 		if (isset($_SESSION['admin'])){
 			if (isset($_POST['remove'])){
-				$sql = "DELETE FROM vstupenka WHERE login ='" . $_POST['remove'] . "'";
+				$sql = "DELETE FROM vstupenka WHERE login ='" . $_COOKIE['uzivatel'] . "'";
 				$conn->query($sql);
 
-				$sql = "DELETE FROM uzivatel WHERE login ='" . $_POST['remove'] . "'";
+				$sql = "DELETE FROM oblibenec WHERE login ='" . $_COOKIE['uzivatel'] . "'";
+				$conn->query($sql);
+
+				$sql = "DELETE FROM uzivatel WHERE login ='" . $_COOKIE['uzivatel']. "'";
 				if ($conn->query($sql) != false)
 					echo "Uživatel úspěšně smazán";
 				else{
-					echo "Chyba databáze při mazání uživatele " .$_POST['remove'];
+					echo "Chyba databáze při mazání uživatele " .$_COOKIE['uzivatel'];
 				}
 			}
 			$sql = "SELECT * FROM uzivatel ORDER BY login";
@@ -81,7 +89,7 @@
 						<td>
 							<form action='profil.php?login=<?echo $row["login"]?>' method='post'><button type='submit' name='edit' value='true' class='btn btn-default'><span class="glyphicon glyphicon-pencil text-warning"></span> Upravit</button></td></form>
 						<td>
-							<form action='uzivatele.php' method='post'><button type='submit' name='remove' value=<?echo $row["login"]?> class='btn btn-default'><span class='glyphicon glyphicon-remove text-danger'></span> Odstranit</button></form>
+							<button type="button" class="btn btn-default" data-id="<?echo $row['login']?>" data-toggle="modal" data-target="#removeUserModal"><span class="glyphicon glyphicon-remove text-danger"></span> Odstranit</button>
 						</td>
 						<td></td>
 						<td></td>
@@ -91,3 +99,24 @@
 					</tbody>
 				</table>
 			<? } } else { echo "K zobrazeni stránky nemáte dostatečná oprávnění"; }?>
+
+		<div id="removeUserModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-sm">
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Potvrzení odstranění</h4>
+					</div>
+					<div class="modal-body">
+						<p>Opravdu si přejete odstranit tohoto uživatele?</p>
+					</div>
+					<div class="modal-footer">
+						<form action='' method='post'><button type='submit' name='remove' value='true' class='btn btn-default pull-left'>Odstranit</button></form>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
