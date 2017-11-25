@@ -109,8 +109,8 @@ ALTER TABLE interpret ADD CONSTRAINT PK_interpret PRIMARY KEY(jmeno);
 ALTER TABLE umelec ADD CONSTRAINT PK_umelec PRIMARY KEY(jmeno, dat_narozeni);
 ALTER TABLE stage ADD CONSTRAINT PK_stage PRIMARY KEY(nazev);
 ALTER TABLE stage_udalost ADD CONSTRAINT PK_stage_udalost PRIMARY KEY(udalost, dat_zac, stage);
-ALTER TABLE interpret_stage ADD CONSTRAINT PK_interpret_stage PRIMARY KEY(interpret);
-ALTER TABLE interpret_udalost ADD CONSTRAINT PK_interpret_udalost PRIMARY KEY(interpret);
+ALTER TABLE interpret_stage ADD CONSTRAINT PK_interpret_stage PRIMARY KEY(interpret, stage);
+ALTER TABLE interpret_udalost ADD CONSTRAINT PK_interpret_udalost PRIMARY KEY(interpret, udalost, dat_zac);
 ALTER TABLE oblibenec ADD CONSTRAINT PK_oblibenec PRIMARY KEY(login, interpret);
 
 ALTER TABLE oblibenec ADD CONSTRAINT FK_obl_zak FOREIGN KEY(login)
@@ -151,13 +151,34 @@ INSERT INTO interpret
 VALUES('Proti Proudu', 'punk', '2010-06-05', NULL, NULL);
 
 INSERT INTO interpret
+VALUES('Metal Bros', 'metal', '2015-06-06', NULL, NULL);
+
+INSERT INTO interpret
+VALUES('Dovahkin', 'metal', '2011-11-11', NULL, 'Bethesda');
+
+INSERT INTO interpret
 VALUES('Metallica', 'metal', '1981-02-02', NULL, 'Megaforce');
 
 INSERT INTO interpret
 VALUES('Dead Band', 'rock', '1985-09-12', '2000-06-25', 'Megaforce');
 
 INSERT INTO umelec
+VALUES('Adam Šiška', '1996-09-12', NULL, 'Metal Bros');
+
+INSERT INTO umelec
+VALUES('Michael Šiška', '1998-03-31', NULL, 'Metal Bros');
+
+INSERT INTO umelec
+VALUES('Lydia Carl', '1990-03-12', NULL, 'Dovahkin');
+
+INSERT INTO umelec
+VALUES('Alduin Smith', '2000-12-24', NULL, 'Dovahkin');
+
+INSERT INTO umelec
 VALUES('Kamil Horký', '1996-04-04', NULL, 'Proti Proudu');
+
+INSERT INTO umelec
+VALUES('Kryštof Vegan', '1995-07-01', NULL, 'Proti Proudu');
 
 INSERT INTO umelec
 VALUES('James Hetfield', '1963-08-03', NULL, 'Metallica');
@@ -166,10 +187,13 @@ INSERT INTO umelec
 VALUES('Lars Ulrich', '1963-12-26', NULL, 'Metallica');
 
 INSERT INTO umelec
-VALUES('Kryštof Vegan', '1995-07-01', NULL, 'Proti Proudu');
-
-INSERT INTO umelec
 VALUES('Cobain Kurt', '1967-02-20', '1994-05-05', NULL);
+
+INSERT INTO album 
+VALUES('Bádoš', 2016, 'metal', 'Metal Bros');
+
+INSERT INTO album 
+VALUES('Kňourek', 2017, 'metal', 'Metal Bros');
 
 INSERT INTO album 
 VALUES('JEDEEM', 2014, 'punk', 'Proti Proudu');
@@ -214,13 +238,37 @@ INSERT INTO stage_udalost
 VALUES('Brutal Assault Festival', '2018-08-08', 'Very Cool Stage');
 
 INSERT INTO interpret_udalost
-VALUES('Metallica', 'Brutal Assault Festival', '2018-08-08', 'headliner', '2018-08-08', '2018-08-10');
+VALUES('Metallica', 'Brutal Assault Festival', '2018-08-08', NULL, '2018-08-08', '2018-08-11');
 
 INSERT INTO interpret_udalost
-VALUES('Proti Proudu', 'Fesťák', '2018-03-02', 'headliner', '2018-03-02', '2018-03-03');
+VALUES('Metal Bros', 'Brutal Assault Festival', '2018-08-08', NULL, '2018-08-08', '2018-08-11');
+
+INSERT INTO interpret_udalost
+VALUES('Proti Proudu', 'Brutal Assault Festival', '2018-08-08', NULL, '2018-08-08', '2018-08-11');
+
+INSERT INTO interpret_udalost
+VALUES('Proti Proudu', 'Fesťák', '2018-03-02', NULL, '2018-03-02', '2018-03-03');
+
+INSERT INTO interpret_udalost
+VALUES('Metal Bros', 'Fesťák', '2018-03-02', 'headliner', '2018-03-02', '2018-03-03');
 
 INSERT INTO interpret_stage
-VALUES('Metallica', 'Very Cool Stage', 'headliner', '2018-08-08', '2018-08-10');
+VALUES('Proti Proudu', 'Stage Martina Bednáře', NULL, '2018-03-02', '2018-03-03');
+
+INSERT INTO interpret_stage
+VALUES('Metal Bros', 'Stage Martina Bednáře', 'headliner', '2018-03-02', '2018-03-03');
+
+INSERT INTO interpret_stage
+VALUES('Metallica', 'Very Cool Stage', 'headliner', '2018-08-08', '2018-08-11');
+
+INSERT INTO interpret_stage
+VALUES('Metal Bros', 'Very Cool Stage', NULL, '2018-08-08', '2018-08-09');
+
+INSERT INTO interpret_stage
+VALUES('Metal Bros', 'Cool Stage', NULL, '2018-08-09', '2018-08-11');
+
+INSERT INTO interpret_stage
+VALUES('Proti Proudu', 'Cool Stage', 'headliner', '2018-08-08', '2018-08-11');
 
 INSERT INTO uzivatel
 VALUES('Admin', 'admin', 'God', 'Heavens', 'god@mail.com', '777 777 777', 'admin');

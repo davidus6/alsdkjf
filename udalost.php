@@ -117,7 +117,7 @@
 										<tbody>
 											<? while($ints_of_stage = $result->fetch_assoc()) { ?>
 												<tr>
-													<td> <?echo $ints_of_stage['interpret']?> </td>
+													<td> <?echo "<a href = 'kapela.php?jmeno=" .$ints_of_stage['interpret']. "'>" .$ints_of_stage['interpret']. "</a>"; ?> </td>
 													<td> <?echo $ints_of_stage['jako']?> </td>
 													<td> <?echo $ints_of_stage['od']?> </td>
 													<td> <?echo $ints_of_stage['do']?> </td>
