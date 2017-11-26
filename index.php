@@ -23,6 +23,8 @@
 			$('#myModal').on('show.bs.modal', function(e) {
 				var id = $(e.relatedTarget).data('id');
 				document.cookie = "udalost="+id;
+				var date = $(e.relatedTarget).data('date');
+				document.cookie = "datum="+date;
 			});
 		});
 		</script>
@@ -108,7 +110,7 @@
 					<?php
 						if (isset($_POST['buy'])){
 							if(isset($_SESSION['uzivatel'])){
-								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."'";
+								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."' AND dat_zac='".$_COOKIE['datum']."'";
 								if ($result = $conn->query($sql)){
 									$row = $result->fetch_assoc();
 									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena_zaklad']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
@@ -129,6 +131,7 @@
 						}
 						$sql = "SELECT * FROM udalost ORDER BY dat_zac";
 						$result = $conn->query($sql);
+						$udalosti = array();
 						if ($result->num_rows > 0) { ?>
 							<table class='table table-hover'>
 								<thead>
@@ -144,6 +147,7 @@
 
 								<? $limit = 5;
 								 while($row = $result->fetch_assoc()) {
+									$udalosti[$row["nazev"]] = $row;
 									if($limit == 0)
 										break;
 									if ($row["dat_zac"] < date("Y-m-d"))
@@ -153,7 +157,7 @@
 									<td><?echo $row["dat_zac"]?></td>
 									<td><?echo $row["misto_konani"]?></td>
 									<td><?echo $row["cena_zaklad"]?></td>
-									<td><button type="button" class="btn btn-default" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#myModal">Koupit lístek</button></td>
+									<td><button type="button" class="btn btn-default" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#myModal">Koupit lístek</button></td>
 								
 									</tr>
 									<? $limit--; } ?>
@@ -171,7 +175,12 @@
 							<h4 class="modal-title">Potvrzení nákupu</h4>
 						</div>
 						<div class="modal-body">
-							<p>Opravdu si přejete vstupenku zakoupit?</p>
+							Typ vstupenky:
+							<label class="radio-inline"><input type="radio" name="type" value="zaklad">Základní</label>
+							<label class="radio-inline"><input type="radio" name="type" value="vip">VIP</label>
+							<br><br>Počet vstupenek:
+							<input class="col-xs-1 form-control" type="number" name="pocet" value="1">
+							<label name="cena"></label>
 						</div>
 						<div class="modal-footer">
 							<form action='' method='post'><button type='submit' name='buy' value='true' class='btn btn-default pull-left'>Koupit</button></form>
