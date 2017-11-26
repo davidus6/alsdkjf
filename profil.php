@@ -145,6 +145,7 @@
 								<tr>
 									<th>Událost</th>
 									<th>Cena</th>
+									<th>Typ</th>
 									<th>Datum</th>
 								</tr>
 							</thead>
@@ -158,6 +159,7 @@
 								<tr>
 									<td><a href = "udalost.php?u=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
 									<td><?echo $row["cena"]?> Kč</td>
+									<td><?echo $row["typ"]?> Kč</td>
 									<td><?echo $row["dat_zac"]?></td>
 								</tr>
 								<?}?>
