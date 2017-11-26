@@ -2,14 +2,10 @@ Povinná pole formulářů musí být odlišena od nepovinných. Při odeslání
 
 DODĚLAT VŠECHNO CO JE V USE-CASE
 
-co uděláme se vstupenkou - typ sezení, stání...
+opravit tlačítko na přidávání událostí - změněny ceny
 
 KONCERT - ukázka + upravit zobrazování oproti festivalu
 
 ošetřit aby do uzivatele.php mohl jen admin - stejně tak jednotlivé profily(aspoň upravování)
-
--a taky upravování/vytváření událostí, interpretů
-
-ze vstupenky na událost u=
 
 potřebujeme triggery nebo něco aby kontrolovali kapacity a podobný píčoviny
