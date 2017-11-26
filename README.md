@@ -4,7 +4,7 @@ DODĚLAT VŠECHNO CO JE V USE-CASE
 
 opravit tlačítko na přidávání událostí - změněny ceny
 
-KONCERT - ukázka + upravit zobrazování oproti festivalu
+VYHLEDÁVÁNÍ PODLE KRITÉRIÍ
 
 ošetřit aby do uzivatele.php mohl jen admin - stejně tak jednotlivé profily(aspoň upravování)
 
