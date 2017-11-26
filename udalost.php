@@ -177,19 +177,11 @@
 							<h3>Datum: </h3><h4><?echo " od ".$row["dat_zac"]." do ".$row["dat_kon"]?></h4>
 							<br><br>
 							<h3>Cena: </h3><h4><?echo $row['cena']?> Kč</h4>
-						<?} else {
-
-						}
-					?>
-					<br><br><br>
+							<br><br><br>
+						<?} else { ?>
+							
+						<? } ?>
 					
-
-					<?php if (!isset($_POST['edit'])) { ?>
-					
-					
-					<? } else { ?>
-					
-					<? } ?>
 				</div>
 			</div>
 		</div>

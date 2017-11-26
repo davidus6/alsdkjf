@@ -62,6 +62,21 @@
 		</nav>
 
 		<?php 
+
+			if (isset($_POST['confirm'])){
+				$sql = "UPDATE interpret SET zanr='" .$_POST["zanr"]. "' WHERE jmeno = '".$_POST["confirm"]."'";
+				$conn->query($sql);
+				$sql = "UPDATE interpret SET dat_vzniku='" .$_POST["dat_from"]. "' WHERE jmeno = '".$_POST["confirm"]."'";
+				$conn->query($sql);
+				if ($_POST["dat_to"] != ''){
+					$sql = "UPDATE interpret SET dat_rozpusteni='" .$_POST["dat_to"]. "' WHERE jmeno = '".$_POST["confirm"]."'";
+					echo $sql;
+					$conn->query($sql);
+				}
+				$sql = "UPDATE interpret SET label='" .$_POST["label"]. "' WHERE jmeno = '".$_POST["confirm"]."'";
+				$conn->query($sql);
+			}
+
 			$sql = "SELECT * FROM interpret WHERE jmeno = '".$_GET["jmeno"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
@@ -76,6 +91,16 @@
 				$sql = "INSERT INTO album VALUES ('" .$_POST["addNazevAlba"]. "','" .$_POST["addRVAlba"]. "','" .$_POST["addZanrAlba"]. "','" .$majitel. "')";
 				$conn->query($sql);
 			}
+
+			if (isset($_POST['removeClena'])){
+				$sql = "DELETE FROM umelec WHERE jmeno = '" .$_POST["removeClena"]. "'";
+				$conn->query($sql);
+			}
+
+			if (isset($_POST['addClena'])){
+				$sql = "INSERT INTO umelec VALUES ('" .$_POST["jmenoClena"]. "','" .$_POST["datNarClena"]. "','" .$_POST["datUmClena"]. "','" .$majitel. "')";
+				$conn->query($sql);
+			}
 		?>
 
 		<div class='container'>
@@ -86,31 +111,26 @@
 					<br>
 				</div>
 				<div class='col-12 col-md-6'>
-					<?if(!isset($_POST['edit'])){
-						echo "<h1>" .$row["jmeno"]. "</h1>";
-					}
-					?>
+					<h1> <?echo $row["jmeno"]?> </h1>
 					<br>
 
-					<?if (!isset($_POST['edit'])){?>
-							<h3>Žánr: </h3><h4><?echo $row["zanr"]?></h4>
-							<br><br>
-							<h3>Datum vzniku: </h3><h4><?echo $row["dat_vzniku"]?></h4>
-							<br><br>
-							<h3>Datum rozpuštění: </h3><h4><?echo $row["dat_rozpusteni"]?></h4>
-							<br><br>
-							<h3>Label: </h3><h4><?echo $row["label"]?></h4>
-						<?} else {
-
-						}
-					?>
-					<br><br><br>
-					
-					<?php if (!isset($_POST['edit'])) { ?>
-					
-					
-					<? } else { ?>
-					
+					<?if (!isset($_SESSION['admin'])){?>
+						<h3>Žánr: </h3><h4><?echo $row["zanr"]?></h4>
+						<br><br>
+						<h3>Datum vzniku: </h3><h4><?echo $row["dat_vzniku"]?></h4>
+						<br><br>
+						<h3>Datum rozpuštění: </h3><h4><?echo $row["dat_rozpusteni"]?></h4>
+						<br><br>
+						<h3>Label: </h3><h4><?echo $row["label"]?></h4>
+						<br><br><br>
+					<?} else { ?>
+						<form action='' class='form-horizontal' method='post'>
+							<h3>Žánr: </h3><input type='text' class='form-control' name='zanr' value='<?echo $row["zanr"]?>' required>
+							<h3>Datum vzniku: </h3><input type='text' class='form-control' name='dat_from' value='<?echo $row["dat_vzniku"]?>'>
+							<h3>Datum rozpuštění: </h3><input type='text' class='form-control' name='dat_to' value='<?echo $row["dat_rozpusteni"]?>'>
+							<h3>Label: </h3><input type='texxt' class='form-control' name='label' value='<?echo $row["label"]?>'>
+							<button type='submit' name='confirm' value='<?php echo $row["jmeno"]?>' class='btn btn-default'><span class='glyphicon glyphicon-ok text-success'></span> Potvrdit změny</button>
+						</form>
 					<? } ?>
 				</div>
 			</div>
@@ -158,6 +178,7 @@
 								<th>Jméno</th>
 								<th>Datum narození</th>
 								<th>Datum úmrtí</th>
+								<?if (isset($_SESSION['admin'])){ echo "<th></th>"; } ?>
 							</tr>
 						</thead>
 						<?php
@@ -171,8 +192,21 @@
 								<td><?echo $row["jmeno"]?></td>
 								<td><?echo $row["dat_narozeni"]?></td>
 								<td><?echo $row["dat_umrti"]?></td>
+								<?if (isset($_SESSION['admin'])){?>
+								<td><form method="post"><button class="form-control" type="submit" name="removeClena" title= "Odstranit" value="<?echo $row["jmeno"]?>"><span class='glyphicon glyphicon-remove text-danger'></span></button></form></td>
+								<? } ?>
 							</tr>
-							<?}?>
+							<? } 
+							if (isset($_SESSION['admin'])){?>
+							<tr>
+								<form action="" method="post">
+									<td><input class="form-control" type="text" name="jmenoClena"/></td>
+									<td><input class="form-control" type="text" name="datNarClena"/></td>
+									<td><input class="form-control" type="text" name="datUmClena"/></td>
+									<td><button class="form-control" type="submit" name="addClena" title="Přidat"><span class='glyphicon glyphicon-plus text-success'></span></button></td>
+								</form>
+							</tr>
+							<? } ?>
 						<?}?>
 						</tbody>
 					</table>
@@ -216,7 +250,7 @@
 						</tbody>
 					</table>
 				</div>
-		  </div>
+			</div>
 		</div>
 	</body>
 </html>

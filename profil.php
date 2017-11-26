@@ -105,7 +105,7 @@
 								<h3>Město: </h3>	<h4><?echo $row["mesto"]?></h4>
 							<? } else { ?>
 								<form action='' class='form-horizontal' method='post'>
-								<h3>Jmeno: </h3><input type='text' class='form-control' name='name' value='<?echo $row["jmeno"]?>' required>
+								<h3>Jméno: </h3><input type='text' class='form-control' name='name' value='<?echo $row["jmeno"]?>' required>
 								<h3>Email: </h3><input type='email' class='form-control' name='email' value='<?echo $row["email"]?>' required>
 								<h3>Telefon: </h3><input type='text' class='form-control' name='phone' value='<?echo $row["tel_cislo"]?>' pattern='^\d{3} \d{3} \d{3}$' placeholder='formát: XXX XXX XXX'>
 								<h3>Město: </h3><input type='text' class='form-control' name='city' value='<?echo $row["mesto"]?>'>
