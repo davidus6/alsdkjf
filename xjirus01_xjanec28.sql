@@ -22,7 +22,8 @@ CREATE TABLE udalost (
   typ VARCHAR (10),
   kapacita INTEGER,
   rocnik INTEGER,
-  cena INTEGER
+  cena_zaklad INTEGER,
+  cena_vip INTEGER
   );
   
 CREATE TABLE uzivatel (
@@ -53,7 +54,7 @@ CREATE TABLE umelec (
 CREATE TABLE vstupenka (
   cislo_vstup INTEGER NOT NULL AUTO_INCREMENT, 
   cena INTEGER,
-  login CHAR(11) NOT NULL, 
+  login CHAR(30) NOT NULL, 
   typ VARCHAR(10) NOT NULL,
   udalost VARCHAR(50),
   dat_zac DATE,
@@ -83,7 +84,7 @@ CREATE TABLE stage_udalost (
 CREATE TABLE interpret_stage (
   interpret VARCHAR(50),
   stage VARCHAR(30),
-  jako VARCHAR(10),
+  jako VARCHAR(20),
   od DATE, 
   do DATE 
 );
@@ -92,13 +93,13 @@ CREATE TABLE interpret_udalost (
   interpret VARCHAR(50),
   udalost VARCHAR(50),
   dat_zac DATE,
-  jako VARCHAR(10),
+  jako VARCHAR(20),
   od DATE,
   do DATE 
 );
 
 CREATE TABLE oblibenec (
-  login CHAR(11),
+  login CHAR(30),
   interpret VARCHAR(50)
 );
 
@@ -187,7 +188,7 @@ INSERT INTO umelec
 VALUES('Lars Ulrich', '1963-12-26', NULL, 'Metallica');
 
 INSERT INTO umelec
-VALUES('Cobain Kurt', '1967-02-20', '1994-05-05', NULL);
+VALUES('Kurt Cobain', '1967-02-20', '1994-05-05', NULL);
 
 INSERT INTO album 
 VALUES('Bádoš', 2016, 'metal', 'Metal Bros');
@@ -214,10 +215,13 @@ INSERT INTO album
 VALUES('Reload', 1997, 'hard rock', 'Metallica');
 
 INSERT INTO udalost
-VALUES('Fesťák', '2018-03-02', '2018-03-03', 'Vrbice', 'punk', 'festival', NULL, 1, 20);
+VALUES('Fesťák', '2018-03-02', '2018-03-03', 'Vrbice', 'punk', 'festival', NULL, 1, 20, 50);
 
 INSERT INTO udalost
-VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23, 2100);
+VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23, 2100, 5200);
+
+INSERT INTO udalost
+VALUES('U Marka', '2018-09-02', '2018-09-02', 'Houkdovice', 'alternative rock', 'koncert', 250, NULL, 100, 300);
 
 INSERT INTO stage 
 VALUES('Stage Martina Bednáře', 100, 1, 250);
@@ -252,6 +256,15 @@ VALUES('Proti Proudu', 'Fesťák', '2018-03-02', NULL, '2018-03-02', '2018-03-03
 INSERT INTO interpret_udalost
 VALUES('Metal Bros', 'Fesťák', '2018-03-02', 'headliner', '2018-03-02', '2018-03-03');
 
+INSERT INTO interpret_udalost
+VALUES('Proti Proudu', 'U Marka', '2018-09-02', 'hlavní kapela', '2018-09-02', '2018-09-02');
+
+INSERT INTO interpret_udalost
+VALUES('Dovahkin', 'U Marka', '2018-09-02', 'předkapela', '2018-09-02', '2018-09-02');
+
+INSERT INTO interpret_udalost
+VALUES('Metal Bros', 'U Marka', '2018-09-02', 'předkapela', '2018-09-02', '2018-09-02');
+
 INSERT INTO interpret_stage
 VALUES('Proti Proudu', 'Stage Martina Bednáře', NULL, '2018-03-02', '2018-03-03');
 
@@ -277,13 +290,16 @@ INSERT INTO uzivatel
 VALUES('a', 'a', 'a', 'a', 'a@mail.com', '', 'user');
 
 INSERT INTO uzivatel
+VALUES('User', 'user', 'User', 'Brno', 'user@mail.com', '', 'user');
+
+INSERT INTO uzivatel
 VALUES('b', 'b', 'b', 'b', 'b@mail.com', '', 'user');
 
 INSERT INTO uzivatel
 VALUES('q', 'q', 'q', 'q', 'q@mail.com', '', 'admin');
 
 INSERT INTO vstupenka
-(cena, login, typ, udalost, dat_zac) VALUES(500, 'Admin', 'festival', 'Fesťák', '2018-03-02');
+(cena, login, typ, udalost, dat_zac) VALUES(500, 'Admin', 'základní', 'Fesťák', '2018-03-02');
 
 INSERT INTO oblibenec
 VALUES ('Admin', 'Metallica');
