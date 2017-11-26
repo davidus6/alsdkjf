@@ -54,40 +54,84 @@
 			</div>
 		</nav>
 
-		<h1><span>UDÁLOSTI</span>
-		<? if (isset($_SESSION['admin'])) { ?>
-		<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
-		<? } ?>
-		</h1>
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#festivaly">Festivaly</a></li>
+				<li><a data-toggle="tab" href="#koncerty">Koncerty</a></li>
+			</ul>
 
-		<?php 
-		$sql = "SELECT * FROM udalost ORDER BY dat_zac";
-		$result = $conn->query($sql);
-		if ($result->num_rows > 0) { ?>
-			<table class='table table-hover'>
-				<thead>
-					<tr>
-						<th>Jméno</th>
-						<th>Ročník</th>
-						<th>Žánr</th>
-						<th>Datum začátku</th>
-						<th>Datum konce</th>
-						<th>Místo konání</th>
-					</tr>
-				</thead>
-				<tbody>
-				<? while($row = $result->fetch_assoc()) { ?>
-					<tr>
-					<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
-					<td> <?echo $row["rocnik"]?> </td>
-					<td> <?echo $row["zanr"]?> </td>
-					<td> <?echo $row["dat_zac"]?> </td>
-					<td> <?echo $row["dat_kon"]?> </td>
-					<td> <?echo $row["misto_konani"]?> </td>
-					</tr>
-				<? } ?>
-				</tbody>
-			</table>
-		<? } ?>
+			<div class="tab-content">
+				<div id="festivaly" class="tab-pane fade in active">
+					<? if (isset($_SESSION['admin'])) { ?>
+					<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
+					<? } ?>
+					</h1>
+
+					<?php 
+					$sql = "SELECT * FROM udalost WHERE typ='festival' ORDER BY dat_zac";
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) { ?>
+						<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Jméno</th>
+									<th>Ročník</th>
+									<th>Žánr</th>
+									<th>Datum začátku</th>
+									<th>Datum konce</th>
+									<th>Místo konání</th>
+								</tr>
+							</thead>
+							<tbody>
+							<? while($row = $result->fetch_assoc()) { ?>
+								<tr>
+								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
+								<td> <?echo $row["rocnik"]?> </td>
+								<td> <?echo $row["zanr"]?> </td>
+								<td> <?echo $row["dat_zac"]?> </td>
+								<td> <?echo $row["dat_kon"]?> </td>
+								<td> <?echo $row["misto_konani"]?> </td>
+								</tr>
+							<? } ?>
+							</tbody>
+						</table>
+					<? } ?>
+				</div>
+				<div id="koncerty" class="tab-pane fade">
+					<? if (isset($_SESSION['admin'])) { ?>
+					<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
+					<? } ?>
+					</h1>
+
+					<?php 
+					$sql = "SELECT * FROM udalost WHERE typ='koncert' ORDER BY dat_zac";
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) { ?>
+						<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Jméno</th>
+									<th>Žánr</th>
+									<th>Datum</th>
+									<th>Kapacita</th>
+									<th>Místo konání</th>
+								</tr>
+							</thead>
+							<tbody>
+							<? while($row = $result->fetch_assoc()) { ?>
+								<tr>
+								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
+								<td> <?echo $row["zanr"]?> </td>
+								<td> <?echo $row["dat_zac"]?> </td>
+								<td> <?echo $row["kapacita"]?> </td>
+								<td> <?echo $row["misto_konani"]?> </td>
+								</tr>
+							<? } ?>
+							</tbody>
+						</table>
+					<? } ?>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
