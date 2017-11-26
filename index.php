@@ -111,7 +111,7 @@
 								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."'";
 								if ($result = $conn->query($sql)){
 									$row = $result->fetch_assoc();
-									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
+									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena_zaklad']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
 									if ($conn->query($sql) != false){
 										echo "Vstupenka zakoupena.";
 									}
@@ -152,7 +152,7 @@
 									<td><span style='font-weight:bold'> <?echo $row["nazev"]?> </span></td>
 									<td><?echo $row["dat_zac"]?></td>
 									<td><?echo $row["misto_konani"]?></td>
-									<td><?echo $row["cena"]?></td>
+									<td><?echo $row["cena_zaklad"]?></td>
 									<td><button type="button" class="btn btn-default" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#myModal">Koupit lístek</button></td>
 								
 									</tr>
