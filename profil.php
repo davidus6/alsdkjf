@@ -155,12 +155,15 @@
 								if ($result->num_rows > 0) {
 							?>
 							<tbody>
-								<?while($row = $result->fetch_assoc()) {?>
+								<?while($row = $result->fetch_assoc()) {
+									$source = $row["dat_zac"];
+									$date = new DateTime($source);
+								?>
 								<tr>
 									<td><a href = "udalost.php?u=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
 									<td><?echo $row["cena"]?> Kč</td>
 									<td><?echo $row["typ"]?></td>
-									<td><?echo $row["dat_zac"]?></td>
+									<td><?echo $date->format('d.m.Y')?></td>
 								</tr>
 								<?}?>
 								<?}?>

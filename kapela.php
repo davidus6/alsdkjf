@@ -114,10 +114,14 @@
 					<h1> <?echo $row["jmeno"]?> </h1>
 					<br>
 
-					<?if (!isset($_SESSION['admin'])){?>
+					<?if (!isset($_SESSION['admin'])){
+						$sourceVznik = $row["dat_vzniku"];
+						$dateVznik = new DateTime($sourceVznik);
+
+					?>
 						<h3>Žánr: </h3><h4><?echo $row["zanr"]?></h4>
 						<br><br>
-						<h3>Datum vzniku: </h3><h4><?echo $row["dat_vzniku"]?></h4>
+						<h3>Datum vzniku: </h3><h4><?echo $dateVznik->format('d.m.Y')?></h4>
 						<br><br>
 						<h3>Datum rozpuštění: </h3><h4><?echo $row["dat_rozpusteni"]?></h4>
 						<br><br>
@@ -160,11 +164,16 @@
 							if ($result->num_rows > 0) {
 						?>
 						<tbody>
-							<?while($row = $result->fetch_assoc()) {?>
+							<?while($row = $result->fetch_assoc()) {
+								$sourceOd = $row["od"];
+								$dateOd = new DateTime($sourceOd);
+								$sourceDo = $row["do"];
+								$dateDo = new DateTime($sourceDo);
+							?>
 							<tr>
 								<td><a href='udalost.php?u=<?echo $row["udalost"]?>'><?echo $row["udalost"]?></a></td>
-								<td><?echo $row["od"]?></td>
-								<td><?echo $row["do"]?></td>
+								<td><?echo $dateOd->format('d.m.Y')?></td>
+								<td><?echo $dateDo->format('d.m.Y')?></td>
 							</tr>
 							<?}?>
 						<?}?>
@@ -187,10 +196,13 @@
 							if ($result->num_rows > 0) {
 						?>
 						<tbody>
-							<?while($row = $result->fetch_assoc()) {?>
+							<?while($row = $result->fetch_assoc()) {
+								$sourceNar = $row["dat_narozeni"];
+								$dateNar = new DateTime($sourceNar);
+							?>
 							<tr>
 								<td><?echo $row["jmeno"]?></td>
-								<td><?echo $row["dat_narozeni"]?></td>
+								<td><?echo $dateNar->format('d.m.Y')?></td>
 								<td><?echo $row["dat_umrti"]?></td>
 								<?if (isset($_SESSION['admin'])){?>
 								<td><form method="post"><button class="form-control" type="submit" name="removeClena" title= "Odstranit" value="<?echo $row["jmeno"]?>"><span class='glyphicon glyphicon-remove text-danger'></span></button></form></td>

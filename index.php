@@ -25,7 +25,37 @@
 				document.cookie = "udalost="+id;
 				var date = $(e.relatedTarget).data('date');
 				document.cookie = "datum="+date;
+				$.ajax({
+					url:"udalostInfo.php",
+					type:"POST",
+					data: {id:id,date:date},
+					success:function processResponse(data) {
+						//console.log(data);
+						window.udalostInfo = data;
+						$('#celkCena').html("Celková cena: "+ data['cena_zaklad'] +" Kč");
+					},
+					dataType:"json"
+				})
 			});
+
+			$('input[type=radio][name=type]').change(function() {
+			 	if (this.value == "vip"){
+			 		var cena1 = $('#pocet').val() * parseInt(udalostInfo['cena_vip']);
+			 	} else {
+			 		var cena1 = $('#pocet').val() * parseInt(udalostInfo['cena_zaklad']);
+			 	}
+			 	$('#celkCena').html("Celková cena: " + cena1 + " Kč");
+			});
+
+			 $('input[name=pocet]').bind('keyup mouseup', function() {
+			 	if ($('#typ_vip').is(":checked")){
+			 		var cena = $('#pocet').val() * parseInt(udalostInfo['cena_vip']);
+			 	} else {
+			 		var cena = $('#pocet').val() * parseInt(udalostInfo['cena_zaklad']);
+			 	}
+			 	$('#celkCena').html("Celková cena: " + cena + " Kč");
+			 });
+
 		});
 		</script>
 		<style>
@@ -47,6 +77,7 @@
 						<li class="active"><a href="index.php">Domů</a></li>
 						<li><a href="udalosti.php">Události</a></li>
 						<li><a href="interpreti.php">Interpreti</a></li> 
+						<li><a href="vyhledavani.php">Vyhledávání</a></li>
 						<li><a href="uzivatele.php" class="<?php if (!isset($_SESSION['admin'])) echo hidden?>">Správa uživatelů</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right <?php if (isset($_SESSION['uzivatel'])) echo hidden?>">
@@ -154,7 +185,11 @@
 										continue; ?>
 									<tr>
 									<td><span style='font-weight:bold'> <?echo $row["nazev"]?> </span></td>
-									<td><?echo $row["dat_zac"]?></td>
+									<?
+										$source = $row["dat_zac"];
+										$date = new DateTime($source);
+									?>
+									<td><?echo $date->format('d.m.Y')?></td>
 									<td><?echo $row["misto_konani"]?></td>
 									<td><?echo $row["cena_zaklad"]?></td>
 									<td><button type="button" class="btn btn-default" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#myModal">Koupit lístek</button></td>
@@ -175,21 +210,22 @@
 							<h4 class="modal-title">Potvrzení nákupu</h4>
 						</div>
 						<div class="modal-body">
+							<form action='' method='post'>
 							Typ vstupenky:
-							<label class="radio-inline"><input type="radio" name="type" value="zaklad">Základní</label>
-							<label class="radio-inline"><input type="radio" name="type" value="vip">VIP</label>
+							<label class="radio-inline"><input type="radio" name="type" value="zaklad" checked>Základní</label>
+							<label class="radio-inline"><input type="radio" name="type" id="typ_vip" value="vip">VIP</label>
 							<br><br>Počet vstupenek:
-							<input class="col-xs-1 form-control" type="number" name="pocet" value="1">
-							<label name="cena"></label>
+							<input class="col-xs-1 form-control" type="number" min="0" name="pocet" id="pocet" value="1"><br>
+							<label name="cena" id="celkCena"></label>
 						</div>
 						<div class="modal-footer">
-							<form action='' method='post'><button type='submit' name='buy' value='true' class='btn btn-default pull-left'>Koupit</button></form>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+							<button type='submit' name='buy' value='true' class='btn btn-default pull-left'>Koupit</button></form>
+							<button type="reset" class="btn btn-default" data-dismiss="modal">Zavřít</button>
 						</div>
 					</div>
 
 					</div>
-				</div>		
+				</div>      
 			</div>
 		</div>
 	</body>

@@ -116,10 +116,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<? while($row = $result->fetch_assoc()) { ?>
+								<? while($row = $result->fetch_assoc()) { 
+									$sourceNar = $row["dat_narozeni"];
+									$dateNar = new DateTime($sourceNar);
+								?>
 								<tr>
 									<td class="fit"><?echo $row['jmeno']?></td>
-									<td class="fit"><?echo $row['dat_narozeni']?></td>
+									<td class="fit"><?echo $dateNar->format('d.m.Y')?></td>
 									<td class="fit"><?echo $row['dat_umrti']?></td>
 									<td><a class="btn btn-link" href='kapela.php?jmeno=<?echo $row["jm_interpreta"]?>'> <?echo $row["jm_interpreta"]?> </a></td>
 								</tr>

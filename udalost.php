@@ -84,11 +84,20 @@
 						<br><br>
 						<h3>Místo konání: </h3><h4><?echo $row["misto_konani"]?></h4>
 						<br><br>
-						<?if ($row['typ'] == 'festival'){?>
-							<h3>Datum: </h3><h4><?echo " od ".$row["dat_zac"]." do ".$row["dat_kon"]?></h4>
+						<?if ($row['typ'] == 'festival'){
+							$sourceOd = $row["dat_zac"];
+							$dateOd = new DateTime($sourceOd);
+							$sourceDo = $row["dat_kon"];
+							$dateDo = new DateTime($sourceDo);
+							//echo $date->format('d.m.Y');
+						?>
+							<h3>Datum: </h3><h4><?echo " od ".$dateOd->format('d.m.Y')." do ".$dateDo->format('d.m.Y')?></h4>
 						<?}
-						else{?>
-							<h3>Datum: </h3><h4><?echo $row["dat_zac"]?></h4>
+						else{
+							$sourceOd = $row["dat_zac"];
+							$dateOd = new DateTime($sourceOd);
+							?>
+							<h3>Datum: </h3><h4><?echo $dateOd->format('d.m.Y')?></h4>
 						<?}?>
 						<br><br>
 						<h3>Cena: </h3><h4><?echo $row['cena_zaklad']?> Kč, VIP <?echo $row['cena_vip']?> Kč</h4>
@@ -182,12 +191,17 @@
 							</tr>
 						</thead>
 						<tbody>
-							<? while($ints_of_stage = $result->fetch_assoc()) { ?>
+							<? while($ints_of_stage = $result->fetch_assoc()) { 
+								$sInterpretOd = $ints_of_stage['od'];
+								$sDateOd = new DateTime($sInterpretOd);
+								$sInterpretDo = $ints_of_stage['do'];
+								$sDateDo = new DateTime($sInterpretDo);
+							?>
 								<tr>
 									<td> <?echo "<a href = 'kapela.php?jmeno=" .$ints_of_stage['interpret']. "'>" .$ints_of_stage['interpret']. "</a>"; ?> </td>
 									<td> <?echo $ints_of_stage['jako']?> </td>
-									<td> <?echo $ints_of_stage['od']?> </td>
-									<td> <?echo $ints_of_stage['do']?> </td>
+									<td> <?echo $sDateOd->format('d.m.Y')?> </td>
+									<td> <?echo $sDateDo->format('d.m.Y')?> </td>
 								</tr>
 							<?}?>
 						</tbody>

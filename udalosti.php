@@ -83,13 +83,18 @@
 								</tr>
 							</thead>
 							<tbody>
-							<? while($row = $result->fetch_assoc()) { ?>
+							<? while($row = $result->fetch_assoc()) { 
+								$sourceOd = $row["dat_zac"];
+								$dateOd = new DateTime($sourceOd);
+								$sourceDo = $row["dat_kon"];
+								$dateDo = new DateTime($sourceDo);
+							?>
 								<tr>
 								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
 								<td> <?echo $row["rocnik"]?> </td>
 								<td> <?echo $row["zanr"]?> </td>
-								<td> <?echo $row["dat_zac"]?> </td>
-								<td> <?echo $row["dat_kon"]?> </td>
+								<td> <?echo $dateOd->format('d.m.Y')?> </td>
+								<td> <?echo $dateDo->format('d.m.Y')?> </td>
 								<td> <?echo $row["misto_konani"]?> </td>
 								</tr>
 							<? } ?>
@@ -118,11 +123,14 @@
 								</tr>
 							</thead>
 							<tbody>
-							<? while($row = $result->fetch_assoc()) { ?>
+							<? while($row = $result->fetch_assoc()) { 
+								$sourceDate = $row["dat_zac"];
+								$dateDate = new DateTime($sourceDate);
+							?>
 								<tr>
 								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
 								<td> <?echo $row["zanr"]?> </td>
-								<td> <?echo $row["dat_zac"]?> </td>
+								<td> <?echo $dateDate->format('d.m.Y')?> </td>
 								<td> <?echo $row["kapacita"]?> </td>
 								<td> <?echo $row["misto_konani"]?> </td>
 								</tr>

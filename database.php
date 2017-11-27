@@ -1,9 +1,4 @@
-<html>
-	<head>
-		<title>IIS projekt</title>
-	</head>
-	<body>
-		<?php	
+<?php	
 			header("Content-Type: text/html; charset=utf-8");
 			$servername = "localhost";
 			$username = "xjanec28";
@@ -109,5 +104,3 @@
 						</div>';
 			}
 		?> 
-	</body>
-</html>
