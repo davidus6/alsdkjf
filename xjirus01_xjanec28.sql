@@ -45,8 +45,8 @@ CREATE TABLE interpret (
 );
 
 CREATE TABLE umelec (
-  jmeno VARCHAR(50), 
-  dat_narozeni DATE, 
+  jmeno VARCHAR(50) NOT NULL,
+  dat_narozeni DATE NOT NULL, 
   dat_umrti DATE,
   jm_interpreta VARCHAR(50)
 );
@@ -187,9 +187,6 @@ VALUES('James Hetfield', '1963-08-03', NULL, 'Metallica');
 INSERT INTO umelec
 VALUES('Lars Ulrich', '1963-12-26', NULL, 'Metallica');
 
-INSERT INTO umelec
-VALUES('Kurt Cobain', '1967-02-20', '1994-05-05', NULL);
-
 INSERT INTO album 
 VALUES('Bádoš', 2016, 'metal', 'Metal Bros');
 
@@ -221,7 +218,10 @@ INSERT INTO udalost
 VALUES('Brutal Assault Festival', '2018-08-08', '2018-08-11', 'Jaroměř', 'metal', 'festival', NULL, 23, 2100, 5200);
 
 INSERT INTO udalost
-VALUES('U Marka', '2018-09-02', '2018-09-02', 'Houkdovice', 'alternative rock', 'koncert', 250, NULL, 100, 300);
+VALUES('U Marka', '2018-09-02', '2018-09-02', 'Houdkovice', 'alternative rock', 'koncert', 250, NULL, 100, 300);
+
+INSERT INTO udalost
+VALUES('Metal U Vody', '2018-05-02', '2018-05-02', 'Byzhradec', 'metal', 'koncert', 250, NULL, 10, 20);
 
 INSERT INTO stage 
 VALUES('Stage Martina Bednáře', 100, 1, 250);
@@ -258,6 +258,12 @@ VALUES('Metal Bros', 'Fesťák', '2018-03-02', 'headliner', '2018-03-02', '2018-
 
 INSERT INTO interpret_udalost
 VALUES('Proti Proudu', 'U Marka', '2018-09-02', 'hlavní kapela', '2018-09-02', '2018-09-02');
+
+INSERT INTO interpret_udalost
+VALUES('Proti Proudu', 'Metal U Vody', '2018-05-02', 'hlavní kapela', '2018-05-02', '2018-05-02');
+
+INSERT INTO interpret_udalost
+VALUES('Dovahkin', 'Metal U Vody', '2018-05-02', 'předkapela', '2018-05-02', '2018-05-02');
 
 INSERT INTO interpret_udalost
 VALUES('Dovahkin', 'U Marka', '2018-09-02', 'předkapela', '2018-09-02', '2018-09-02');
