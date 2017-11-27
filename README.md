@@ -11,3 +11,5 @@ ošetřit aby do uzivatele.php mohl jen admin - stejně tak jednotlivé profily(
 potřebujeme triggery nebo něco aby kontrolovali kapacity a podobný píčoviny
 
 Vkladani vstupenky VIP a vic najednou podle poctu
+
+vyhledavani pristupne ze vsech stran
