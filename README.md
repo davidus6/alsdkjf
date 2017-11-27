@@ -9,3 +9,5 @@ VYHLEDÁVÁNÍ PODLE KRITÉRIÍ
 ošetřit aby do uzivatele.php mohl jen admin - stejně tak jednotlivé profily(aspoň upravování)
 
 potřebujeme triggery nebo něco aby kontrolovali kapacity a podobný píčoviny
+
+Vkladani vstupenky VIP a vic najednou podle poctu
