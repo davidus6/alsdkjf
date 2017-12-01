@@ -144,8 +144,12 @@
 								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."' AND dat_zac='".$_COOKIE['datum']."'";
 								if ($result = $conn->query($sql)){
 									$row = $result->fetch_assoc();
-									$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$row['cena_zaklad']."', '".$_SESSION['uzivatel']."', '".$row['typ']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
-									if ($conn->query($sql) != false){
+									$cena = (($_POST['type']=='vip')?$row['cena_vip']:$row['cena_zaklad']);
+									for ($i = 0; $i<$_POST['pocet'];$i++){
+										$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$cena."', '".$_SESSION['uzivatel']."', '".$_POST['type']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
+										$r = $conn->query($sql);
+									}
+									if ($r != false){
 										echo "Vstupenka zakoupena.";
 									}
 									else{

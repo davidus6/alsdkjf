@@ -209,7 +209,7 @@
 								<td><form method="post"><button class="form-control" type="submit" name="removeClena" title= "Odstranit" value="<?echo $row["jmeno"]?>"><span class='glyphicon glyphicon-remove text-danger'></span></button></form></td>
 								<? } ?>
 							</tr>
-							<? } 
+							<? } } 
 							if (isset($_SESSION['admin'])){?>
 							<tr>
 								<form action="" method="post">
@@ -220,7 +220,6 @@
 								</form>
 							</tr>
 							<? } ?>
-						<?}?>
 						</tbody>
 					</table>
 				</div>

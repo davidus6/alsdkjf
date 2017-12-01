@@ -49,14 +49,45 @@
 		</nav>
 
 		<?php
-			/*if(isset($_POST['addStage'])){
-				$sql = "INSERT INTO stage VALUES ('" .$_POST['']. "','" .$_POST['capacity']. "','" .$_POST['']."','" .$_POST['area']. "')";
+
+			if(isset($_POST['confirm'])){
+				$sql = "UPDATE udalost SET zanr='" .$_POST['zanr']. "' WHERE nazev='" .$_POST['confirm']. "'";
 				$conn->query($sql);
-			}*/
+				$sql = "UPDATE udalost SET misto_konani='" .$_POST['place']. "' WHERE nazev='" .$_POST['confirm']. "'";
+				$conn->query($sql);
+				$sql = "UPDATE udalost SET cena_zaklad='" .$_POST['price_zak']. "' WHERE nazev='" .$_POST['confirm']. "'";
+				$conn->query($sql);
+				$sql = "UPDATE udalost SET cena_vip='" .$_POST['price_vip']. "' WHERE nazev='" .$_POST['confirm']. "'";
+				$conn->query($sql);
+				if ($_POST['type'] == 'festival'){
+					$sql = "UPDATE udalost SET dat_kon='" .$_POST['dat_to']. "' WHERE nazev='" .$_POST['confirm']. "'";
+					$conn->query($sql);
+				}
+			}
 
 			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
+
+			if(isset($_POST['addStage'])){
+				$sql = "INSERT INTO stage VALUES ('" .$_POST['name']. "','" .$_POST['capacity']. "','" .$_POST['capacityInts']."','" .$_POST['area']. "')";
+				$conn->query($sql);
+				$sql = "INSERT INTO stage_udalost VALUES ('" .$_GET['u']. "','" .$row['dat_zac']. "','" .$_POST['name']. "')";
+				$conn->query($sql);
+			}
+
+			if(isset($_POST['chooseStage'])){
+				$sql = "INSERT INTO stage_udalost VALUES ('" .$_GET['u']. "','" .$row['dat_zac']. "','" .$_POST['stage_nazev']. "')";
+				$conn->query($sql);
+			}
+
+			if(isset($_POST['addInterpet'])){
+				$sql = "INSERT INTO interpret_stage VALUES ('" .$_POST['chooseInterpret']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "')";
+				$conn->query($sql);
+				$sql = "INSERT INTO interpret_udalost VALUES ('" .$_POST['chooseInterpret']. "','" .$_GET['u']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "')";
+				$conn->query($sql);
+			}
+
 			$sql = "SELECT * FROM stage_udalost WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."'";
 			$result_stages = $conn->query($sql);
 			$no_stages = $result_stages->num_rows;
@@ -80,7 +111,7 @@
 						echo "<h1>" .$row["nazev"]. "</h1>";
 					}
 					?>
-					<?if (!isset($_POST['edit'])){?>
+					<?if (!isset($_SESSION['admin'])){?>
 						<h3>Žánr: </h3><h4><?echo $row["zanr"]?></h4>
 						<br><br>
 						<h3>Místo konání: </h3><h4><?echo $row["misto_konani"]?></h4>
@@ -103,8 +134,22 @@
 						<br><br>
 						<h3>Cena: </h3><h4><?echo $row['cena_zaklad']?> Kč, VIP <?echo $row['cena_vip']?> Kč</h4>
 						<br><br><br>
-					<?} else { ?>
-						
+					<?} else { 
+						$sourceOd = $row["dat_zac"];
+						$dateOd = new DateTime($sourceOd);
+					?>
+						<form action='' class='form-horizontal' method='post'>
+							<h3>Žánr: </h3><input type='text' class='form-control' name='zanr' value='<?echo $row["zanr"]?>' required>
+							<h3>Místo konání: </h3><input type='text' class='form-control' name='place' value='<?echo $row["misto_konani"]?>'>
+							<h3>Datum začátku: </h3><br><h4><?echo $dateOd->format('d.m.Y')?></h4><br>
+							<? if($row['typ'] == 'festival'){ ?>
+							<h3>Datum ukončení: </h3><input type='text' class='form-control' name='dat_to' value='<?echo $row["dat_kon"]?>'>
+							<? } ?>
+							<h3>Cena zaklad: </h3><input type='text' class='form-control' name='price_zak' value='<?echo $row["cena_zaklad"]?>'>
+							<h3>Cena VIP: </h3><input type='text' class='form-control' name='price_vip' value='<?echo $row["cena_vip"]?>'>
+							<input type='hidden' class='form-control' name='type' value='<?echo $row["typ"]?>'>
+							<button type='submit' name='confirm' value='<?php echo $row["nazev"]?>' class='btn btn-default'><span class='glyphicon glyphicon-ok text-success'></span> Potvrdit změny</button>
+						</form>
 					<? } ?>
 				</div>
 			</div>
@@ -141,8 +186,7 @@
 				</div>
 			</div>
 		</div>
-		<?}
-		else{?>
+		<?} else {?>
 		<div class="container">
 		<p>Celkem kapel: <?echo $no_interpret?></p>
 		<p>Celkem stage: <?echo $no_stages?></p>
@@ -162,79 +206,111 @@
 				<li><a href="#novaStage" data-toggle="tab" class="btn btn-link"><span class='glyphicon glyphicon-plus text-success'></span></a></li>
 			<? } ?>
 		</ul>
-		<div class="tab-content">
-			<?
-			for($i = 0; $i < $no_stages; $i++) {
-				$sql = "SELECT * FROM stage WHERE nazev='".$names_array[$i]."'";
-				$result = $conn->query($sql);
-				$stage_row = $result->fetch_assoc();
-				if($i == 0){?>
-					<div id="<?echo $i?>" class="tab-pane fade in active">
-				<?}
-				else{?>
-					<div id="<?echo $i?>" class="tab-pane fade">
-				<?}?>
-					<br>
-					<p>Kapacita: <?echo $stage_row['kapacita_mist']?></p>
-					<p>Plocha: <?echo $stage_row['plocha']?></p>
-					<?
-						$sql = "SELECT * FROM interpret_stage NATURAL JOIN stage_udalost WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."' AND stage='".$names_array[$i]."'";
-						$result = $conn->query($sql);
-						if ($result->num_rows > 0) {
-					?>
-					<table class='table table-hover'>
-						<thead>
-							<tr>
-								<th>Interpret</th>
-								<th>Jako</th>
-								<th>Od</th>
-								<th>Do</th>
-							</tr>
-						</thead>
-						<tbody>
-							<? while($ints_of_stage = $result->fetch_assoc()) { 
-								$sInterpretOd = $ints_of_stage['od'];
-								$sDateOd = new DateTime($sInterpretOd);
-								$sInterpretDo = $ints_of_stage['do'];
-								$sDateDo = new DateTime($sInterpretDo);
-							?>
-								<tr>
-									<td> <?echo "<a href = 'kapela.php?jmeno=" .$ints_of_stage['interpret']. "'>" .$ints_of_stage['interpret']. "</a>"; ?> </td>
-									<td> <?echo $ints_of_stage['jako']?> </td>
-									<td> <?echo $sDateOd->format('d.m.Y')?> </td>
-									<td> <?echo $sDateDo->format('d.m.Y')?> </td>
-								</tr>
-							<?}?>
-						</tbody>
-					</table>
+			<div class="tab-content">
+				<?
+				for($i = 0; $i < $no_stages; $i++) {
+					$sql = "SELECT * FROM stage WHERE nazev='".$names_array[$i]."'";
+					$result = $conn->query($sql);
+					$stage_row = $result->fetch_assoc();
+					if($i == 0){
+						echo '<div id="'.$i.'" class="tab-pane fade in active">'?>
+					<?}
+					else{?>
+						<div id="<?echo $i?>" class="tab-pane fade">
 					<?}?>
-				</div>
-			<?}?>
-		</div>
-	</div>
+						<br>
+						<p>Kapacita: <?echo $stage_row['kapacita_mist']?></p>
+						<p>Plocha: <?echo $stage_row['plocha']?></p>
+						<?
+							$sql = "SELECT * FROM interpret_stage NATURAL JOIN stage_udalost WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."' AND stage='".$names_array[$i]."'";
+							$result = $conn->query($sql);
+							if ($result->num_rows > 0) {
+						?>
+						<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Interpret</th>
+									<th>Jako</th>
+									<th>Od</th>
+									<th>Do</th>
+								</tr>
+							</thead>
+							<tbody>
+								<? while($ints_of_stage = $result->fetch_assoc()) { 
+									$sInterpretOd = $ints_of_stage['od'];
+									$sDateOd = new DateTime($sInterpretOd);
+									$sInterpretDo = $ints_of_stage['do'];
+									$sDateDo = new DateTime($sInterpretDo);
+								?>
+									<tr>
+										<td> <?echo "<a href = 'kapela.php?jmeno=" .$ints_of_stage['interpret']. "'>" .$ints_of_stage['interpret']. "</a>"; ?> </td>
+										<td> <?echo $ints_of_stage['jako']?> </td>
+										<td> <?echo $sDateOd->format('d.m.Y')?> </td>
+										<td> <?echo $sDateDo->format('d.m.Y')?> </td>
+									</tr>
+								<?}?>
+							</tbody>
+						</table>
+						<?}?>
+						</div>
+					<?}?>
 			<?if (isset($_SESSION['admin'])){ ?>
 				<div id="novaStage" class="tab-pane fade">
-					<form method="post">
-						<div class="form-group row">
-							<br>
-							<label class="control-label col-sm-2" for="capacity">Kapacita:</label>
-							<div class="col-sm-2">
-								<input type="text" class="form-control" id="capacity" name="capacity">
-							</div>
+					<div class="row">
+						<div class="col-sm-6 border-right">
+							<form method="post">
+								Založit novou stage:
+								<div class="form-group row">
+									<br>
+									<label class="control-label col-sm-2" for="name">Název:</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="name" name="name">
+									</div>
+								</div>
+								<div class="form-group row">
+									<br>
+									<label class="control-label col-sm-2" for="capacity">Kapacita diváků:</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="capacity" name="capacity">
+									</div>
+								</div>
+								<div class="form-group row">
+									<br>
+									<label class="control-label col-sm-2" for="capacityInts">Kapacita interpretů:</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="capacityInts" name="capacityInts">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-sm-2" for="area">Plocha:</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="area" name="area">
+									</div>
+								</div>
+								<button class="btn btn-default" type="submit" name="addStage"><span class='glyphicon glyphicon-plus text-success'></span> Přidat</button>
+							</form>
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-sm-2" for="area">Plocha:</label>
-							<div class="col-sm-2">
-								<input type="text" class="form-control" id="area" name="area">
-							</div>
+						<div class="col-sm-6">
+							Vybrat z již existujících stage:<br><br>
+							<select class="form-control" name="stage_nazev" form="choose">
+								<?
+								$sql = "SELECT nazev FROM stage";
+								$result = $conn->query($sql);
+								for($i = 0; $i < $result->num_rows; $i++){ 
+								$row = $result->fetch_assoc(); ?>
+								<option value="<?echo $row['nazev']?>"><?echo $row['nazev']?></option>
+								<? } ?>
+								
+							</select>
+							<form id="choose" method="post">
+								<button type="submit" class="btn btn-default" name="chooseStage" value="true">Vybrat</button>
+							</form>
 						</div>
-						<button class="btn btn-default" type="submit" name="addStage"><span class='glyphicon glyphicon-plus text-success'></span> Přidat</button>
-					</form>
+					</div>
 				</div>
 			<? } ?>
+			</div>
 		</div>
-		</div>
-		<br>
 		<?}?>
 	</body>
 </html>
