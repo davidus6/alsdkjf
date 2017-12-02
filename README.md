@@ -5,4 +5,6 @@ možnost EDITovat koncerty
 
 vstupenka zaklad ---> základní
 
+kde je implementovaný přihlašování, všude?
+
 UDĚLAT zasílání informací, tisknutí statistik
