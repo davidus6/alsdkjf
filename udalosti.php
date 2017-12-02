@@ -55,6 +55,9 @@
 			</div>
 		</nav>
 
+		<? if (isset($_SESSION['admin'])) { ?>
+			<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
+		<? } ?>
 		<div class="container">
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#festivaly">Festivaly</a></li>
@@ -63,11 +66,6 @@
 
 			<div class="tab-content">
 				<div id="festivaly" class="tab-pane fade in active">
-					<? if (isset($_SESSION['admin'])) { ?>
-					<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
-					<? } ?>
-					</h1>
-
 					<?php 
 					$sql = "SELECT * FROM udalost WHERE typ='festival' ORDER BY dat_zac";
 					$result = $conn->query($sql);
@@ -104,11 +102,6 @@
 					<? } ?>
 				</div>
 				<div id="koncerty" class="tab-pane fade">
-					<? if (isset($_SESSION['admin'])) { ?>
-					<a href="novaUdalost.php" class="btn btn-default pull-right"><span class='glyphicon glyphicon-plus text-success'></span> Přidat událost</a>
-					<? } ?>
-					</h1>
-
 					<?php 
 					$sql = "SELECT * FROM udalost WHERE typ='koncert' ORDER BY dat_zac";
 					$result = $conn->query($sql);

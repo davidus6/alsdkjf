@@ -16,7 +16,52 @@
 		<script>
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(); 
+		
+			$('#interpretModal').on('show.bs.modal', function(e) {
+				var id = $(e.relatedTarget).data('id');
+				document.cookie = "udalost="+id;
+				var date = $(e.relatedTarget).data('date');
+				document.cookie = "datum="+date;
+				var stage = $(e.relatedTarget).data('stage');
+				document.cookie = "stage="+stage;
 			});
+
+			$('#myModal').on('show.bs.modal', function(e) {
+				var id = $(e.relatedTarget).data('id');
+				document.cookie = "udalost="+id;
+				var date = $(e.relatedTarget).data('date');
+				document.cookie = "datum="+date;
+				$.ajax({
+					url:"udalostInfo.php",
+					type:"POST",
+					data: {id:id,date:date},
+					success:function processResponse(data) {
+						//console.log(data);
+						window.udalostInfo = data;
+						$('#celkCena').html("Celková cena: "+ data['cena_zaklad'] +" Kč");
+					},
+					dataType:"json"
+				})
+			});
+
+			$('input[type=radio][name=type]').change(function() {
+			 	if (this.value == "vip"){
+			 		var cena1 = $('#pocet').val() * parseInt(udalostInfo['cena_vip']);
+			 	} else {
+			 		var cena1 = $('#pocet').val() * parseInt(udalostInfo['cena_zaklad']);
+			 	}
+			 	$('#celkCena').html("Celková cena: " + cena1 + " Kč");
+			});
+
+			 $('input[name=pocet]').bind('keyup mouseup', function() {
+			 	if ($('#typ_vip').is(":checked")){
+			 		var cena = $('#pocet').val() * parseInt(udalostInfo['cena_vip']);
+			 	} else {
+			 		var cena = $('#pocet').val() * parseInt(udalostInfo['cena_zaklad']);
+			 	}
+			 	$('#celkCena').html("Celková cena: " + cena + " Kč");
+			 });
+		});
 		</script>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -49,6 +94,31 @@
 		</nav>
 
 		<?php
+			if (isset($_POST['buy'])){
+							if(isset($_SESSION['uzivatel'])){
+								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."' AND dat_zac='".$_COOKIE['datum']."'";
+								if ($result = $conn->query($sql)){
+									$row = $result->fetch_assoc();
+									$cena = (($_POST['type']=='vip')?$row['cena_vip']:$row['cena_zaklad']);
+									for ($i = 0; $i<$_POST['pocet'];$i++){
+										$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$cena."', '".$_SESSION['uzivatel']."', '".$_POST['type']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
+										$r = $conn->query($sql);
+									}
+									if ($r != false){
+										echo "Vstupenka zakoupena.";
+									}
+									else{
+										echo "Chyba1 databáze při nákupu vstupenky.";
+									}
+								}
+								else{
+									echo "Chyba2 databáze při nákupu vstupenky.";
+								}
+							}
+							else{
+								echo "Nákup je možný pouze pro přihlášené uživatele.";
+							}
+						}
 
 			if(isset($_POST['confirm'])){
 				$sql = "UPDATE udalost SET zanr='" .$_POST['zanr']. "' WHERE nazev='" .$_POST['confirm']. "'";
@@ -81,10 +151,11 @@
 				$conn->query($sql);
 			}
 
-			if(isset($_POST['addInterpet'])){
-				$sql = "INSERT INTO interpret_stage VALUES ('" .$_POST['chooseInterpret']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "')";
+			if(isset($_POST['addInterpret'])){
+				$jako = (isset($_POST['jako']))?$_POST['jako']:NULL;
+				$sql = "INSERT INTO interpret_stage VALUES ('" .$_POST['chooseInterpret']. "','" .$_COOKIE['stage']. "','" .$jako. "','" .$_POST['od']. "','" .$_POST['do']. "')";
 				$conn->query($sql);
-				$sql = "INSERT INTO interpret_udalost VALUES ('" .$_POST['chooseInterpret']. "','" .$_GET['u']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "','" .$_POST['']. "')";
+				$sql = "INSERT INTO interpret_udalost VALUES ('" .$_POST['chooseInterpret']. "','" .$_GET['u']. "','" .$_COOKIE['datum']. "','" .$jako. "','" .$_POST['od']. "','" .$_POST['do']. "')";
 				$conn->query($sql);
 			}
 
@@ -133,6 +204,8 @@
 						<?}?>
 						<br><br>
 						<h3>Cena: </h3><h4><?echo $row['cena_zaklad']?> Kč, VIP <?echo $row['cena_vip']?> Kč</h4>
+						<br><br>
+						<button type="button" class="btn btn-default" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#myModal">Koupit lístek</button>
 						<br><br><br>
 					<?} else { 
 						$sourceOd = $row["dat_zac"];
@@ -217,7 +290,11 @@
 					<?}
 					else{?>
 						<div id="<?echo $i?>" class="tab-pane fade">
-					<?}?>
+					<?
+					}
+					if (isset($_SESSION['admin'])){?>
+						<button type="button" class="btn btn-default pull-right" data-stage="<?echo $names_array[$i]?>" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#interpretModal"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</button>
+					<? } ?>
 						<br>
 						<p>Kapacita: <?echo $stage_row['kapacita_mist']?></p>
 						<p>Plocha: <?echo $stage_row['plocha']?></p>
@@ -312,5 +389,63 @@
 			</div>
 		</div>
 		<?}?>
+
+				<div id="interpretModal" class="modal fade" role="dialog">
+					<div class="modal-dialog modal-sm">
+
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							Přidat interpreta
+						</div>
+						<div class="modal-body">
+							<form action='' method='post' id="chooseInt">
+							<select class="form-control" form="chooseInt" name="chooseInterpret">
+								<?
+									$sql = "SELECT jmeno FROM interpret";
+									$result = $conn->query($sql);
+									while($row = $result->fetch_assoc()){
+								?>
+								<option value="<?echo $row['jmeno']?>"><?echo $row['jmeno']?></option>
+								<? } ?>
+							</select>
+							Od: <input type="text" class="form-control" name="od">
+							Do: <input type="text" class="form-control" name="do">
+							Headliner: <input type="checkbox" class="form-control" name="jako" value="headliner">
+						</div>
+						<div class="modal-footer">
+							<button type='submit' name='addInterpret' value='true' class='btn btn-default pull-left'>Přidat</button></form>
+							<button type="reset" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+						</div>
+					</div>
+
+					</div>
+				</div> 
+
+				<div id="myModal" class="modal fade" role="dialog">
+					<div class="modal-dialog modal-sm">
+
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Potvrzení nákupu</h4>
+						</div>
+						<div class="modal-body">
+							<form action='' method='post'>
+							Typ vstupenky:
+							<label class="radio-inline"><input type="radio" name="type" value="zaklad" checked>Základní</label>
+							<label class="radio-inline"><input type="radio" name="type" id="typ_vip" value="vip">VIP</label>
+							<br><br>Počet vstupenek:
+							<input class="col-xs-1 form-control" type="number" min="0" name="pocet" id="pocet" value="1"><br>
+							<label name="cena" id="celkCena"></label>
+						</div>
+						<div class="modal-footer">
+							<button type='submit' name='buy' value='true' class='btn btn-default pull-left'>Koupit</button></form>
+							<button type="reset" class="btn btn-default" data-dismiss="modal">Zavřít</button>
+						</div>
+					</div>
+
+					</div>
+				</div>
 	</body>
 </html>
