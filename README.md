@@ -11,4 +11,4 @@ kde je implementovaný přihlašování, všude?
 
 zjistit jaký verze php a mysql používáme
 
-UDĚLAT zasílání informací, tisknutí statistik
+UDĚLAT zasílání informací
