@@ -201,7 +201,7 @@
 									if ($row["dat_zac"] < date("Y-m-d"))
 										continue; ?>
 									<tr>
-									<td><span style='font-weight:bold'> <?echo $row["nazev"]?> </span></td>
+									<td><span style='font-weight:bold'> <?echo "<a href='udalost.php?u=" .$row["nazev"]. "&d=".$row['dat_zac']."'>".$row['nazev']."</a>"?> </span></td>
 									<?
 										$source = $row["dat_zac"];
 										$date = new DateTime($source);
