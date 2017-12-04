@@ -1,2 +1,1 @@
-UDĚLAT zasílání informací
- 
+done???
