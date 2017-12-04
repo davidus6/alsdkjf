@@ -89,7 +89,7 @@
 					//console.log("data= "+ data);
 					var html = '<table class="table table-hover"><thead><tr><th>Název</th></tr></thead><tbody>';
 					for (var i = 0; i < data.length; i++){
-						html += '<tr><td><a href="udalost.php?u=' + data[i] + '">' + data[i] + '</a></td></tr>';
+						html += '<tr><td><a href="udalost.php?u=' + data[i].nazev + '&d=' + data[i].dat_zac +  '">' + data[i].nazev + '</a></td></tr>';
 					}
 					html += '</tbody></table>';
 					$("#resultKoncert").html(html);
@@ -111,7 +111,7 @@
 					//console.log("data= "+ data);
 					var html = '<table class="table table-hover"><thead><tr><th>Název</th></tr></thead><tbody>';
 					for (var i = 0; i < data.length; i++){
-						html += '<tr><td><a href="udalost.php?u=' + data[i] + '">' + data[i] + '</a></td></tr>';
+						html += '<tr><td><a href="udalost.php?u=' + data[i].nazev + '&d=' + data[i].dat_zac + '">' + data[i].nazev + '</a></td></tr>';
 					}
 					html += '</tbody></table>';
 					$("#resultFestival").html(html);

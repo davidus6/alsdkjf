@@ -172,7 +172,7 @@
 								$dateDo = new DateTime($sourceDo);
 							?>
 							<tr>
-								<td><a href='udalost.php?u=<?echo $row["udalost"]?>'><?echo $row["udalost"]?></a></td>
+								<td><a href='udalost.php?u=<?echo $row["udalost"]?>&d=<?echo $row['dat_zac']?>'><?echo $row["udalost"]?></a></td>
 								<td><?echo $dateOd->format('d.m.Y')?></td>
 								<td><?echo $dateDo->format('d.m.Y')?></td>
 							</tr>

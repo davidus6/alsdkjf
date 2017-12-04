@@ -89,7 +89,7 @@
 								$dateDo = new DateTime($sourceDo);
 							?>
 								<tr>
-								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
+								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>&d=<?echo $row['dat_zac']?>'><?echo $row["nazev"]?></a></td>
 								<td> <?echo $row["rocnik"]?> </td>
 								<td> <?echo $row["zanr"]?> </td>
 								<td> <?echo $dateOd->format('d.m.Y')?> </td>
@@ -122,7 +122,7 @@
 								$dateDate = new DateTime($sourceDate);
 							?>
 								<tr>
-								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>'><?echo $row["nazev"]?></a></td>
+								<td> <a href='udalost.php?u=<?echo $row["nazev"]?>&d=<?echo $row['dat_zac']?>'><?echo $row["nazev"]?></a></td>
 								<td> <?echo $row["zanr"]?> </td>
 								<td> <?echo $dateDate->format('d.m.Y')?> </td>
 								<td> <?echo $row["kapacita"]?> </td>

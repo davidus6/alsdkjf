@@ -29,11 +29,11 @@
 		$zanr = $_POST['zanr'];
 		$misto = $_POST['misto'];
 		$datum = $_POST['datum'];
-		$sql = "SELECT nazev FROM udalost WHERE typ = 'koncert' AND nazev LIKE '%" .$nazev. "%' AND zanr LIKE '%" .$zanr. "%' AND dat_zac LIKE '%" .$datum. "%' AND misto_konani LIKE '%" .$misto. "%'";
+		$sql = "SELECT nazev, dat_zac FROM udalost WHERE typ = 'koncert' AND nazev LIKE '%" .$nazev. "%' AND zanr LIKE '%" .$zanr. "%' AND dat_zac LIKE '%" .$datum. "%' AND misto_konani LIKE '%" .$misto. "%'";
 		$result = $conn->query($sql);
 		$output = array();
 		while($row = $result->fetch_assoc()){
-			array_push($output, $row['nazev']);
+			$output[] = $row;
 		}
 		echo json_encode($output);
 	}
@@ -43,11 +43,11 @@
 		$zanr = $_POST['zanr'];
 		$misto = $_POST['misto'];
 		$datum = $_POST['datum'];
-		$sql = "SELECT nazev FROM udalost WHERE typ = 'festival' AND nazev LIKE '%" .$nazev. "%' AND zanr LIKE '%" .$zanr. "%' AND dat_zac LIKE '%" .$datum. "%' AND misto_konani LIKE '%" .$misto. "%'";
+		$sql = "SELECT nazev, dat_zac FROM udalost WHERE typ = 'festival' AND nazev LIKE '%" .$nazev. "%' AND zanr LIKE '%" .$zanr. "%' AND dat_zac LIKE '%" .$datum. "%' AND misto_konani LIKE '%" .$misto. "%'";
 		$result = $conn->query($sql);
 		$output = array();
 		while($row = $result->fetch_assoc()){
-			array_push($output, $row['nazev']);
+			$output[] = $row;
 		}
 		echo json_encode($output);
 	}

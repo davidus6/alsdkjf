@@ -161,7 +161,7 @@
 									$date = new DateTime($source);
 								?>
 								<tr>
-									<td><a href = "udalost.php?u=<?echo $row['udalost']?>" > <?echo $row["udalost"]?> </a></td>
+									<td><a href = "udalost.php?u=<?echo $row['udalost']?>&d=<?echo $row['dat_zac']?>" > <?echo $row["udalost"]?> </a></td>
 									<td><?echo $row["cena"]?> Kč</td>
 									<td><?echo $row["typ"]?></td>
 									<td><?echo $date->format('d.m.Y')?></td>

@@ -24,6 +24,8 @@
 				document.cookie = "datum="+date;
 				var stage = $(e.relatedTarget).data('stage');
 				document.cookie = "stage="+stage;
+				var typ = $(e.relatedTarget).data('type');
+				document.cookie = "typ=" +typ;
 			});
 
 			$('#myModal').on('show.bs.modal', function(e) {
@@ -45,7 +47,7 @@
 			});
 
 			$('input[type=radio][name=type]').change(function() {
-			 	if (this.value == "vip"){
+			 	if (this.value == "VIP"){
 			 		var cena1 = $('#pocet').val() * parseInt(udalostInfo['cena_vip']);
 			 	} else {
 			 		var cena1 = $('#pocet').val() * parseInt(udalostInfo['cena_zaklad']);
@@ -106,10 +108,23 @@
 								$sql = "SELECT * FROM udalost WHERE nazev='".$_COOKIE['udalost']."' AND dat_zac='".$_COOKIE['datum']."'";
 								if ($result = $conn->query($sql)){
 									$row = $result->fetch_assoc();
-									$cena = (($_POST['type']=='vip')?$row['cena_vip']:$row['cena_zaklad']);
-									for ($i = 0; $i<$_POST['pocet'];$i++){
-										$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$cena."', '".$_SESSION['uzivatel']."', '".$_POST['type']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
-										$r = $conn->query($sql);
+									$cena = (($_POST['type']=='VIP')?$row['cena_vip']:$row['cena_zaklad']);
+									$sql = "SELECT cislo_vstup FROM vstupenka WHERE udalost='" .$_COOKIE['udalost']. "' AND dat_zac='" .$_COOKIE['datum']. "'";
+									$res = $conn->query($sql);
+									$vstupenek = $res->num_rows;
+									if ($row['typ']=='koncert'){
+										$volnych = $row['kapacita']-$vstupenek;
+									} else {
+										$volnych = 100000000;
+									}
+									if ($volnych < $_POST['pocet']){
+										echo "Nedostatečná kapacita koncertu, zbývá pouze " .$volnych. " vstupenek.<br>";
+										$r = false;
+									} else {
+										for ($i = 0; $i<$_POST['pocet'];$i++){
+											$sql = "INSERT INTO vstupenka(cena, login, typ, udalost, dat_zac) VALUES('".$cena."', '".$_SESSION['uzivatel']."', '".$_POST['type']."', '".$_COOKIE['udalost']."', '".$row['dat_zac']."')";
+											$r = $conn->query($sql);
+										}
 									}
 									if ($r != false){
 										echo "Vstupenka zakoupena.";
@@ -142,7 +157,7 @@
 				}
 			}
 
-			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";	//TODO i datum zac
+			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]. "' AND dat_zac ='" .$_GET["d"]. "'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 
@@ -159,8 +174,12 @@
 			}
 
 			if(isset($_POST['addInterpret'])){
-				$jako = (isset($_POST['jako']))?$_POST['jako']:NULL;
-				$sql = "INSERT INTO interpret_stage VALUES ('" .$_POST['chooseInterpret']. "','" .$_COOKIE['stage']. "','" .$jako. "','" .$_POST['od']. "','" .$_POST['do']. "')";
+				if($_COOKIE['typ'] == 'festival'){
+					$jako = (isset($_POST['jako']))?$_POST['jako']:NULL;
+					$sql = "INSERT INTO interpret_stage VALUES ('" .$_POST['chooseInterpret']. "','" .$_COOKIE['stage']. "','" .$jako. "','" .$_POST['od']. "','" .$_POST['do']. "')";
+				} else {
+					$jako = (isset($_POST['jako']))?'hlavní kapela':'předkapela';
+				}
 				$conn->query($sql);
 				$sql = "INSERT INTO interpret_udalost VALUES ('" .$_POST['chooseInterpret']. "','" .$_GET['u']. "','" .$_COOKIE['datum']. "','" .$jako. "','" .$_POST['od']. "','" .$_POST['do']. "')";
 				$conn->query($sql);
@@ -199,7 +218,6 @@
 							$dateOd = new DateTime($sourceOd);
 							$sourceDo = $row["dat_kon"];
 							$dateDo = new DateTime($sourceDo);
-							//echo $date->format('d.m.Y');
 						?>
 							<h3>Datum: </h3><h4><?echo " od ".$dateOd->format('d.m.Y')." do ".$dateDo->format('d.m.Y')?></h4>
 						<?}
@@ -230,12 +248,16 @@
 							<input type='hidden' class='form-control' name='type' value='<?echo $row["typ"]?>'>
 							<button type='submit' name='confirm' value='<?php echo $row["nazev"]?>' class='btn btn-default'><span class='glyphicon glyphicon-ok text-success'></span> Potvrdit změny</button>
 						</form>
+						<br>
+						<input class="btn btn-default" type="button" onclick="printDiv('printableArea')" value="Vytisknout statistiky" />
 					<? } ?>
 				</div>
 			</div>
 		</div>
 
-		<?if($row['typ'] == 'koncert'){?>
+		<?
+		$typUdalosti = $row['typ'];
+		if($row['typ'] == 'koncert'){?>
 		<div class="container">
 			<p>Celkem kapel: <?echo $no_interpret?></p>
 			<p>Kapacita: <?echo $row['kapacita']?></p>
@@ -243,6 +265,9 @@
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#kapely">Kapely</a></li>
 			</ul>
+			<?if(isset($_SESSION['admin'])){?>
+			<button type="button" class="btn btn-default pull-right" data-type="<?echo $row['typ']?>" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#interpretModal"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</button>
+			<? } ?>
 			<div class="tab-content">
 				<div id="kapely" class="tab-pane fade in active">
 					<?if($no_interpret > 0){?>
@@ -300,7 +325,7 @@
 					<?
 					}
 					if (isset($_SESSION['admin'])){?>
-						<button type="button" class="btn btn-default pull-right" data-stage="<?echo $names_array[$i]?>" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#interpretModal"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</button>
+						<button type="button" class="btn btn-default pull-right" data-type="<?echo $row['typ']?>" data-stage="<?echo $names_array[$i]?>" data-date="<?echo $row['dat_zac']?>" data-id="<?echo $row['nazev']?>" data-toggle="modal" data-target="#interpretModal"><span class='glyphicon glyphicon-plus text-success'></span> Přidat interpreta</button>
 					<? } ?>
 						<br>
 						<p>Kapacita: <?echo $stage_row['kapacita_mist']?></p>
@@ -418,7 +443,7 @@
 							</select>
 							Od: <input type="text" class="form-control" name="od">
 							Do: <input type="text" class="form-control" name="do">
-							Headliner: <input type="checkbox" class="form-control" name="jako" value="headliner">
+							<?if ($typUdalosti == 'festival') echo "Headliner:"; else echo "Hlavní kapela:"?> <input type="checkbox" class="form-control" name="jako" value="headliner">
 						</div>
 						<div class="modal-footer">
 							<button type='submit' name='addInterpret' value='true' class='btn btn-default pull-left'>Přidat</button></form>
@@ -440,10 +465,10 @@
 						<div class="modal-body">
 							<form action='' method='post'>
 							Typ vstupenky:
-							<label class="radio-inline"><input type="radio" name="type" value="zaklad" checked>Základní</label>
-							<label class="radio-inline"><input type="radio" name="type" id="typ_vip" value="vip">VIP</label>
+							<label class="radio-inline"><input type="radio" name="type" value="základní" checked>Základní</label>
+							<label class="radio-inline"><input type="radio" name="type" id="typ_vip" value="VIP">VIP</label>
 							<br><br>Počet vstupenek:
-							<input class="col-xs-1 form-control" type="number" min="0" name="pocet" id="pocet" value="1"><br>
+							<input class="col-xs-1 form-control" type="number" min="1" name="pocet" id="pocet" value="1"><br>
 							<label name="cena" id="celkCena"></label>
 						</div>
 						<div class="modal-footer">
@@ -455,12 +480,9 @@
 					</div>
 				</div>
 
-
-				<input type="button" onclick="printDiv('printableArea')" value="print a div!" />
-
 				<div id="printableArea" hidden>
 					<?
-					$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";	//TODO i datum zac
+					$sql = "SELECT * FROM udalost WHERE nazev = '" .$_GET["u"]. "' AND dat_zac ='" .$_GET["d"]. "'";
 					$result = $conn->query($sql);
 					$row = $result->fetch_assoc();
 					?>
@@ -488,7 +510,7 @@
 					<h3>Cena: </h3><h4><?echo $row['cena_zaklad']?> Kč, VIP <?echo $row['cena_vip']?> Kč</h4>
 					<br><br>
 					<?
-					$sql = "SELECT * FROM vstupenka WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."' AND typ='vip'";
+					$sql = "SELECT * FROM vstupenka WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."' AND typ='VIP'";
 					$result = $conn->query($sql);
 					$num_vip = $result->num_rows;
 					$sql = "SELECT * FROM vstupenka WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."'";
