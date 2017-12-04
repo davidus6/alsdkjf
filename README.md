@@ -8,3 +8,4 @@ udalost.php SPRÁVNĚ ZÍSKÁVAT INFO select i podle data začátku
 vstupenka zaklad ---> základní
 
 UDĚLAT zasílání informací
+ 
