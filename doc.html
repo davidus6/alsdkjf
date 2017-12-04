@@ -1,9 +1,8 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf8"/>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
     <title>Projekt IIS dokumentace</title>
     <style type="text/css">
     	table { border-collapse: collapse; }
@@ -13,48 +12,48 @@
 </head>
 <body>
 
-<!-- Zkontrolujte prosÃ­m nastavenÃ­ kÃ³dovÃ¡nÃ­ v hlaviÄce dokumentu 
-     podle pouÅ¾itÃ©ho editoru -->
+<!-- Zkontrolujte prosím nastavení kódování v hlavièce dokumentu 
+     podle pou¾itého editoru -->
 
-<h1>HudebnÃ­ Festivaly a Koncerty</h1> <!-- Nahradte nÃ¡zvem svÃ©ho zadÃ¡nÃ­ -->
+<h1>Hudební Festivaly a Koncerty</h1> <!-- Nahradte názvem svého zadání -->
 
 <dl>
-	<dt>AutoÅ™i</dt>
-	<dd>David JaneÄek <!-- NahraÄte skuteÄnÃ½m jmÃ©nem a e-mailem autora a popisem Äinnosti -->
+	<dt>Autoøi</dt>
+	<dd>David Janeèek <!-- Nahraïte skuteènım jménem a e-mailem autora a popisem èinnosti -->
 	    <a href="mailto:xjanec28@stud.fit.vutbr.cz">xjanec28@stud.fit.vutbr.cz</a> -
-		databÃ¡zovÃ½ subsystÃ©m, design
+		databázovı subsystém, design
 	</dd>
-	<dd>Adam JiruÅ¡ka <!-- NahraÄte skuteÄnÃ½m jmÃ©nem a e-mailem autora a popisem Äinnosti -->
+	<dd>Adam Jiru¹ka <!-- Nahraïte skuteènım jménem a e-mailem autora a popisem èinnosti -->
 	    <a href="mailto:xjirus01@stud.fit.vutbr.cz">xjirus01@stud.fit.vutbr.cz</a> - 
-		sprÃ¡va uÅ¾ivatelÅ¯, formulÃ¡Å™e a dalÅ¡Ã­ manipulace dat
+		správa u¾ivatelù, formuláøe a dal¹í manipulace dat
 	</dd>
 	<dt>URL aplikace</dt>
 	<dd><a href="http://www.stud.fit.vutbr.cz/~xjirus01">http://www.stud.fit.vutbr.cz/~xjirus01</a></dd>
 </dl>
 
-<h2>UÅ¾ivatelÃ© systÃ©mu pro testovÃ¡nÃ­</h2>
+<h2>U¾ivatelé systému pro testování</h2>
 <table>
 <tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
-<tr><td>Admin</td><td>admin</td><td>AdministrÃ¡tor</td></tr>
-<tr><td>User</td><td>user</td><td>ZÃ¡kaznÃ­k</td></tr>
+<tr><td>Admin</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>User</td><td>user</td><td>Zákazník</td></tr>
 </table>
 
 <h2>Implementace</h2>
-<p>K implementaci jsme vyuÅ¾ili knihovny Bootstrap a jQuery. VeÅ¡kerÃ¡ vyhledÃ¡vÃ¡nÃ­ jsou implementovÃ¡na v souboru vyhledavani.php. K zaregistrovÃ¡nÃ­ uÅ¾ivatele slouÅ¾Ã­ registration.php, k pÅ™ihlÃ¡Å¡enÃ­ database.php. SprÃ¡va uÅ¾ivatelÅ¯ je implementovÃ¡na v souboru uzivatele.php. PÅ™idÃ¡vÃ¡nÃ­ a Ãºprava udÃ¡lostÃ­ se nachÃ¡zÃ­ v udalost.php, podobnÄ› Ãºprava interpretÅ¯ v kapela.php. PÅ™ihlÃ¡sit se k odbÄ›ru informacÃ­ se uÅ¾ivatel mÅ¯Å¾e pomocÃ­ pÅ™idÃ¡nÃ­ danÃ©ho interpreta do oblÃ­benÃ½ch (info o novÃ½ch albech, interpreti.php, kapela.php) a nakoupenÃ­m vstupenky (info o danÃ© udÃ¡losti, udalost.php). TisknutÃ­ informacÃ­ o udÃ¡losti se nachÃ¡zÃ­ v udalost.php. Na ÃºvodnÃ­ strÃ¡nce jsou "ÄlÃ¡nky" slouÅ¾Ã­cÃ­ pouze jako dekorace, nejsou podstatnÃ© pro Å™eÅ¡enÃ­ tohoto projektu a nejsou tedy ani souÄÃ¡stÃ­ databÃ¡ze.</p>
+<p>K implementaci jsme vyu¾ili knihovny Bootstrap a jQuery. Ve¹kerá vyhledávání jsou implementována v souborech vyhledavani.php a search.php. K zaregistrování u¾ivatele slou¾í registration.php, k pøihlá¹ení database.php. Správa u¾ivatelù je implementována v souboru uzivatele.php, profil.php. Pøidávání a úprava událostí se nachází v udalost.php, novaUdalost.php, podobnì úprava interpretù v kapela.php, novyInterpret.php. Rozhodnuli jsme se ¾e nebudeme implementovat zasílání informací e-mailem aèkoliv bychom podle use-case diagramu mìli. O implementaci jsme se pokusili, ale nepodaøilo se nám pøekonat problémy s nastavením emailové schránky a tato funkce není v na¹em systému klíèová. Tisknutí informací o události se nachází v udalost.php (øádek 483). Na úvodní stránce jsou "èlánky" slou¾ící pouze jako dekorace, nejsou podstatné pro øe¹ení tohoto projektu a nejsou tedy ani souèástí databáze. Omlouváme se za "kvalitu" organizace zrdojovıch kódù.</p>
 
 
 <h2>Instalace</h2>
 <ul>
-	<li>VytvoÅ™it databÃ¡zi v phpMyAdmin, pÅ™Ã­padnÄ› jinde.</li>
-	<li>Spustit skript xjirus01_xjanec28.sql, kterÃ½ vytvoÅ™Ã­ tabulky a naplnÃ­ je ukÃ¡zkovÃ½mi daty.</li>
-	<li>Nastavit pÅ™Ã­stupovÃ© Ãºdaje k databÃ¡zi v souboru database.php.</li>
-	<li>NÃ¡hrÃ¡t vÅ¡echny soubory na server.</li>
+	<li>Vytvoøit databázi v phpMyAdmin, pøípadnì jinde.</li>
+	<li>Spustit skript xjirus01_xjanec28.sql, kterı vytvoøí tabulky a naplní je ukázkovımi daty.</li>
+	<li>Nastavit pøístupové údaje k databázi v souboru database.php.</li>
+	<li>Náhrát v¹echny soubory na server.</li>
 	<br>
-	<li>SoftwarovÃ© poÅ¾adavky: PHP 5.3 MySQL 5.6</li>
+	<li>Softwarové po¾adavky: PHP 5.3 MySQL 5.6</li>
 </ul>
 
-<h2>ZnÃ¡mÃ© problÃ©my</h2>
-<p>Å½Ã¡dnÃ©.</p>
+<h2>Známé problémy</h2>
+<p>®ádné.</p>
 
 </body>
 </html>
