@@ -22,7 +22,7 @@
 	<dt>Autoři</dt>
 	<dd>David Janeček <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
 	    <a href="mailto:xjanec28@stud.fit.vutbr.cz">xjanec28@stud.fit.vutbr.cz</a> -
-		databázový subsystém, zobrazení dat z databáze
+		databázový subsystém, design
 	</dd>
 	<dd>Adam Jiruška <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
 	    <a href="mailto:xjirus01@stud.fit.vutbr.cz">xjirus01@stud.fit.vutbr.cz</a> - 
@@ -33,7 +33,6 @@
 </dl>
 
 <h2>Uživatelé systému pro testování</h2>
-<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
 <table>
 <tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
 <tr><td>Admin</td><td>admin</td><td>Administrátor</td></tr>
@@ -41,7 +40,7 @@
 </table>
 
 <h2>Implementace</h2>
-<p>K implementaci jsme využili knihovny Bootstrap a jQuery. Veškerá vyhledávání jsou implementována v souboru vyhledavani.php. K zaregistrování uživatele slouží registration.php, k přihlášení ??????.php. Správa uživatelů je implementována v souboru uzivatele.php. Přidávání a úprava událostí se nachází v udalost.php, podobně úprava interpretů v kapela.php. Přihlásit se k odběru informací se uživatel může pomocí přidání daného interpreta do oblíbených (interpreti.php). Zasílání informací je implementováno v ???????.php.</p>
+<p>K implementaci jsme využili knihovny Bootstrap a jQuery. Veškerá vyhledávání jsou implementována v souboru vyhledavani.php. K zaregistrování uživatele slouží registration.php, k přihlášení database.php. Správa uživatelů je implementována v souboru uzivatele.php. Přidávání a úprava událostí se nachází v udalost.php, podobně úprava interpretů v kapela.php. Přihlásit se k odběru informací se uživatel může pomocí přidání daného interpreta do oblíbených (info o nových albech, interpreti.php, kapela.php) a nakoupením vstupenky (info o dané události, udalost.php). Tisknutí informací o události se nachází v udalost.php. Na úvodní stránce jsou "články" sloužící pouze jako dekorace, nejsou podstatné pro řešení tohoto projektu a nejsou tedy ani součástí databáze.</p>
 
 
 <h2>Instalace</h2>
@@ -51,11 +50,11 @@
 	<li>Nastavit přístupové údaje k databázi v souboru database.php.</li>
 	<li>Náhrát všechny soubory na server.</li>
 	<br>
-	<li>Softwarové požadavky: PHP x.x MySQL y.y</li>
+	<li>Softwarové požadavky: PHP 5.3 MySQL 5.6</li>
 </ul>
 
 <h2>Známé problémy</h2>
-<p>Zde popište, které body zadání (IDS a IIS) nejsou implementovány a z jakého důvodu. Např. &bdquo;Z časových důvodů nebyla implementována správa uživatelů.&rdquo; Pomůžete tím zrychlit opravování, když neimplementované funkce nebudeme muset dlouze hledat.</p>
+<p>Žádné.</p>
 
 </body>
 </html>
