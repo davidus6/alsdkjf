@@ -62,6 +62,13 @@
 			 	$('#celkCena').html("Celková cena: " + cena + " Kč");
 			 });
 		});
+		function printDiv(divId) {
+			var forPrint = document.getElementById(divId).innerHTML;
+			var normalPage = document.body.innerHTML;
+			document.body.innerHTML = forPrint;
+			window.print();
+			document.body.innerHTML = normalPage;
+		}
 		</script>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -135,7 +142,7 @@
 				}
 			}
 
-			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";
+			$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";	//TODO i datum zac
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 
@@ -446,6 +453,62 @@
 					</div>
 
 					</div>
+				</div>
+
+
+				<input type="button" onclick="printDiv('printableArea')" value="print a div!" />
+
+				<div id="printableArea" hidden>
+					<?
+					$sql = "SELECT * FROM udalost WHERE nazev = '".$_GET["u"]."'";	//TODO i datum zac
+					$result = $conn->query($sql);
+					$row = $result->fetch_assoc();
+					?>
+					<h1><?echo $row["nazev"]?></h1>
+					<br><br>
+					<h3>Žánr: </h3><h4><?echo $row["zanr"]?></h4>
+					<br><br>
+					<h3>Místo konání: </h3><h4><?echo $row["misto_konani"]?></h4>
+					<br><br>
+					<?if ($row['typ'] == 'festival'){
+						$sourceOd = $row["dat_zac"];
+						$dateOd = new DateTime($sourceOd);
+						$sourceDo = $row["dat_kon"];
+						$dateDo = new DateTime($sourceDo);
+					?>
+						<h3>Datum: </h3><h4><?echo " od ".$dateOd->format('d.m.Y')." do ".$dateDo->format('d.m.Y')?></h4>
+					<?}
+					else{
+						$sourceOd = $row["dat_zac"];
+						$dateOd = new DateTime($sourceOd);
+						?>
+						<h3>Datum: </h3><h4><?echo $dateOd->format('d.m.Y')?></h4>
+					<?}?>
+					<br><br>
+					<h3>Cena: </h3><h4><?echo $row['cena_zaklad']?> Kč, VIP <?echo $row['cena_vip']?> Kč</h4>
+					<br><br>
+					<?
+					$sql = "SELECT * FROM vstupenka WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."' AND typ='vip'";
+					$result = $conn->query($sql);
+					$num_vip = $result->num_rows;
+					$sql = "SELECT * FROM vstupenka WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."'";
+					$result = $conn->query($sql);
+					$num_celk = $result->num_rows;
+					?>
+					<h3>Prodaných vstupenek: </h3><h4><?echo $num_celk?> (<?echo $num_vip?> VIP) aktuální k <?echo date("d.m.Y")?></h4>
+					<?
+					$sql = "SELECT * FROM interpret_udalost WHERE udalost='".$row['nazev']."' AND dat_zac='".$row['dat_zac']."' ORDER BY interpret";
+					$result = $conn->query($sql);
+					?>
+					<br><br>
+					<h2>Seznam interpretů</h2>
+					<br>
+					<?while($kap = $result->fetch_assoc()) {?>
+						<h4>
+							<?echo $kap['interpret'];?>
+						</h4>
+						<br>
+					<?}?>
 				</div>
 	</body>
 </html>
